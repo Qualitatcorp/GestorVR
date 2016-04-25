@@ -28,7 +28,7 @@ $this->widget('bootstrap.widgets.BsNavbar', array(
             'activateParents' => true,
             'items' => array(
                 array(
-                    'label' => 'Administracion del Sistema',
+                    'label' => 'Usuario',
                     'items' => array(
                         BsHtml::menuHeader(BsHtml::italics('Usuarios')),
                         array(
@@ -52,7 +52,6 @@ $this->widget('bootstrap.widgets.BsNavbar', array(
 
                     )
                 ),
-
                 // array(
                 //     'label' => 'Empresa',
                 //     'items' => array(
@@ -184,12 +183,33 @@ $this->widget('bootstrap.widgets.BsNavbar', array(
             'type' => 'navbar',
             'activateParents' => true,
             'items' => array(
+                // array(
+                //     'label' => 'About',
+                //     'url' => array(
+                //         '/site/page',
+                //         'view' => 'about'
+                //     )
+                // ),
+                // array(
+                //     'label' => 'Contact',
+                //     'url' => array(
+                //         '/site/contact'
+                //     )
+                // ),
                 array('label'=>'Administrar Usuarios'
                     , 'url'=>Yii::app()->user->ui->userManagementAdminUrl
-                    , 'visible'=>Yii::app()->user->isSuperAdmin),
+                    , 'visible'=>!Yii::app()->user->isGuest),
                 array('label'=>'Login'
                     , 'url'=>Yii::app()->user->ui->loginUrl
                     , 'visible'=>Yii::app()->user->isGuest),
+                // array(
+                //     'label' => 'Login',
+                //     'url' => array(
+                //         '/site/login'
+                //     ),
+                //     'pull' => BsHtml::NAVBAR_NAV_PULL_RIGHT,
+                //     'visible' => Yii::app()->user->isGuest
+                // ),
                 array(
                     'label' => 'Logout (' . Yii::app()->user->name . ')',
                     'pull' => BsHtml::NAVBAR_NAV_PULL_RIGHT,
