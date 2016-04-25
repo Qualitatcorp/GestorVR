@@ -196,6 +196,12 @@ $this->widget('bootstrap.widgets.BsNavbar', array(
                 //         '/site/contact'
                 //     )
                 // ),
+                array('label'=>'Administrar Usuarios'
+                    , 'url'=>Yii::app()->user->ui->userManagementAdminUrl
+                    , 'visible'=>!Yii::app()->user->isGuest),
+                array('label'=>'Login'
+                    , 'url'=>Yii::app()->user->ui->loginUrl
+                    , 'visible'=>Yii::app()->user->isGuest),
                 array(
                     'label' => 'Login',
                     'url' => array(
@@ -240,6 +246,6 @@ $this->widget('bootstrap.widgets.BsNavbar', array(
 	<?php echo $content ?>
 </div>
 </div>
-
+<?=Yii::app()->user->ui->displayErrorConsole(); ?>
 </body>
 </html>
