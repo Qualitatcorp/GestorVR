@@ -24,7 +24,6 @@ class UsuarioController extends Controller
 	public function accessRules()
 	{
 		return array(
-			//'accessControl', // perform access control for CRUD operations
 			array('accessControl'),
 		);
 	}
