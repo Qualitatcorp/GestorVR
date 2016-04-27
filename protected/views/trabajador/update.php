@@ -5,9 +5,9 @@
 
 <?php
 $this->breadcrumbs=array(
-	'Trabajadors'=>array('index'),
+	'Trabajador',
 	$model->tra_id=>array('view','id'=>$model->tra_id),
-	'Update',
+	'Editar',
 );
 
 $this->menu=array(
