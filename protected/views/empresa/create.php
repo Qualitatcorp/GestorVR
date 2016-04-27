@@ -5,11 +5,11 @@
 
 <?php
 $this->breadcrumbs=array(
-	'Empresas'=>array('index'),
-	'Create',
+	'Empresas',
+	'Crear',
 );
 ?>
 
-<?php echo BsHtml::pageHeader('Create','Empresa') ?>
+<?php echo BsHtml::pageHeader('Crear','Empresa') ?>
 
 <?php $this->renderPartial('_form', array('model'=>$model)); ?>

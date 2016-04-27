@@ -5,20 +5,19 @@
 
 <?php
 $this->breadcrumbs=array(
-	'Empresas'=>array('index'),
-	$model->emp_id,
+	'Empresa',
+	$model->nombre,
 );
 
 $this->menu=array(
-    array('icon' => 'glyphicon glyphicon-list','label'=>'List Empresa', 'url'=>array('index')),
-	array('icon' => 'glyphicon glyphicon-plus-sign','label'=>'Create Empresa', 'url'=>array('create')),
-	array('icon' => 'glyphicon glyphicon-edit','label'=>'Update Empresa', 'url'=>array('update', 'id'=>$model->emp_id)),
-	array('icon' => 'glyphicon glyphicon-minus-sign','label'=>'Delete Empresa', 'url'=>'#', 'linkOptions'=>array('submit'=>array('delete','id'=>$model->emp_id),'confirm'=>'Are you sure you want to delete this item?')),
-    array('icon' => 'glyphicon glyphicon-tasks','label'=>'Manage Empresa', 'url'=>array('admin')),
+	array('label'=>'Crear Empresa', 'url'=>array('create')),
+	array('label'=>'Editar Empresa', 'url'=>array('update', 'id'=>$model->emp_id)),
+	array('label'=>'Eliminar Empresa', 'url'=>'#', 'linkOptions'=>array('submit'=>array('delete','id'=>$model->emp_id),'confirm'=>'¿Estas seguro que deseas eliminar esta empresa?')),
+    array('label'=>'Administrar Empresa', 'url'=>array('admin')),
 );
 ?>
 
-<?php echo BsHtml::pageHeader('View','Empresa '.$model->emp_id) ?>
+<?php echo BsHtml::pageHeader('Ver','Empresa '.$model->nombre) ?>
 
 <?php $this->widget('zii.widgets.CDetailView',array(
 	'htmlOptions' => array(
@@ -27,10 +26,13 @@ $this->menu=array(
 	'data'=>$model,
 	'attributes'=>array(
 		'emp_id',
+		'razon_social',
 		'nombre',
 		'rut',
-		'com_id',
-		'razon_social',
+		array(
+			'name'=>'com_id',
+			'value'=>Comuna::model()->findByPk($model->com_id)->com_nombre
+			),
 		'giro',
 		'fono',
 		'mail',
