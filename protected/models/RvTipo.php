@@ -1,28 +1,22 @@
 <?php
 
 /**
- * This is the model class for table "empresa".
+ * This is the model class for table "rv_tipo".
  *
- * The followings are the available columns in table 'empresa':
- * @property integer $emp_id
+ * The followings are the available columns in table 'rv_tipo':
+ * @property integer $tev_id
  * @property string $nombre
- * @property string $rut
- * @property integer $com_id
- * @property string $razon_social
- * @property integer $giro
- * @property string $fono
- * @property string $mail
- * @property string $creado
- * @property string $activa
+ * @property string $descripcion
+ * @property string $activo
  */
-class Empresa extends CActiveRecord
+class RvTipo extends CActiveRecord
 {
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'empresa';
+		return 'rv_tipo';
 	}
 
 	/**
@@ -33,15 +27,13 @@ class Empresa extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('nombre, com_id, razon_social', 'required'),
-			array('com_id, giro', 'numerical', 'integerOnly'=>true),
-			array('rut', 'length', 'max'=>12),
-			array('fono', 'length', 'max'=>50),
-			array('activa', 'length', 'max'=>2),
-			array('mail', 'safe'),
+			array('nombre', 'required'),
+			array('nombre', 'length', 'max'=>250),
+			array('activo', 'length', 'max'=>2),
+			array('descripcion', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('emp_id, nombre, rut, com_id, razon_social, giro, fono, mail, creado, activa', 'safe', 'on'=>'search'),
+			array('tev_id, nombre, descripcion, activo', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -62,16 +54,10 @@ class Empresa extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'emp_id' => 'Empresa',
-			'nombre' => 'Nombre Corto',
-			'rut' => 'RUT',
-			'com_id' => 'Comuna',
-			'razon_social' => 'Razon Social',
-			'giro' => 'Giro',
-			'fono' => 'Fono',
-			'mail' => 'Mail',
-			'creado' => 'Creado',
-			'activa' => 'Activa',
+			'tev_id' => 'Tev',
+			'nombre' => 'Nombre',
+			'descripcion' => 'Descripcion',
+			'activo' => 'Activo',
 		);
 	}
 
@@ -93,16 +79,10 @@ class Empresa extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
-		$criteria->compare('emp_id',$this->emp_id);
+		$criteria->compare('tev_id',$this->tev_id);
 		$criteria->compare('nombre',$this->nombre,true);
-		$criteria->compare('rut',$this->rut,true);
-		$criteria->compare('com_id',$this->com_id);
-		$criteria->compare('razon_social',$this->razon_social,true);
-		$criteria->compare('giro',$this->giro);
-		$criteria->compare('fono',$this->fono,true);
-		$criteria->compare('mail',$this->mail,true);
-		$criteria->compare('creado',$this->creado,true);
-		$criteria->compare('activa',$this->activa,true);
+		$criteria->compare('descripcion',$this->descripcion,true);
+		$criteria->compare('activo',$this->activo,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -113,7 +93,7 @@ class Empresa extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return Empresa the static model class
+	 * @return RvTipo the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
