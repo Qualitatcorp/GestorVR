@@ -33,7 +33,7 @@ class Empresa extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('nombre, com_id, razon_social, creado', 'required'),
+			array('nombre, com_id, razon_social', 'required'),
 			array('com_id, giro', 'numerical', 'integerOnly'=>true),
 			array('rut', 'length', 'max'=>12),
 			array('fono', 'length', 'max'=>50),
@@ -62,10 +62,10 @@ class Empresa extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'emp_id' => 'Emp',
-			'nombre' => 'Nombre',
-			'rut' => 'Rut',
-			'com_id' => 'Com',
+			'emp_id' => 'Empresa',
+			'nombre' => 'Nombre Corto',
+			'rut' => 'RUT',
+			'com_id' => 'Comuna',
 			'razon_social' => 'Razon Social',
 			'giro' => 'Giro',
 			'fono' => 'Fono',
