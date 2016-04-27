@@ -28,155 +28,29 @@ $this->widget('bootstrap.widgets.BsNavbar', array(
             'activateParents' => true,
             'items' => array(
                 array(
-                    'label' => 'Administracion del Sistema',
+                    'label' => 'Administración del Sistema',
+                    // 'visible'=>Yii::app()->user->checkAccess('action_empresa_create'),
                     'items' => array(
                         BsHtml::menuHeader(BsHtml::italics('Usuarios')),
-                        array(
-                            'label' => 'Administar Usuarios',
-                            'url' => array(
-                                'usuario/admin'
-                            ),
-                        ),
-                        array(
-                            'label' => 'Crear Usuario',
-                            'url' => array(
-                                'usuario/create'
-                            ),
-                        ),
-                        array(
-                            'label' => 'Registros de ingreso',
-                            'url' => array(
-                                'usuario/records'
-                            ),
-                        ),
-
+                        array('label' => 'Administar Usuarios','url' => array('usuario/admin')),
+                        array('label' => 'Crear Usuario','url' => array('usuario/create')),
+                        array('label' => 'Registros de ingreso','url' => array('usuario/records')),
+                        BsHtml::menuDivider(),
+                        BsHtml::menuHeader(BsHtml::italics('Empresa'), array(
+                            // 'class' => 'text-center',
+                            // 'style' => 'color:#99cc32;font-size:32px;'
+                        )),
+                        array('label' => 'Administrar Empresas','url' => array('empresa/admin')),
+                        array('label' => 'Crear Empresa','url' => array('empresa/create')),
+                        BsHtml::menuDivider(),
+                        BsHtml::menuHeader(BsHtml::italics('Trabajador'), array(
+                            // 'class' => 'text-center',
+                            // 'style' => 'color:#99cc32;font-size:32px;'
+                        )),
+                        array('label' => 'Administrar trabajador','url' => array('trabajador/admin')),
+                        array('label' => 'Crear trabajador','url' => array('trabajador/create')),
                     )
                 ),
-
-                // array(
-                //     'label' => 'Empresa',
-                //     'items' => array(
-                //         BsHtml::menuHeader(BsHtml::italics('Empresa'), array(
-                //             // 'class' => 'text-center',
-                //             // 'style' => 'color:#99cc32;font-size:32px;'
-                //         )),
-                //         array(
-                //             'label' => 'Administrar Empresas',
-                //             'url' => array(
-                //                 'empresa/admin'
-                //             )
-                //         ),
-                //         array(
-                //             'label' => 'Crear Empresa',
-                //             'url' => array(
-                //                 'empresa/create'
-                //             )
-                //         ),
-                //         BsHtml::menuDivider(),
-                //         BsHtml::menuHeader(BsHtml::italics('Área Operativa')),
-                //         array(
-                //             'label' => 'Administrar área Operativa',
-                //             'url' => array(
-                //                 'empresa/areaoperativa'
-                //             )
-                //         ),
-                //         array(
-                //             'label' => 'Crear área operativa',
-                //             'url' => array(
-                //                 'empresa/createAO'
-                //             )
-                //         ),
-                //         BsHtml::menuDivider(),
-                //         BsHtml::menuHeader(BsHtml::italics('Tipo de Empresa')),
-                //         array(
-                //             'label' => 'Tipo Empresa',
-                //             'url' => array(
-                //                 'empresa/tipoempresa'
-                //             )
-                //         ),
-                //         array(
-                //             'label' => 'Crear Empresa',
-                //             'url' => array(
-                //                 'empresa/createTE'
-                //             )
-                //         ),
-
-                //     )
-                // ),
-                // array(
-                // 	'label'=>'Teléfono',
-                //     'items' => array(
-                //         BsHtml::menuHeader(BsHtml::italics('Teléfono')),
-                //         array(
-                //             'label' => 'Administrar Teléfonos',
-                //             'url' => array(
-                //                 'telefono/admin'
-                //             )
-                //         ),
-                //         array(
-                //             'label' => 'Crear Teléfono',
-                //             'url' => array(
-                //                 'telefono/create'
-                //             )
-                //         ),
-                //         BsHtml::menuDivider(),
-                //         BsHtml::menuHeader(BsHtml::italics('Licencias de uso')),
-                //         array(
-                //             'label' => 'Administrar Licencias',
-                //             'url' => array(
-                //                 'telefono/licencia'
-                //             )
-                //         ),
-                //         array(
-                //             'label' => 'Recargar licencia',
-                //             'url' => array(
-                //                 'telefono/createLI'
-                //             )
-                //         ),
-                //         array(
-                //             'label' => 'Listado Recargas',
-                //             'url' => array(
-                //                 'telefono/recargas'
-                //             )
-                //         ),
-                //     )
-                // ),
-                // array(
-                // 	'label'=>'Pregunta',
-                //     'items' => array(
-                //         array(
-                // 			'label'=>'Pregunta',
-                //             'url' => array(
-                //                 '#'
-                //             )
-                //         ),
-
-                //     )
-                // ),
-                // array(
-                // 	'label'=>'Informes',
-                //     'items' => array(
-                //         array(
-                // 			'label'=>'Informes',
-                //             'url' => array(
-                //                 '#'
-                //             )
-                //         ),
-
-                //     )
-                // ),
-                // array(
-                // 	'label'=>'Evaluaciones',
-                //     'items' => array(
-                //         array(
-                // 			'label'=>'Evaluaciones',
-                //             'url' => array(
-                //                 '#'
-                //             )
-                //         ),
-
-                //     )
-                // ),
             )
         ),
         array(
@@ -184,20 +58,9 @@ $this->widget('bootstrap.widgets.BsNavbar', array(
             'type' => 'navbar',
             'activateParents' => true,
             'items' => array(
-                array('label'=>'Administrar Usuarios'
-                    , 'url'=>Yii::app()->user->ui->userManagementAdminUrl
-                    , 'visible'=>Yii::app()->user->isSuperAdmin),
-                array('label'=>'Login'
-                    , 'url'=>Yii::app()->user->ui->loginUrl
-                    , 'visible'=>Yii::app()->user->isGuest),
-                array(
-                    'label' => 'Logout (' . Yii::app()->user->name . ')',
-                    'pull' => BsHtml::NAVBAR_NAV_PULL_RIGHT,
-                    'url' => array(
-                        '/site/logout'
-                    ),
-                    'visible' => !Yii::app()->user->isGuest
-                )
+                array('label'=>'Administrar Usuarios', 'url'=>Yii::app()->user->ui->userManagementAdminUrl, 'visible'=>Yii::app()->user->isSuperAdmin),
+                array('label'=>'Login', 'url'=>Yii::app()->user->ui->loginUrl, 'visible'=>Yii::app()->user->isGuest),
+                array('label' =>'Logout ('.Yii::app()->user->name.')','pull' => BsHtml::NAVBAR_NAV_PULL_RIGHT,'url' => array('/site/logout'),'visible' => !Yii::app()->user->isGuest)
             ),
             'htmlOptions' => array(
                 'pull' => BsHtml::NAVBAR_NAV_PULL_RIGHT
