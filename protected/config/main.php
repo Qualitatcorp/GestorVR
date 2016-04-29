@@ -60,7 +60,7 @@ return array(
 			 // NO OLVIDES PONER EN FALSE TRAS INSTALAR
 			 'debug'=>true,
 			 'rbacSetupEnabled'=>true,
-			 'allowUserAlways'=>false,
+			 'allowUserAlways'=>true,
 
 			// MIENTRAS INSTALAS..PONLO EN: false
 			// lee mas abajo respecto a 'Encriptando las claves'
@@ -86,7 +86,7 @@ return array(
 
 			// manejo del layout con cruge.
 			//
-			'loginLayout'=>'//layouts/column2',
+			'loginLayout'=>'//layouts/loginLayout',
 			'registrationLayout'=>'//layouts/column2',
 			'activateAccountLayout'=>'//layouts/column2',
 			'editProfileLayout'=>'//layouts/column2',

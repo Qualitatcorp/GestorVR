@@ -2,6 +2,18 @@
 
 class DispositivoController extends Controller
 {
+	public function filters()
+	{
+		return array(array('CrugeAccessControlFilter'));
+	}
+
+	public function accessRules()
+	{
+		return array(
+			array('accessControl'),
+		);
+	}
+	
 	public function actionAdminDisp()
 	{
 		$this->render('adminDisp');

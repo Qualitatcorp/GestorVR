@@ -2,6 +2,17 @@
 
 class LicenciaController extends Controller
 {
+	public function filters()
+	{
+		return array(array('CrugeAccessControlFilter'));
+	}
+
+	public function accessRules()
+	{
+		return array(
+			array('accessControl'),
+		);
+	}
 	public function actionCreateLic()
 	{
 		$this->render('createLic');
