@@ -5,16 +5,10 @@
 
 <?php
 $this->breadcrumbs=array(
-	'Trabajadors'=>array('index'),
-	'Create',
-);
+	'Trabajador',
+	'Crear',
+);?>
 
-$this->menu=array(
-    array('icon' => 'glyphicon glyphicon-list','label'=>'List Trabajador', 'url'=>array('index')),
-	array('icon' => 'glyphicon glyphicon-tasks','label'=>'Manage Trabajador', 'url'=>array('admin')),
-);
-?>
-
-<?php echo BsHtml::pageHeader('Create','Trabajador') ?>
+<?php echo BsHtml::pageHeader('Crear','Trabajador') ?>
 
 <?php $this->renderPartial('_form', array('model'=>$model)); ?>

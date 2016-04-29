@@ -80,9 +80,9 @@ return array(
 			//		'afterLoginUrl'=>array('/site/welcome'),  ( !!! no olvidar el slash inicial / )
 			//		'afterLogoutUrl'=>array('/site/page','view'=>'about'),
 			//
-			'afterLoginUrl'=>null,
-			'afterLogoutUrl'=>null,
-			'afterSessionExpiredUrl'=>null,
+			'afterLoginUrl'=>array('/site/index'),
+			'afterLogoutUrl'=>array('/site/index'),
+			'afterSessionExpiredUrl'=>array('/site/index'),
 
 			// manejo del layout con cruge.
 			//
