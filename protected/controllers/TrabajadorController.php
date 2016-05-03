@@ -7,29 +7,19 @@ class TrabajadorController extends Controller
 	* using two-column layout. See 'protected/views/layouts/column2.php'.
 	*/
 	public $layout='//layouts/column2';
-	public $menu=array(
-				    array('label'=>'Crear Trabajador', 'url'=>array('create')),
-				    array('label'=>'Administar Trabajadores', 'url'=>array('admin')),
-				);
-	/**
-	* @return array action filters
-	*/
+
 	public function filters()
 	{
 		return array(array('CrugeAccessControlFilter'));
 	}
-	
+
 	public function accessRules()
 	{
 		return array(
 			array('accessControl'),
 		);
 	}
-
-	/**
-	* Displays a particular model.
-	* @param integer $id the ID of the model to be displayed
-	*/
+	
 	public function actionView($id)
 	{
 		$this->render('view',array(

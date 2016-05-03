@@ -60,7 +60,7 @@ return array(
 			 // NO OLVIDES PONER EN FALSE TRAS INSTALAR
 			 'debug'=>true,
 			 'rbacSetupEnabled'=>true,
-			 'allowUserAlways'=>false,
+			 'allowUserAlways'=>true,
 
 			// MIENTRAS INSTALAS..PONLO EN: false
 			// lee mas abajo respecto a 'Encriptando las claves'
