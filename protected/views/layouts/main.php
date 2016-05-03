@@ -28,7 +28,7 @@ $this->widget('bootstrap.widgets.BsNavbar', array(
             'activateParents' => true,
             'items' => array(
                 array(
-                    'label' => 'Administración del Sistema',
+                    'label' => 'Sistema',
                     // 'visible'=>Yii::app()->user->checkAccess('action_empresa_create'),
                     'items' => array(
                         BsHtml::menuHeader(BsHtml::italics('Usuarios')),
@@ -36,19 +36,37 @@ $this->widget('bootstrap.widgets.BsNavbar', array(
                         array('label' => 'Crear Usuario','url' => array('usuario/create')),
                         array('label' => 'Registros de ingreso','url' => array('usuario/records')),
                         BsHtml::menuDivider(),
-                        BsHtml::menuHeader(BsHtml::italics('Empresa'), array(
-                            // 'class' => 'text-center',
-                            // 'style' => 'color:#99cc32;font-size:32px;'
-                        )),
+                        BsHtml::menuHeader(BsHtml::italics('Empresa')),
                         array('label' => 'Administrar Empresas','url' => array('empresa/admin')),
                         array('label' => 'Crear Empresa','url' => array('empresa/create')),
                         BsHtml::menuDivider(),
-                        BsHtml::menuHeader(BsHtml::italics('Trabajador'), array(
-                            // 'class' => 'text-center',
-                            // 'style' => 'color:#99cc32;font-size:32px;'
-                        )),
+                        BsHtml::menuHeader(BsHtml::italics('Trabajador')),
                         array('label' => 'Administrar trabajador','url' => array('trabajador/admin')),
                         array('label' => 'Crear trabajador','url' => array('trabajador/create')),
+                    )
+                ),
+                array(
+                    'label' => 'Evaluacion',
+                    'items' => array(
+                        BsHtml::menuHeader(BsHtml::italics('Realidad Virtual')),
+                        array('label' => 'Crear Evaluación','url' => array('usuario/admin')),
+                        array('label' => 'Buscar Evaluación','url' => array('usuario/admin')),
+                        array('label' => 'Buscar Ficha Persona','url' => array('usuario/admin')),
+
+                        BsHtml::menuHeader(BsHtml::italics('Entrenador de Gases')),
+                        array('label' => 'Buscar Evaluación','url' => array('usuario/admin')),
+                    )
+                ),                
+                array(
+                    'label' => 'Dispositivo',
+                    'items' => array(
+                        BsHtml::menuHeader(BsHtml::italics('Realidad Virtual')),
+                    )
+                ),                
+                array(
+                    'label' => 'Licencia',
+                    'items' => array(
+                        BsHtml::menuHeader(BsHtml::italics('Realidad Virtual')),
                     )
                 ),
             )
