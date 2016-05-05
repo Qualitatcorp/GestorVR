@@ -52,21 +52,33 @@ $this->widget('bootstrap.widgets.BsNavbar', array(
                         array('label' => 'Crear Evaluación','url' => array('usuario/admin')),
                         array('label' => 'Buscar Evaluación','url' => array('usuario/admin')),
                         array('label' => 'Buscar Ficha Persona','url' => array('usuario/admin')),
-
+                        BsHtml::menuDivider(),
                         BsHtml::menuHeader(BsHtml::italics('Entrenador de Gases')),
+                        array('label' => 'Buscar Evaluación','url' => array('usuario/admin')),
+                        BsHtml::menuDivider(),
+                        BsHtml::menuHeader(BsHtml::italics('Administrar Evaluación')),
+                        array('label' => 'Tipo Evaluación','url' => array('RealidadVirtual/adminTipo')),
                         array('label' => 'Buscar Evaluación','url' => array('usuario/admin')),
                     )
                 ),                
                 array(
                     'label' => 'Dispositivo',
                     'items' => array(
-                        BsHtml::menuHeader(BsHtml::italics('Realidad Virtual')),
+                        BsHtml::menuHeader(BsHtml::italics('Dispositivos')),
+                        array('label' => 'Crear Dispositivo','url' => array('usuario/admin')),
+                        array('label' => 'Buscar Dispositivo','url' => array('usuario/admin')),
                     )
                 ),                
                 array(
                     'label' => 'Licencia',
                     'items' => array(
-                        BsHtml::menuHeader(BsHtml::italics('Realidad Virtual')),
+                        BsHtml::menuHeader(BsHtml::italics('Licencia')),
+                        array('label' => 'Crear Tipo de Licencia','url' => array('usuario/admin')),
+                        array('label' => 'Ver Registros de uso','url' => array('usuario/admin')),
+                        BsHtml::menuDivider(),
+                        BsHtml::menuHeader(BsHtml::italics('Empresa')),
+                        array('label' => ' Agregar Licencia','url' => array('usuario/admin')),
+                        array('label' => 'Buscar Licencias','url' => array('usuario/admin')),
                     )
                 ),
             )
