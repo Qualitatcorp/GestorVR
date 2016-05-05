@@ -2,6 +2,15 @@
 
 class RealidadVirtualController extends Controller
 {
+	public $layout='//layouts/column2';
+	public $menu=array(
+		array('label'=>'Tipo de Evaluación'),
+	    array('label'=>'Crear', 'url'=>array('createTipo')),
+		array('label'=>'Administrar', 'url'=>array('adminTipo')),
+		array('label'=>'Evaluación'),
+		array('label'=>'Crear', 'url'=>array('createEva')),
+		array('label'=>'Administrar', 'url'=>array('adminEva')),
+		);
 
 	public function filters()
 	{
@@ -27,11 +36,14 @@ class RealidadVirtualController extends Controller
 
 	public function actionAdminTipo()
 	{
-		$this->render('adminTipo');
+		$this->layout='columnSidebar';
+		$model=RvTipo::model()->findAll();
+		$this->render('tipoevaluacion/admin',array('model'=>$model));
 	}
 
 	public function actionCreateEva()
 	{
+		$this->layout='columnSidebar';
 		$this->render('createEva');
 	}
 
@@ -47,7 +59,9 @@ class RealidadVirtualController extends Controller
 
 	public function actionCreateTipo()
 	{
-		$this->render('createTipo');
+		$model=new RvTipo;
+		$this->layout='columnSidebar';
+		$this->render('tipoevaluacion/create',array('model'=>$model));
 	}
 
 	public function actionEditEva()
