@@ -60,7 +60,7 @@ return array(
 			 // NO OLVIDES PONER EN FALSE TRAS INSTALAR
 			 'debug'=>true,
 			 'rbacSetupEnabled'=>true,
-			 'allowUserAlways'=>false,
+			 'allowUserAlways'=>true,
 
 			// MIENTRAS INSTALAS..PONLO EN: false
 			// lee mas abajo respecto a 'Encriptando las claves'
@@ -80,13 +80,13 @@ return array(
 			//		'afterLoginUrl'=>array('/site/welcome'),  ( !!! no olvidar el slash inicial / )
 			//		'afterLogoutUrl'=>array('/site/page','view'=>'about'),
 			//
-			'afterLoginUrl'=>null,
-			'afterLogoutUrl'=>null,
-			'afterSessionExpiredUrl'=>null,
+			'afterLoginUrl'=>array('/site/index'),
+			'afterLogoutUrl'=>array('/site/index'),
+			'afterSessionExpiredUrl'=>array('/site/index'),
 
 			// manejo del layout con cruge.
 			//
-			'loginLayout'=>'//layouts/column2',
+			'loginLayout'=>'//layouts/loginLayout',
 			'registrationLayout'=>'//layouts/column2',
 			'activateAccountLayout'=>'//layouts/column2',
 			'editProfileLayout'=>'//layouts/column2',

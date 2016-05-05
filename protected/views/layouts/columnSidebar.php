@@ -14,6 +14,17 @@
                         ));
                     ?>
             </div>
+            <?php
+                // $this->beginWidget('zii.widgets.CPortlet', array(
+                //     'title'=>BsHtml::icon(BsHtml::GLYPHICON_GLOBE).BsHtml::bold(' Gestor VR').BsHtml::small(' Qualitatcorp'),
+                //     'htmlOptions'=>array('class'=>'well sidebar-nav'),
+                // ));
+                //     $this->widget('zii.widgets.CMenu', array(
+                //         'items'=>$this->menu,
+                //         'htmlOptions'=>array('class'=>'nav nav-pills nav-stacked'),
+                //     ));
+                // $this->endWidget();
+            ?>
         </div>
         <div class="col-md-9">
             <?php echo $content; ?>

@@ -8,13 +8,11 @@ $this->breadcrumbs=array(
 	'Trabajadors'=>array('index'),
 	$model->tra_id,
 );
-
 $this->menu=array(
-    array('icon' => 'glyphicon glyphicon-list','label'=>'List Trabajador', 'url'=>array('index')),
-	array('icon' => 'glyphicon glyphicon-plus-sign','label'=>'Create Trabajador', 'url'=>array('create')),
-	array('icon' => 'glyphicon glyphicon-edit','label'=>'Update Trabajador', 'url'=>array('update', 'id'=>$model->tra_id)),
-	array('icon' => 'glyphicon glyphicon-minus-sign','label'=>'Delete Trabajador', 'url'=>'#', 'linkOptions'=>array('submit'=>array('delete','id'=>$model->tra_id),'confirm'=>'Are you sure you want to delete this item?')),
-    array('icon' => 'glyphicon glyphicon-tasks','label'=>'Manage Trabajador', 'url'=>array('admin')),
+	array('label'=>'Crear Trabajador', 'url'=>array('create')),
+	array('label'=>'Editar Trabajador', 'url'=>array('update', 'id'=>$model->emp_id)),
+	array('label'=>'Eliminar Trabajador', 'url'=>'#', 'linkOptions'=>array('submit'=>array('delete','id'=>$model->emp_id),'confirm'=>'¿Estas seguro que deseas eliminar este Trabajador?')),
+    array('label'=>'Administrar Trabajador', 'url'=>array('admin')),
 );
 ?>
 

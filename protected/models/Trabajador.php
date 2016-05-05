@@ -32,7 +32,6 @@ class Trabajador extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('creacion', 'required'),
 			array('nombre', 'length', 'max'=>150),
 			array('paterno, materno', 'length', 'max'=>100),
 			array('fono', 'length', 'max'=>50),

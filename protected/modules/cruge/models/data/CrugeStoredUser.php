@@ -256,7 +256,7 @@ class CrugeStoredUser extends CActiveRecord implements ICrugeStoredUser
                 'match',
                 'pattern' => '/^[a-zA-Z0-9\_\-\.]{3,45}$/'
             ,
-                'message' => CrugeTranslator::t('logon', 'Invalid username')
+                'message' => CrugeTranslator::t('logon', 'rut invalido')
             ),
             array('username,email', 'required'),
             array('newPassword', 'safe', 'on' => 'update'),
