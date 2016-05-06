@@ -1,14 +1,3 @@
-<?php
-/* @var $this RealidadVirtualController */
-
-$this->breadcrumbs=array(
-	'Realidad Virtual'=>array('/realidadVirtual'),
-	'EditTipo',
-);
-?>
-<h1><?php echo $this->id . '/' . $this->action->id; ?></h1>
-
-<p>
-	You may change the content of this page by modifying
-	the file <tt><?php echo __FILE__; ?></tt>.
-</p>
+<?php $this->breadcrumbs=array('Tipo de evaluación','Modificar',);?>
+<?php echo BsHtml::pageHeader('Modificar','Tipo de Evaluación') ?>
+<?php $this->renderPartial('tipoevaluacion/form', array('model'=>$model)); ?>
