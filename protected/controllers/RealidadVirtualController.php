@@ -24,74 +24,122 @@ class RealidadVirtualController extends Controller
 		);
 	}
 	
-	public function actionAdminEva()
+	/**
+		Tipo de Evaluacion
+	**/
+	public function actionCreateTipo()
 	{
-		$this->render('adminEva');
-	}
+		$model=new RvTipo;
+		$this->layout='columnSidebar';
 
-	public function actionAdminFicha()
+		if(isset($_POST['RvTipo'])){
+			$model->attributes=$_POST['RvTipo'];
+			if($model->save())
+				$this->redirect(array('adminTipo'));
+		}
+		$this->render('tipoevaluacion/create',array('model'=>$model));
+	}
+	public function actionEditTipo($id)
 	{
-		$this->render('adminFicha');
+		$model=RvTipo::model()->findByPk($id);
+		$this->layout='columnSidebar';
+		if(isset($_POST['RvTipo'])){
+			$model->attributes=$_POST['RvTipo'];
+			if($model->save())
+				$this->redirect(array('adminTipo'));
+		}
+		$this->render('tipoevaluacion/edit',array('model'=>$model));
 	}
-
 	public function actionAdminTipo()
 	{
 		$this->layout='columnSidebar';
 		$model=RvTipo::model()->findAll();
-		$this->render('tipoevaluacion/admin',array('model'=>$model));
+		$this->render('tipoevaluacion/admin',array('List'=>$model));
 	}
 
+	public function actionDeleteTipo($id)
+	{
+		RvTipo::model()->deleteByPk($id);
+		$this->redirect(array('adminTipo'));
+	}
+
+	/**
+		Evaluacion
+	**/
 	public function actionCreateEva()
 	{
+		$model=new RvEvaluacion;
 		$this->layout='columnSidebar';
-		$this->render('createEva');
+		if(isset($_POST['RvEvaluacion'])){
+			$model->attributes=$_POST['RvEvaluacion'];
+			if($model->save())
+				$this->redirect(array('adminEva'));
+		}
+		$this->render('evaluacion/create',array('model'=>$model));
+	}
+	public function actionEditEva($id)
+	{
+		$model=RvEvaluacion::model()->findByPk($id);
+		$this->layout='columnSidebar';
+		if(isset($_POST['RvEvaluacion'])){
+			$model->attributes=$_POST['RvEvaluacion'];
+			if($model->save())
+				$this->redirect(array('adminEva'));
+		}
+		$this->render('evaluacion/edit',array('model'=>$model));
+	}
+	public function actionAdminEva()
+	{
+		$this->layout='columnSidebar';
+		$model=RvEvaluacion::model()->findAll();
+		$this->render('evaluacion/admin',array('List'=>$model));
+	}
+
+	public function actionViewEva($id)
+	{
+		$this->layout='columnSidebar';
+		$model=RvEvaluacion::model()->findByPk($id);
+		$this->render('evaluacion/view',array('model'=>$model));
+	}
+	public function actionDeleteEva($id)
+	{
+		RvEvaluacion::model()->deleteByPk($id);
+		$this->redirect(array('adminEva'));
+	}
+
+	/**
+		Ficha de evaluacion
+	**/
+	public function actionAdminFicha()
+	{
+		$this->render('adminFicha');
 	}
 
 	public function actionCreateFicha()
 	{
 		$this->render('createFicha');
 	}
-
-	public function actionCreatePre()
-	{
-		$this->render('createPre');
-	}
-
-	public function actionCreateTipo()
-	{
-		$model=new RvTipo;
-		$this->layout='columnSidebar';
-		$this->render('tipoevaluacion/create',array('model'=>$model));
-	}
-
-	public function actionEditEva()
-	{
-		$this->render('editEva');
-	}
-
 	public function actionEditFicha()
 	{
 		$this->render('editFicha');
 	}
+	public function actionViewFicha()
+	{
+		$this->render('viewFicha');
+	}
+
+	/**
+		Preguntas de Evaluacion
+	**/
+	public function actionCreatePre($id)
+	{
+		$this->render('pregunta/create');
+	}
+
 
 	public function actionEditPre()
 	{
 		$this->render('editPre');
-	}
-
-	public function actionEditTipo()
-	{
-		$this->render('editTipo');
-	}
-
-	public function actionViewEva()
-	{
-		$this->render('viewEva');
-	}
-
-	public function actionViewFicha()
-	{
-		$this->render('viewFicha');
 	}
 
 	public function actionViewPregunta()
@@ -99,8 +147,4 @@ class RealidadVirtualController extends Controller
 		$this->render('viewPregunta');
 	}
 
-	public function actionViewTipo()
-	{
-		$this->render('viewTipo');
-	}
 }
