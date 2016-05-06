@@ -29,7 +29,7 @@ class RvEvaluacion extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('tev_id, nombre, creado', 'required'),
+			array('tev_id, nombre,', 'required'),
 			array('tev_id', 'numerical', 'integerOnly'=>true),
 			array('habilitado', 'length', 'max'=>2),
 			array('descripcion', 'safe'),
@@ -56,31 +56,20 @@ class RvEvaluacion extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'eva_id' => 'Eva',
-			'tev_id' => 'Tev',
+			'eva_id' => 'Evaluación',
+			'tev_id' => 'Tipo evaluación',
 			'nombre' => 'Nombre',
-			'descripcion' => 'Descripcion',
+			'descripcion' => 'Descripción',
 			'creado' => 'Creado',
 			'habilitado' => 'Habilitado',
 		);
 	}
-
-	/**
-	 * Retrieves a list of models based on the current search/filter conditions.
-	 *
-	 * Typical usecase:
-	 * - Initialize the model fields with values from filter form.
-	 * - Execute this method to get CActiveDataProvider instance which will filter
-	 * models according to data in model fields.
-	 * - Pass data provider to CGridView, CListView or any similar widget.
-	 *
-	 * @return CActiveDataProvider the data provider that can return the models
-	 * based on the search/filter conditions.
-	 */
+	public function getTipoNombre()
+	{
+		return RvTipo::model()->findByPk($this->tev_id)->nombre;
+	}
 	public function search()
 	{
-		// @todo Please modify the following code to remove attributes that should not be searched.
-
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('eva_id',$this->eva_id,true);
@@ -95,12 +84,6 @@ class RvEvaluacion extends CActiveRecord
 		));
 	}
 
-	/**
-	 * Returns the static model of the specified AR class.
-	 * Please note that you should have this exact method in all your CActiveRecord descendants!
-	 * @param string $className active record class name.
-	 * @return RvEvaluacion the static model class
-	 */
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
