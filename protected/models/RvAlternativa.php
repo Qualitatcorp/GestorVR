@@ -7,7 +7,7 @@
  * @property string $alt_id
  * @property string $pre_id
  * @property string $alternativa
- * @property integer $descripcion
+ * @property string $descripcion
  * @property integer $ponderacion
  * @property string $correcta
  */
@@ -29,10 +29,11 @@ class RvAlternativa extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('pre_id, alternativa, descripcion, ponderacion, correcta', 'required'),
-			array('descripcion, ponderacion', 'numerical', 'integerOnly'=>true),
+			array('pre_id, alternativa, ponderacion, correcta', 'required'),
+			array('ponderacion', 'numerical', 'integerOnly'=>true),
 			array('pre_id, alternativa', 'length', 'max'=>10),
 			array('correcta', 'length', 'max'=>2),
+			array('descripcion', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('alt_id, pre_id, alternativa, descripcion, ponderacion, correcta', 'safe', 'on'=>'search'),
@@ -86,7 +87,7 @@ class RvAlternativa extends CActiveRecord
 		$criteria->compare('alt_id',$this->alt_id,true);
 		$criteria->compare('pre_id',$this->pre_id,true);
 		$criteria->compare('alternativa',$this->alternativa,true);
-		$criteria->compare('descripcion',$this->descripcion);
+		$criteria->compare('descripcion',$this->descripcion,true);
 		$criteria->compare('ponderacion',$this->ponderacion);
 		$criteria->compare('correcta',$this->correcta,true);
 
