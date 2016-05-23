@@ -35,12 +35,10 @@ $this->widget('bootstrap.widgets.BsNavbar', array(
                         array('label' => 'Administar Usuarios','url' => array('usuario/admin')),
                         array('label' => 'Crear Usuario','url' => array('usuario/create')),
                         array('label' => 'Registros de ingreso','url' => array('usuario/records')),
-                        BsHtml::menuDivider(),
-                        BsHtml::menuHeader(BsHtml::italics('Empresa')),
+                        BsHtml::menuDivider().BsHtml::menuHeader(BsHtml::italics('Empresa')),
                         array('label' => 'Administrar Empresas','url' => array('empresa/admin')),
                         array('label' => 'Crear Empresa','url' => array('empresa/create')),
-                        BsHtml::menuDivider(),
-                        BsHtml::menuHeader(BsHtml::italics('Trabajador')),
+                        BsHtml::menuDivider().BsHtml::menuHeader(BsHtml::italics('Trabajador')),
                         array('label' => 'Administrar trabajador','url' => array('trabajador/admin')),
                         array('label' => 'Crear trabajador','url' => array('trabajador/create')),
                     )
@@ -52,11 +50,14 @@ $this->widget('bootstrap.widgets.BsNavbar', array(
                         array('label' => 'Crear Evaluación','url' => array('usuario/admin')),
                         array('label' => 'Buscar Evaluación','url' => array('usuario/admin')),
                         array('label' => 'Buscar Ficha Persona','url' => array('usuario/admin')),
-                        BsHtml::menuDivider(),
-                        BsHtml::menuHeader(BsHtml::italics('Entrenador de Gases')),
-                        array('label' => 'Buscar Evaluación','url' => array('usuario/admin')),
-                        BsHtml::menuDivider(),
-                        BsHtml::menuHeader(BsHtml::italics('Administrar Evaluación')),
+                        (Yii::app()->user->checkAccess('action_evaluacionAltair_admin'))?
+                            BsHtml::menuDivider().BsHtml::menuHeader(BsHtml::italics('Entrenador de Gases')):"",
+                        array(
+                            'label' => 'Buscar Evaluación',
+                            'url' => array('EvaluacionAltair/admin'),
+                            'visible'=>Yii::app()->user->checkAccess('action_evaluacionAltair_admin')
+                        ),
+                        BsHtml::menuDivider().BsHtml::menuHeader(BsHtml::italics('Administrar Evaluación')),
                         array('label' => 'Tipo Evaluación','url' => array('RealidadVirtual/adminTipo')),
                         array('label' => 'Buscar Evaluación','url' => array('usuario/admin')),
                     )
@@ -65,20 +66,23 @@ $this->widget('bootstrap.widgets.BsNavbar', array(
                     'label' => 'Dispositivo',
                     'items' => array(
                         BsHtml::menuHeader(BsHtml::italics('Dispositivos')),
-                        array('label' => 'Crear Dispositivo','url' => array('usuario/admin')),
-                        array('label' => 'Buscar Dispositivo','url' => array('usuario/admin')),
+                        array('label' => 'Crear','url' => array('Dispositivo/createDisp')),
+                        array('label' => 'Buscar','url' => array('Dispositivo/adminDisp')),
+
+                        BsHtml::menuDivider().BsHtml::menuHeader(BsHtml::italics('Tipo de dispositivo')),
+                        array('label' => 'Crear','url' => array('Dispositivo/createTipo')),
+                        array('label' => 'Buscar','url' => array('Dispositivo/adminTipo')),
                     )
                 ),                
                 array(
                     'label' => 'Licencia',
                     'items' => array(
                         BsHtml::menuHeader(BsHtml::italics('Licencia')),
-                        array('label' => 'Crear Tipo de Licencia','url' => array('usuario/admin')),
-                        array('label' => 'Ver Registros de uso','url' => array('usuario/admin')),
-                        BsHtml::menuDivider(),
-                        BsHtml::menuHeader(BsHtml::italics('Empresa')),
-                        array('label' => ' Agregar Licencia','url' => array('usuario/admin')),
-                        array('label' => 'Buscar Licencias','url' => array('usuario/admin')),
+                        array('label' => 'Crear','url' => array('Licencia/createTipo')),
+                        array('label' => 'Registros','url' => array('Licencia/viewRecords')),
+                        BsHtml::menuDivider().BsHtml::menuHeader(BsHtml::italics('Empresa')),
+                        array('label' => ' Asignar','url' => array('Licencia/createLic')),
+                        array('label' => 'Buscar','url' => array('Licencia/viewLic')),
                     )
                 ),
             )
@@ -88,7 +92,11 @@ $this->widget('bootstrap.widgets.BsNavbar', array(
             'type' => 'navbar',
             'activateParents' => true,
             'items' => array(
-                array('label'=>'Administrar Usuarios', 'url'=>Yii::app()->user->ui->userManagementAdminUrl, 'visible'=>Yii::app()->user->isSuperAdmin),
+                array(
+                    'label'=>'Administrar Usuarios', 
+                    'url'=>Yii::app()->user->ui->userManagementAdminUrl, 
+                    'visible'=>Yii::app()->user->isSuperAdmin
+                ),
                 array('label'=>'Login', 'url'=>Yii::app()->user->ui->loginUrl, 'visible'=>Yii::app()->user->isGuest),
                 array('label' =>'Logout ('.Yii::app()->user->name.')','pull' => BsHtml::NAVBAR_NAV_PULL_RIGHT,'url' => array('/site/logout'),'visible' => !Yii::app()->user->isGuest)
             ),
@@ -101,7 +109,6 @@ $this->widget('bootstrap.widgets.BsNavbar', array(
 ));
 ?>
 		 <?php 
-
 		// breadcrumbs
 			$this->widget('bootstrap.widgets.BsBreadCrumb', array(
 				'links' => $this->breadcrumbs,
