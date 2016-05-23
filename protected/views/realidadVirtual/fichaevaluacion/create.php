@@ -2,7 +2,7 @@
 /* @var $this RealidadVirtualController */
 
 $this->breadcrumbs=array(
-	'Realidad Virtual'=>array('/realidadVirtual'),
+	'Realidad Virtual',
 	'CreateFicha',
 );
 ?>
