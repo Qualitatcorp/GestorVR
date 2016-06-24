@@ -47,7 +47,6 @@ $this->widget('bootstrap.widgets.BsNavbar', array(
                     'label' => 'Evaluacion',
                     'items' => array(
                         BsHtml::menuHeader(BsHtml::italics('Realidad Virtual')),
-                        array('label' => 'Crear Evaluación','url' => array('usuario/admin')),
                         array('label' => 'Buscar Evaluación','url' => array('usuario/admin')),
                         array('label' => 'Buscar Ficha Persona','url' => array('usuario/admin')),
                         (Yii::app()->user->checkAccess('action_evaluacionAltair_admin'))?
@@ -59,7 +58,8 @@ $this->widget('bootstrap.widgets.BsNavbar', array(
                         ),
                         BsHtml::menuDivider().BsHtml::menuHeader(BsHtml::italics('Administrar Evaluación')),
                         array('label' => 'Tipo Evaluación','url' => array('RealidadVirtual/adminTipo')),
-                        array('label' => 'Buscar Evaluación','url' => array('usuario/admin')),
+                        array('label' => 'Crear Evaluación','url' => array('RealidadVirtual/createEva')),
+                        array('label' => 'Buscar Evaluación','url' => array('RealidadVirtual/adminEva')),
                     )
                 ),                
                 array(
