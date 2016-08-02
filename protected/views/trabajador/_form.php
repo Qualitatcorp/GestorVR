@@ -1,7 +1,11 @@
 <?php
-/* @var $this TrabajadorController */
-/* @var $model Trabajador */
-/* @var $form BSActiveForm */
+$baseUrl=Yii::app()->baseUrl;
+Yii::app()->getClientScript()
+    ->registerScriptFile($baseUrl.'/js/jquery.Rut.min.js',CClientScript::POS_END)
+    ->registerScript('ValidaRutTrabajador', "$('#Trabajador_rut').Rut({
+        on_error: function(){ alert('El rut ingresado es incorrecto'); }
+})
+");
 ?>
 
 <?php $form=$this->beginWidget('bootstrap.widgets.BsActiveForm', array(
@@ -14,6 +18,7 @@
 
     <?php echo $form->errorSummary($model); ?>
 
+    <?php echo $form->textFieldControlGroup($model,'rut',array('maxlength'=>150)); ?>    
     <?php echo $form->textFieldControlGroup($model,'nombre',array('maxlength'=>150)); ?>
     <?php echo $form->textFieldControlGroup($model,'paterno',array('maxlength'=>100)); ?>
     <?php echo $form->textFieldControlGroup($model,'materno',array('maxlength'=>100)); ?>

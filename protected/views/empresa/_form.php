@@ -1,7 +1,11 @@
 <?php
-/* @var $this EmpresaController */
-/* @var $model Empresa */
-/* @var $form BSActiveForm */
+$baseUrl=Yii::app()->baseUrl;
+Yii::app()->getClientScript()
+    ->registerScriptFile($baseUrl.'/js/jquery.Rut.min.js',CClientScript::POS_END)
+    ->registerScript('ValidaRutEmpresa', "$('#Empresa_rut').Rut({
+        on_error: function(){ alert('El rut ingresado es incorrecto'); }
+})
+");
 ?>
 
 <?php $form=$this->beginWidget('bootstrap.widgets.BsActiveForm', array(

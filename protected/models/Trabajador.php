@@ -5,6 +5,7 @@
  *
  * The followings are the available columns in table 'trabajador':
  * @property string $tra_id
+ * @property string $rut
  * @property string $nombre
  * @property string $paterno
  * @property string $materno
@@ -32,13 +33,15 @@ class Trabajador extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
+			array('rut', 'required'),
+			array('rut', 'length', 'max'=>12),
 			array('nombre', 'length', 'max'=>150),
 			array('paterno, materno', 'length', 'max'=>100),
 			array('fono', 'length', 'max'=>50),
 			array('nacimiento, mail, modificado', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('tra_id, nombre, paterno, materno, nacimiento, fono, mail, creacion, modificado', 'safe', 'on'=>'search'),
+			array('tra_id, rut, nombre, paterno, materno, nacimiento, fono, mail, creacion, modificado', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -59,14 +62,15 @@ class Trabajador extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'tra_id' => 'Tra',
+			'tra_id' => 'Trabajador',
+			'rut' => 'RUT',
 			'nombre' => 'Nombre',
 			'paterno' => 'Paterno',
 			'materno' => 'Materno',
 			'nacimiento' => 'Nacimiento',
 			'fono' => 'Fono',
 			'mail' => 'Mail',
-			'creacion' => 'Creacion',
+			'creacion' => 'Creación',
 			'modificado' => 'Modificado',
 		);
 	}
@@ -90,6 +94,7 @@ class Trabajador extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('tra_id',$this->tra_id,true);
+		$criteria->compare('rut',$this->rut,true);
 		$criteria->compare('nombre',$this->nombre,true);
 		$criteria->compare('paterno',$this->paterno,true);
 		$criteria->compare('materno',$this->materno,true);
