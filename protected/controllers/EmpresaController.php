@@ -6,7 +6,8 @@ class EmpresaController extends Controller
 	* @var string the default layout for the views. Defaults to '//layouts/column2', meaning
 	* using two-column layout. See 'protected/views/layouts/column2.php'.
 	*/
-	public $layout='//layouts/column2';
+	// public $layout='//layouts/column2';
+	public $layout='//layouts/columnSidebar';
 	public $menu=array(
 				    array('label'=>'Crear Empresa', 'url'=>array('create')),
 				    array('label'=>'Administar Empresa', 'url'=>array('admin')),
