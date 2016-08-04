@@ -64,7 +64,6 @@ class DispositivoController extends Controller
 	{
 		$model=DisDispositivo::model()->findAll();
 		$this->render('admin',array('List'=>$model));
-
 	}
 	public function actionCreateDisp()
 	{		
