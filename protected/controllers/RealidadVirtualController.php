@@ -113,7 +113,11 @@ class RealidadVirtualController extends Controller
 		$model->eva_id=$id;
 		if(isset($_POST['RvPregunta'])){
 			$model->attributes=$_POST['RvPregunta'];
+
+			//Trabajando con la imagen
+			$model->imagen=CUploadedFile::getInstance($model, 'imagen');
 			$valid=true;
+			//Revision de Alternativas
 			if(isset($_POST['RvAlternativa'])){
 				foreach ($_POST['RvAlternativa'] as $value) {
 					$alt=new RvAlternativa;
@@ -122,7 +126,12 @@ class RealidadVirtualController extends Controller
 					$list[]=$alt;
 				}
 			}
+			//Revision de todo y guardado
 			if($valid&&$model->save()){
+				//Guardar imagen
+				$model->imagen->saveAs('images/rv/'.$model->pre_id.'-'.$model->imagen->name);
+
+				//Guardar Alernativas
 				foreach ($list as $value) {
 					$value->pre_id=$model->pre_id;
 					$value->save();
@@ -132,7 +141,45 @@ class RealidadVirtualController extends Controller
 		}
 		$this->render('pregunta/create',array('model'=>$model,'list'=>$list));
 	}
+	public function actionEditPre($id)
+	{
+		$this->layout='columnSidebar';
+		$model=RvPregunta::model()->findByPk($id);
+		$list=$model->Alternativas;		
+		if(isset($_POST['RvPregunta'])){
+			$model->attributes=$_POST['RvPregunta'];
+			$valid=true;
+			//Trabajando con la imagen
+			$model->imagen=CUploadedFile::getInstance($model, 'imagen');
+			//Revision de Alternativas
+			if(isset($_POST['RvAlternativa'])){
+				foreach ($_POST['RvAlternativa'] as $key=>$value) {
+					if(!isset($list[$key])){
+						$list[$key]=new RvAlternativa;
+						$list[$key]->pre_id=$model->pre_id;
+					}
+					$list[$key]->attributes=$value;
+					$valid=$list[$key]->validate()&&$valid;
+					var_dump($list[$key]->getErrors());
+				}
+			}
+			if($valid&&$model->save()){				
+				//Guardar imagen
+				$model->imagen->saveAs('images/rv/'.$model->pre_id.'-'.$model->imagen->name);
 
+				//Guardar Alernativas
+				foreach ($list as $key=>$value) {
+					if(array_key_exists($key,$_POST['RvAlternativa'])){
+						$value->save();			
+					}else{
+						$value->delete();
+					}
+				}
+				$this->redirect(array('realidadVirtual/viewEva/'.$model->eva_id));
+			}
+		}
+		$this->render('pregunta/edit',array('model'=>$model,'list'=>$list));
+	}
 	public function actionAdminPre($id)
 	{
 		$this->layout='columnSidebar';
@@ -158,53 +205,14 @@ class RealidadVirtualController extends Controller
 		}
 		$this->render('pregunta/admin',array('List'=>$model));
 	}
-	public function actionEditPre($id)
-	{
-		$this->layout='columnSidebar';
-		$model=RvPregunta::model()->findByPk($id);
-		$list=$model->Alternativas;		
-		if(isset($_POST['RvPregunta'])){
-			$model->attributes=$_POST['RvPregunta'];
-			$valid=true;
-			if(isset($_POST['RvAlternativa'])){
-				foreach ($_POST['RvAlternativa'] as $key=>$value) {
-					if(!isset($list[$key])){
-						$list[$key]=new RvAlternativa;
-						$list[$key]->pre_id=$model->pre_id;
-					}
-					$list[$key]->attributes=$value;
-					$valid=$list[$key]->validate()&&$valid;
-					var_dump($list[$key]->getErrors());
-				}
-			}
-			var_dump($valid);
-			if($valid&&$model->save()){
-				foreach ($list as $key=>$value) {
-					if(array_key_exists($key,$_POST['RvAlternativa'])){
-						$value->save();			
-					}else{
-						$value->delete();
-					}
-				}
-				// $this->redirect(array('realidadVirtual/viewEva/'.$model->eva_id));
-			}
-		}
-		$this->render('pregunta/edit',array('model'=>$model,'list'=>$list));
-	}
 
 	public function actionDeletePre($id)
 	{
 		$model=RvPregunta::model()->findByPk($id);
-		if($model!==null){
-			RvAlternativa::model()->deleteAll('eva_id='.$id);
-			$id=$model->eva_id;
-			if($model->delete()){
-				echo "Se elimino";
-			}else{
-				echo "No se elimino";
-			}
-		// $this->redirect(array('realidadVirtual/viewEva/'.$id));
-		}
+		RvAlternativa::model()->deleteAll('pre_id='.$id);
+		$Evaluacion=$model->eva_id;
+		$model->delete();
+		$this->redirect(array('realidadVirtual/viewEva/'.$Evaluacion));
 	}
 
 	/**

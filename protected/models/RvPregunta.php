@@ -13,6 +13,8 @@ class RvPregunta extends CActiveRecord
 			array('eva_id', 'length', 'max'=>10),
 			array('habilitado', 'length', 'max'=>2),
 			array('comentario, imagen, modificado', 'safe'),
+			array('imagen', 'file', 'types'=>'jpg,png'),
+			// array('imagen', 'file','allowEmpty'=>true, 'types'=>'jpg,png'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('pre_id, eva_id, descripcion, comentario, imagen, creado, modificado, habilitado', 'safe', 'on'=>'search'),
@@ -39,6 +41,12 @@ class RvPregunta extends CActiveRecord
 	public function getAlternativas()
 	{
 		return RvAlternativa::model()->findAll('pre_id='.$this->pre_id);
+	}
+	public function getUrlImagen()
+	{
+		// if()
+		// return Yii::app()->request->baseUrl.'/images/rv/SIN IMAGEN.png';
+		return Yii::app()->request->baseUrl.'/images/rv/'.(($this->imagen=='')?"/SIN IMAGEN.png":"$this->pre_id-$this->imagen");
 	}
 	public function search()
 	{

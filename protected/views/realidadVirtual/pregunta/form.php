@@ -1,10 +1,12 @@
 <?php $form=$this->beginWidget('bootstrap.widgets.BsActiveForm', array(
     'layout' => BsHtml::FORM_LAYOUT_HORIZONTAL,
     'enableClientValidation'=>true,
+    'htmlOptions' => array('enctype' => 'multipart/form-data'),
 )); ?>
 
     <p class="help-block">Los campos con un <span class="required">*</span> son requeridos.</p>
     <?= $form->errorSummary($model); ?> 
+    <?= $form->fileFieldControlGroup($model,'imagen'); ?>
     <?= $form->textAreaControlGroup($model,'descripcion',array('rows'=>2)); ?>
     <?= $form->textFieldControlGroup($model,'comentario'); ?>
     <?= $form->dropDownListControlGroup($model,'habilitado',array('SI'=>'SI','NO'=>'NO'));?>

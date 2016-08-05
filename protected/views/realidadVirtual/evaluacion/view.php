@@ -18,10 +18,11 @@
 <table class="table">
 	<thead>
 		<tr>
-			<th>#</th>
+			<th style="width:20px">#</th>
+			<th style="width:50px">ID</th>
+			<th style="width:120px">Imagen</th>
 			<th>Pregunta</th>
-			<th>Comentario</th>
-			<th>Habilitado</th>
+			<th style="width:50px">Habilitado</th>
 			<th style="width:200px">Opciones</th>
 		</tr>
 	</thead>
@@ -29,8 +30,9 @@
 		<?php foreach ($model->Preguntas as $key => $value): ?>
 			<tr>
 				<td><?=$key+1?></td>
+				<th><?=$value->pre_id ?></th>
+				<td><?=BsHtml::imageRounded($value->UrlImagen,'imagen_pregunta',array("width"=>100,"height"=>100));?></td>
 				<td><?=$value->descripcion ?></td>
-				<td><?=$value->comentario ?></td>
 				<td><?=$value->habilitado ?></td>
 				<td>
 				<?php
