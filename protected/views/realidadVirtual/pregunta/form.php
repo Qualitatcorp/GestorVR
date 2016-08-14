@@ -6,6 +6,7 @@
 
     <p class="help-block">Los campos con un <span class="required">*</span> son requeridos.</p>
     <?= $form->errorSummary($model); ?> 
+    <?=BsHtml::imageRounded($model->UrlImagen,'imagen_pregunta',array("width"=>100,"height"=>100));?></td>
     <?= $form->fileFieldControlGroup($model,'imagen'); ?>
     <?= $form->textAreaControlGroup($model,'descripcion',array('rows'=>2)); ?>
     <?= $form->textFieldControlGroup($model,'comentario'); ?>

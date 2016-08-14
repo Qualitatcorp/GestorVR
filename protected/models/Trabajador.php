@@ -34,6 +34,7 @@ class Trabajador extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('rut', 'required'),
+			array('rut', 'unique','message'=>'El trabajador ya se encuentra registrado.'),
 			array('rut', 'length', 'max'=>12),
 			array('nombre', 'length', 'max'=>150),
 			array('paterno, materno', 'length', 'max'=>100),

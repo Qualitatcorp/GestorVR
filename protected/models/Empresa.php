@@ -50,15 +50,26 @@ class Empresa extends CActiveRecord
 	 */
 	public function relations()
 	{
-		// NOTE: you may need to adjust the relation name and the related
-		// class name for the relations automatically generated below.
 		return array(
+			'Usuarios' => array(self::HAS_MANY, 'UsuEmpresa', 'emp_id'),
 		);
 	}
-
-	/**
-	 * @return array customized attribute labels (name=>label)
-	 */
+	public function getUsers(){
+		$u = array();
+		var_dump($this->Usuarios);
+		foreach($this->Usuarios as $rel)
+			$u[] = $rel->user0;
+		return $u;
+	}
+	public function getAsignaciones(){
+		$descr = "";
+		foreach($this->users as $u){
+			$u->getUserDescription(true); 
+			$descr .= $u->getCustomFieldValue('nombre').
+				" ".$u->getCustomFieldValue('paterno')." ".$u->getCustomFieldValue('materno').", ";
+		}
+		return trim($descr," ,");
+	}
 	public function attributeLabels()
 	{
 		return array(

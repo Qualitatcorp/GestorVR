@@ -20,7 +20,6 @@ Yii::app()->getClientScript()
     <?= $form->textFieldControlGroup($model,'rut',array('maxlength'=>12)); ?>
     <?= $form->textFieldControlGroup($model,'email'); ?>
     <?= $form->textFieldControlGroup($model,'password'); ?>
-    <?= $form->dropDownListControlGroup($model,'empresa',CHtml::listData(Empresa::model()->findAll(),'emp_id', 'nombre'),array('empty' => 'Seleccione una Empresa'));?>
     <?= $form->textFieldControlGroup($model,'nombres'); ?>
     <?= $form->textFieldControlGroup($model,'paterno'); ?>
     <?= $form->textFieldControlGroup($model,'materno'); ?>

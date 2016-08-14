@@ -25,7 +25,7 @@ $this->menu=array(
 	),
 	'data'=>$model,
 	'attributes'=>array(
-		'emp_id',
+		// 'emp_id',
 		'razon_social',
 		'nombre',
 		'rut',
@@ -40,3 +40,7 @@ $this->menu=array(
 		'activa',
 	),
 )); ?>
+
+
+<?php echo BsHtml::pageHeader('Ver','Usuarios') ?>
+

@@ -18,17 +18,18 @@ echo BsHtml::pageHeader('Administrar','Trabajadores') ?>
 			'dataProvider'=>$model->search(),
 			'filter'=>$model,
 			'columns'=>array(
-        		'tra_id',
+        		// 'tra_id',
+        		'rut',
 		'nombre',
 		'paterno',
 		'materno',
-		'nacimiento',
-		'fono',
-		/*
-		'mail',
-		'creacion',
-		'modificado',
-		*/
+		// 'nacimiento',
+		// 'fono',
+		
+		// 'mail',
+		// 'creacion',
+		// 'modificado',
+		
 				array(
 					'class'=>'bootstrap.widgets.BsButtonColumn',
 				),

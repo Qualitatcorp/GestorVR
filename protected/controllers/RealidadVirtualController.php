@@ -126,6 +126,9 @@ class RealidadVirtualController extends Controller
 					$list[]=$alt;
 				}
 			}
+			foreach ($list as $value) {
+				var_dump($value->getErrors());
+			}
 			//Revision de todo y guardado
 			if($valid&&$model->save()){
 				//Guardar imagen
@@ -137,6 +140,8 @@ class RealidadVirtualController extends Controller
 					$value->save();
 				}
 				$this->redirect(array('realidadVirtual/viewEva/'.$model->eva_id));
+			}else{
+				echo "no entro";
 			}
 		}
 		$this->render('pregunta/create',array('model'=>$model,'list'=>$list));

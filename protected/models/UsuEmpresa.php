@@ -1,24 +1,21 @@
 <?php
 
 /**
- * This is the model class for table "rv_alternativa".
+ * This is the model class for table "usuario_empresa".
  *
- * The followings are the available columns in table 'rv_alternativa':
- * @property string $alt_id
- * @property string $pre_id
- * @property string $alternativa
- * @property string $descripcion
- * @property integer $ponderacion
- * @property string $correcta
+ * The followings are the available columns in table 'usuario_empresa':
+ * @property string $use_id
+ * @property string $emp_id
+ * @property string $usu_id
  */
-class RvAlternativa extends CActiveRecord
+class UsuEmpresa extends CActiveRecord
 {
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'rv_alternativa';
+		return 'usuario_empresa';
 	}
 
 	/**
@@ -29,14 +26,9 @@ class RvAlternativa extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('alternativa, ponderacion, correcta', 'required'),
-			array('ponderacion', 'numerical', 'integerOnly'=>true),
-			array('pre_id, alternativa', 'length', 'max'=>10),
-			array('correcta', 'length', 'max'=>2),
-			array('descripcion', 'safe'),
-			// The following rule is used by search().
-			// @todo Please remove those attributes that should not be searched.
-			array('alt_id, pre_id, alternativa, descripcion, ponderacion, correcta', 'safe', 'on'=>'search'),
+			array('emp_id, usu_id', 'required'),
+			array('emp_id, usu_id', 'length', 'max'=>10),
+			array('use_id, emp_id, usu_id', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -45,9 +37,9 @@ class RvAlternativa extends CActiveRecord
 	 */
 	public function relations()
 	{
-		// NOTE: you may need to adjust the relation name and the related
-		// class name for the relations automatically generated below.
 		return array(
+			'user0' => array(self::BELONGS_TO, 'CrugeStoredUser', 'usu_id'),
+			'Empresa0' => array(self::BELONGS_TO, 'Empresa', 'emp_id'),
 		);
 	}
 
@@ -57,12 +49,9 @@ class RvAlternativa extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'alt_id' => 'Alt',
-			'pre_id' => 'Pre',
-			'alternativa' => 'Alternativa',
-			'descripcion' => 'Descripcion',
-			'ponderacion' => 'Ponderacion',
-			'correcta' => 'Correcta',
+			'use_id' => 'Use',
+			'emp_id' => 'Emp',
+			'usu_id' => 'Usu',
 		);
 	}
 
@@ -84,12 +73,9 @@ class RvAlternativa extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
-		$criteria->compare('alt_id',$this->alt_id,true);
-		$criteria->compare('pre_id',$this->pre_id,true);
-		$criteria->compare('alternativa',$this->alternativa,true);
-		$criteria->compare('descripcion',$this->descripcion,true);
-		$criteria->compare('ponderacion',$this->ponderacion);
-		$criteria->compare('correcta',$this->correcta,true);
+		$criteria->compare('use_id',$this->use_id,true);
+		$criteria->compare('emp_id',$this->emp_id,true);
+		$criteria->compare('usu_id',$this->usu_id,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -100,7 +86,7 @@ class RvAlternativa extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return RvAlternativa the static model class
+	 * @return UsuEmpresa the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{

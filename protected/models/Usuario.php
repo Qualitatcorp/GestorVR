@@ -1,72 +1,69 @@
 <?php
 
-class Usuario extends CActiveRecord
+class Usuario extends CFormModel
 {
-
-	public function tableName()
-	{
-		return 'usuario';
-	}
+	public $rut;
+	public $empresa;
+	public $nombres;
+	public $paterno;
+	public $materno;
+	public $password;
+	public $email;
+	public $fono;
 
 	public function rules()
 	{
-
 		return array(
-			array('usu_rut, emp_rut, car_id, usu_nombre, usu_apellido, usu_password, usu_rol, usu_fono, usu_email', 'required'),
-			array('usu_desabilitado', 'numerical', 'integerOnly'=>true),
-			array('usu_rut, emp_rut', 'length', 'max'=>13),
-			array('car_id', 'length', 'max'=>10),
-			array('usu_nombre, usu_email', 'length', 'max'=>256),
-			array('usu_apellido', 'length', 'max'=>512),
-			array('usu_password', 'length', 'max'=>128),
-			array('usu_rol', 'length', 'max'=>32),
-			array('usu_fono', 'length', 'max'=>64),
+			array('rut,email,password','required'),
+			array('rut', 'length', 'max'=>13),
+			array('empresa', 'numerical', 'integerOnly'=>true),
+			// array('rut','validaRut','action'=>'create'),
+			array('email','unique','className'=>'User','attributeName'=>'email','message'=>'Este email ya se encuentra en uso'),
+			array('rut','unique','className'=>'User','attributeName'=>'username','message'=>'Este rut ya se encuentra en uso'),
+			array('email','email'),
 		);
 	}
 
 	public function attributeLabels()
 	{
 		return array(
-			'usu_rut' => 'RUT',
-			'emp_rut' => 'Empresa',
-			'car_id' => 'Cargo',
-			'usu_nombre' => 'Nombres',
-			'usu_apellido' => 'Apellidos',
-			'usu_password' => 'Password',
-			'usu_rol' => 'Rol',
-			'usu_fono' => 'Fono',
-			'usu_email' => 'Email',
-			'usu_fecha_creacion' => 'Creación',
-			'usu_desabilitado' => 'Desabilitado',
+			'rut'=>'RUT',
+			'empresa'=>'Empresa',
+			'nombres'=>'Nombre',
+			'paterno'=>'Apellido Paterno',
+			'materno'=>'Apellido Materno',
+			'password'=>'Contraseña',
+			'email'=>'Correo',
+			'fono'=>'Fono'
 		);
 	}
 
-	public function getCar_nombre()
-	{
-		return ($model=Cargo::findByPk($this->car_id))?$model->car_nombre:"SIN CARGO";
-	}
+	// public function validaRut($attribute,$params)
+	// {
+	// 	if(Yii::app()->controller->action->id==$params['action']){
+	// 		if(Yii::app()->user->um->loadUser($this->rut)!=null)
+	// 			$this->addError($attribute, 'Este usuario se encuentra en el sistema.');
+	// 	}
+	// }
 
-	public function getemp_nombre()
+	public function save()
 	{
-		return ($model=Empresa::findByPk($this->emp_rut))?$model->emp_nombre:"SIN EMPRESA";
-	}
-
-	public static function model($className=__CLASS__)
-	{
-		return parent::model($className);
-	}
-
-	public function beforeSave()
-	{
-		if(parent::beforeSave())
-		{
-			if ($model=Usuario::model()->findByPk($this->usu_rut)) {
-				if ($this->usu_password!=$model->usu_password)
-				$this->usu_password=md5($this->usu_password);
-			} 
-			else $this->usu_password=md5($this->usu_password);
-			return true;
+		if($this->validate()){
+			$usuario = Yii::app()->user->um->createNewUser(array(
+				'username'=>$this->rut,
+				'email'=>$this->email,
+				'nombre'=>$this->nombres,
+				'paterno'=>$this->paterno,
+				'materno'=>$this->materno,
+				'fono'=>$this->fono,
+			));
+			Yii::app()->user->um->activateAccount($usuario);
+			Yii::app()->user->um->changePassword($usuario,$this->password);
+			if(Yii::app()->user->um->save($usuario)){
+				return true;
+			}else{
+				return false;
+			}
 		}
-		return false;
 	}
 }
