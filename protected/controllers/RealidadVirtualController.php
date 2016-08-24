@@ -28,7 +28,7 @@ class RealidadVirtualController extends Controller
 			if($model->save())
 				$this->redirect(array('adminTipo'));
 		}
-		$this->render('tipoevaluacion/create',array('model'=>$model));
+		$this->render('tipo/create',array('model'=>$model));
 	}
 	public function actionEditTipo($id)
 	{
@@ -39,13 +39,13 @@ class RealidadVirtualController extends Controller
 			if($model->save())
 				$this->redirect(array('adminTipo'));
 		}
-		$this->render('tipoevaluacion/edit',array('model'=>$model));
+		$this->render('tipo/edit',array('model'=>$model));
 	}
 	public function actionAdminTipo()
 	{
 		$this->layout='columnSidebar';
 		$model=RvTipo::model()->findAll();
-		$this->render('tipoevaluacion/admin',array('List'=>$model));
+		$this->render('tipo/admin',array('List'=>$model));
 	}
 	public function actionDeleteTipo($id)
 	{
@@ -126,9 +126,7 @@ class RealidadVirtualController extends Controller
 					$list[]=$alt;
 				}
 			}
-			foreach ($list as $value) {
-				var_dump($value->getErrors());
-			}
+
 			//Revision de todo y guardado
 			if($valid&&$model->save()){
 				//Guardar imagen
@@ -140,8 +138,10 @@ class RealidadVirtualController extends Controller
 					$value->save();
 				}
 				$this->redirect(array('realidadVirtual/viewEva/'.$model->eva_id));
-			}else{
-				echo "no entro";
+			}else{			
+				foreach ($list as $value) {
+				var_dump($value->getErrors());
+			}
 			}
 		}
 		$this->render('pregunta/create',array('model'=>$model,'list'=>$list));
@@ -150,40 +150,45 @@ class RealidadVirtualController extends Controller
 	{
 		$this->layout='columnSidebar';
 		$model=RvPregunta::model()->findByPk($id);
-		$list=$model->Alternativas;		
+		$imagen=$model->imagen;
 		if(isset($_POST['RvPregunta'])){
 			$model->attributes=$_POST['RvPregunta'];
-			$valid=true;
-			//Trabajando con la imagen
 			$model->imagen=CUploadedFile::getInstance($model, 'imagen');
-			//Revision de Alternativas
-			if(isset($_POST['RvAlternativa'])){
-				foreach ($_POST['RvAlternativa'] as $key=>$value) {
-					if(!isset($list[$key])){
-						$list[$key]=new RvAlternativa;
-						$list[$key]->pre_id=$model->pre_id;
-					}
-					$list[$key]->attributes=$value;
-					$valid=$list[$key]->validate()&&$valid;
-					var_dump($list[$key]->getErrors());
-				}
+			if($model->imagen===null){
+				$model->imagen=$imagen;
+				$imagen=false;
+			}else{
+				$imagen=true;
 			}
-			if($valid&&$model->save()){				
-				//Guardar imagen
-				$model->imagen->saveAs('images/rv/'.$model->pre_id.'-'.$model->imagen->name);
-
-				//Guardar Alernativas
-				foreach ($list as $key=>$value) {
-					if(array_key_exists($key,$_POST['RvAlternativa'])){
-						$value->save();			
-					}else{
+			if($model->save()){				
+				//Revision de Alternativas
+				$listaID=array();
+				if(isset($_POST['RvAlternativa'])){
+					foreach ($_POST['RvAlternativa'] as $value) {
+						if(isset($value['alt_id'])){
+							$alt=RvAlternativa::model()->findByPk($value['alt_id']);
+						}else{
+							$alt=new RvAlternativa;
+						}
+						$alt->attributes=$value;
+						$alt->pre_id=$model->primarykey;
+						$alt->save();
+						$listaID[]=$alt->primarykey;
+					}
+				}
+				//Limpia lo que no se guardo
+				foreach ($model->alternativas as $value) {
+					if(!in_array($value->primarykey, $listaID)){
 						$value->delete();
 					}
 				}
+				//Guardar imagen
+				if($imagen)
+					$model->imagen->saveAs('images/rv/'.$model->pre_id.'-'.$model->imagen->name);
 				$this->redirect(array('realidadVirtual/viewEva/'.$model->eva_id));
 			}
 		}
-		$this->render('pregunta/edit',array('model'=>$model,'list'=>$list));
+		$this->render('pregunta/edit',array('model'=>$model));
 	}
 	public function actionAdminPre($id)
 	{
@@ -225,20 +230,20 @@ class RealidadVirtualController extends Controller
 	**/
 	public function actionAdminFicha()
 	{
-		$this->render('adminFicha');
+		$this->render('ficha/admin');
 	}
 
 	public function actionCreateFicha()
 	{
-		$this->render('createFicha');
+		$this->render('ficha/create');
 	}
 	public function actionEditFicha()
 	{
-		$this->render('editFicha');
+		$this->render('ficha/edit');
 	}
 	public function actionViewFicha()
 	{
-		$this->render('viewFicha');
+		$this->render('ficha/view');
 	}
 
 

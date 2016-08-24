@@ -8,11 +8,11 @@ class LicenciaController extends Controller
 	    array('label'=>'Crear', 'url'=>array('createTipo')),
 		array('label'=>'Administrar', 'url'=>array('adminTipo')),
 		array('label'=>'Licencias'),
-		array('label'=>'Asignar', 'url'=>array('createLic')),
-		array('label'=>'Administrar', 'url'=>array('adminLic')),
+		array('label'=>'Asignar', 'url'=>array('create')),
+		array('label'=>'Administrar', 'url'=>array('admin')),
 		array('label'=>'Registros'),
-		array('label'=>'Ver', 'url'=>array('adminDisp')),
-		array('label'=>'Crear', 'url'=>array('adminDisp')),
+		array('label'=>'Ver', 'url'=>array('adminRecords')),
+		array('label'=>'Crear', 'url'=>array('viewRecords')),
 		);
 	public function filters()
 	{
@@ -30,9 +30,9 @@ class LicenciaController extends Controller
 	**/
 	public function actionCreateTipo()
 	{
-		$model=new LicTipo;
-		if(isset($_POST['LicTipo'])){
-			$model->attributes=$_POST['LicTipo'];
+		$model=new LicenciaTipo;
+		if(isset($_POST['LicenciaTipo'])){
+			$model->attributes=$_POST['LicenciaTipo'];
 			if($model->save())
 				$this->redirect(array('adminTipo'));
 		}
@@ -40,9 +40,9 @@ class LicenciaController extends Controller
 	}
 	public function actionUpdateTipo($id)
 	{		
-		$model=LicTipo::model()->findByPk($id);
-		if(isset($_POST['LicTipo'])){
-			$model->attributes=$_POST['LicTipo'];
+		$model=LicenciaTipo::model()->findByPk($id);
+		if(isset($_POST['LicenciaTipo'])){
+			$model->attributes=$_POST['LicenciaTipo'];
 			if($model->save())
 				$this->redirect(array('adminTipo'));
 		}
@@ -54,7 +54,7 @@ class LicenciaController extends Controller
 	}	
 	public function actionAdminTipo()
 	{
-		$model=LicTipo::model()->findAll();
+		$model=LicenciaTipo::model()->findAll();
 		$this->render('tipo/admin',array('List'=>$model));
 	}	
 	public function actionDeleteTipo()
@@ -64,13 +64,13 @@ class LicenciaController extends Controller
 	/**
 		Licencia
 	**/
-	public function actionCreateLic()
+	public function actionCreate()
 	{		
-		$model=new LicLicencia;
-		if(isset($_POST['LicLicencia'])){
-			$model->attributes=$_POST['LicLicencia'];
+		$model=new Licencia;
+		if(isset($_POST['Licencia'])){
+			$model->attributes=$_POST['Licencia'];
 			if($model->save()){
-				$registro=new LicRegistro;
+				$registro=new LicenciaRegistro;
 				$registro->lic_id=$model->lic_id;
 				$registro->iduser=Yii::app()->user->id;
 				$registro->cantidad=$model->cantidadTotal;
@@ -85,25 +85,28 @@ class LicenciaController extends Controller
 					echo "no se guardo";
 					die();
 				}
-				$this->redirect(array('adminLic'));
+				$this->redirect(array('admin'));
 			}
-
 		}
 		$this->render('create',array('model'=>$model));
 	}
-	public function actionUpdateLic($id)
+	public function actionUpdate($id)
 	{		
-		$model=LicLicencia::model()->findByPk($id);
-		if(isset($_POST['LicLicencia'])){
-			$model->attributes=$_POST['LicLicencia'];
+		$model=Licencia::model()->findByPk($id);
+		if(isset($_POST['Licencia'])){
+			$model->attributes=$_POST['Licencia'];
 			if($model->save())
 				$this->redirect(array('adminTipo'));
 		}
 		$this->render('update',array('model'=>$model));
 	}
-	public function actionViewLic()
+	public function actionView()
 	{
 		$this->render('view');
+	}	
+	public function actionDelete($id)
+	{		
+			Licencia::model()->findByPk($id)->delete();
 	}
 	/**
 		Registro

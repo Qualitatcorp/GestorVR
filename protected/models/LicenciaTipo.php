@@ -1,21 +1,23 @@
 <?php
 
 /**
- * This is the model class for table "usuario_empresa".
+ * This is the model class for table "lic_tipo".
  *
- * The followings are the available columns in table 'usuario_empresa':
- * @property string $use_id
- * @property string $emp_id
- * @property string $usu_id
+ * The followings are the available columns in table 'lic_tipo':
+ * @property string $lit_id
+ * @property string $nombre
+ * @property string $descripcion
+ * @property integer $cantidad
+ * @property string $disponible
  */
-class UsuEmpresa extends CActiveRecord
+class LicenciaTipo extends CActiveRecord
 {
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'usuario_empresa';
+		return 'licencia_tipo';
 	}
 
 	/**
@@ -26,9 +28,13 @@ class UsuEmpresa extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('emp_id, usu_id', 'required'),
-			array('emp_id, usu_id', 'length', 'max'=>10),
-			array('use_id, emp_id, usu_id', 'safe', 'on'=>'search'),
+			array('nombre, cantidad', 'required'),
+			array('cantidad', 'numerical', 'integerOnly'=>true),
+			array('disponible', 'length', 'max'=>2),
+			array('descripcion', 'safe'),
+			// The following rule is used by search().
+			// @todo Please remove those attributes that should not be searched.
+			array('lit_id, nombre, descripcion, cantidad, disponible', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -37,9 +43,9 @@ class UsuEmpresa extends CActiveRecord
 	 */
 	public function relations()
 	{
+		// NOTE: you may need to adjust the relation name and the related
+		// class name for the relations automatically generated below.
 		return array(
-			'user0' => array(self::BELONGS_TO, 'CrugeStoredUser', 'usu_id'),
-			'Empresa0' => array(self::BELONGS_TO, 'Empresa', 'emp_id'),
 		);
 	}
 
@@ -49,9 +55,11 @@ class UsuEmpresa extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'use_id' => 'Use',
-			'emp_id' => 'Emp',
-			'usu_id' => 'Usu',
+			'lit_id' => 'Lit',
+			'nombre' => 'Nombre',
+			'descripcion' => 'Descripcion',
+			'cantidad' => 'Cantidad',
+			'disponible' => 'Disponible',
 		);
 	}
 
@@ -73,9 +81,11 @@ class UsuEmpresa extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
-		$criteria->compare('use_id',$this->use_id,true);
-		$criteria->compare('emp_id',$this->emp_id,true);
-		$criteria->compare('usu_id',$this->usu_id,true);
+		$criteria->compare('lit_id',$this->lit_id,true);
+		$criteria->compare('nombre',$this->nombre,true);
+		$criteria->compare('descripcion',$this->descripcion,true);
+		$criteria->compare('cantidad',$this->cantidad);
+		$criteria->compare('disponible',$this->disponible,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -86,7 +96,7 @@ class UsuEmpresa extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return UsuEmpresa the static model class
+	 * @return LicTipo the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{

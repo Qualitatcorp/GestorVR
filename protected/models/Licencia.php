@@ -12,14 +12,14 @@
  * @property string $modificado
  * @property integer $cantidad
  */
-class LicLicencia extends CActiveRecord
+class Licencia extends CActiveRecord
 {
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'lic_licencia';
+		return 'licencia';
 	}
 
 	/**
@@ -48,6 +48,8 @@ class LicLicencia extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+			'emp' => array(self::BELONGS_TO, 'Empresa', 'emp_id'),
+			'tipo' => array(self::BELONGS_TO, 'LicenciaTipo', 'lit_id'),
 		);
 	}
 
@@ -57,28 +59,24 @@ class LicLicencia extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'lic_id' => 'Lic',
-			'emp_id' => 'Emp',
-			'lit_id' => 'Lit',
+			'lic_id' => 'Licencia',
+			'emp_id' => 'Empresa',
+			'lit_id' => 'Licencia',
 			'descripcion' => 'Descripcion',
 			'creado' => 'Creado',
 			'modificado' => 'Modificado',
 			'cantidad' => 'Cantidad',
+			'nombre'=>'Licencia'
 		);
 	}
+	public function getNombre()
+	{
 
-	/**
-	 * Retrieves a list of models based on the current search/filter conditions.
-	 *
-	 * Typical usecase:
-	 * - Initialize the model fields with values from filter form.
-	 * - Execute this method to get CActiveDataProvider instance which will filter
-	 * models according to data in model fields.
-	 * - Pass data provider to CGridView, CListView or any similar widget.
-	 *
-	 * @return CActiveDataProvider the data provider that can return the models
-	 * based on the search/filter conditions.
-	 */
+		if($this->tipo!=null){
+			return $this->tipo->nombre;
+		}
+		return '-';
+	}
 	public function search()
 	{
 		// @todo Please modify the following code to remove attributes that should not be searched.
@@ -101,7 +99,7 @@ class LicLicencia extends CActiveRecord
 	{
 		$lic=1;
 		if($this->lit_id!='')
-			$lic=LicTipo::model()->findByPk($this->lit_id)->cantidad;
+			$lic=LicenciaTipo::model()->findByPk($this->lit_id)->cantidad;
 		return $this->cantidad*$lic;
 	}
 	public static function model($className=__CLASS__)

@@ -13,7 +13,7 @@ class RvPregunta extends CActiveRecord
 			array('eva_id', 'length', 'max'=>10),
 			array('habilitado', 'length', 'max'=>2),
 			array('comentario, imagen, modificado', 'safe'),
-			array('imagen', 'file', 'types'=>'jpg,png'),
+			array('imagen', 'file', 'types'=>'jpg,png','on'=>'insert'),
 			// array('imagen', 'file','allowEmpty'=>true, 'types'=>'jpg,png'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
@@ -22,7 +22,9 @@ class RvPregunta extends CActiveRecord
 	}
 	public function relations()
 	{
-		return array(
+		return array(			
+			'alternativas' => array(self::HAS_MANY, 'RvAlternativa', 'pre_id'),
+			'evaluacion' => array(self::BELONGS_TO, 'RvEvaluacion', 'eva_id'),
 		);
 	}
 	public function attributeLabels()

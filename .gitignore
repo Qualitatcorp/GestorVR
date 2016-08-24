@@ -5,3 +5,4 @@ protected/runtime/*
 protected/config/database.php
 !protected/runtime/.gitignore
 /index.php
+/nbproject/private/

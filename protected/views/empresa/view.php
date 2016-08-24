@@ -1,24 +1,23 @@
 <?php
-/* @var $this EmpresaController */
-/* @var $model Empresa */
-?>
-
-<?php
 $this->breadcrumbs=array(
 	'Empresa',
 	$model->nombre,
 );
 
-$this->menu=array(
-	array('label'=>'Crear Empresa', 'url'=>array('create')),
+array_push($this->menu, 
 	array('label'=>'Editar Empresa', 'url'=>array('update', 'id'=>$model->emp_id)),
 	array('label'=>'Eliminar Empresa', 'url'=>'#', 'linkOptions'=>array('submit'=>array('delete','id'=>$model->emp_id),'confirm'=>'¿Estas seguro que deseas eliminar esta empresa?')),
-    array('label'=>'Administrar Empresa', 'url'=>array('admin')),
+	array('label'=>'Usuario'),
+	array('label'=>'Crear', 'url'=>array('createUsu', 'id'=>$model->emp_id)),
+	array('label'=>'Dispositivo'),
+	array('label'=>'Asignar', 'url'=>array('createDisp', 'id'=>$model->emp_id)),
+	array('label'=>'Licencia'),
+	array('label'=>'Asignar', 'url'=>array('createLic', 'id'=>$model->emp_id)),
+	array('label'=>'Evaluacion'),
+	array('label'=>'Ver Fichas', 'url'=>array('adminFicha', 'id'=>$model->emp_id))
 );
 ?>
-
-<?php echo BsHtml::pageHeader('Ver','Empresa '.$model->nombre) ?>
-
+<?php echo BsHtml::pageHeader($model->nombre,'Empresa') ?>
 <?php $this->widget('zii.widgets.CDetailView',array(
 	'htmlOptions' => array(
 		'class' => 'table table-striped table-condensed table-hover',
@@ -41,6 +40,6 @@ $this->menu=array(
 	),
 )); ?>
 
-
-<?php echo BsHtml::pageHeader('Ver','Usuarios') ?>
-
+<?php $this->renderPartial('usuario/admin', array('model'=>$model->Usuarios)); ?>
+<?php $this->renderPartial('dispositivo/admin', array('model'=>$model->Dispositivos)); ?>
+<?php $this->renderPartial('licencia/admin', array('model'=>$model->Licencias)); ?>

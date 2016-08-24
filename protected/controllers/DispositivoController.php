@@ -25,14 +25,14 @@ class DispositivoController extends Controller
 	//Tipo de Dispositivo
 	public function actionAdminTipo()
 	{
-		$model=DisTipo::model()->findAll();
+		$model=DispositivoTipo::model()->findAll();
 		$this->render('tipo/admin',array('List'=>$model));
 	}
 	public function actionCreateTipo()
 	{
-		$model=new DisTipo;
-		if(isset($_POST['DisTipo'])){
-			$model->attributes=$_POST['DisTipo'];
+		$model=new DispositivoTipo;
+		if(isset($_POST['DispositivoTipo'])){
+			$model->attributes=$_POST['DispositivoTipo'];
 			if($model->save())
 				$this->redirect(array('adminTipo'));
 		}
@@ -41,9 +41,9 @@ class DispositivoController extends Controller
 
 	public function actionEditTipo($id)
 	{
-		$model=DisTipo::model()->findByPk($id);
-		if(isset($_POST['DisTipo'])){
-			$model->attributes=$_POST['DisTipo'];
+		$model=DispositivoTipo::model()->findByPk($id);
+		if(isset($_POST['DispositivoTipo'])){
+			$model->attributes=$_POST['DispositivoTipo'];
 			if($model->save())
 				$this->redirect(array('adminTipo'));
 		}
@@ -56,20 +56,20 @@ class DispositivoController extends Controller
 
 	public function actionDeleteTipo($id)
 	{
-		DisTipo::model()->deleteByPk($id);
+		DispositivoTipo::model()->deleteByPk($id);
 		$this->redirect(array('adminTipo'));
 	}
 	//Dispositivo
 	public function actionAdminDisp()
 	{
-		$model=DisDispositivo::model()->findAll();
+		$model=Dispositivo::model()->findAll();
 		$this->render('admin',array('List'=>$model));
 	}
 	public function actionCreateDisp()
 	{		
-		$model=new DisDispositivo;
-		if(isset($_POST['DisDispositivo'])){
-			$model->attributes=$_POST['DisDispositivo'];
+		$model=new Dispositivo;
+		if(isset($_POST['Dispositivo'])){
+			$model->attributes=$_POST['Dispositivo'];
 			if($model->save())
 				$this->redirect(array('adminDisp'));
 		}
@@ -77,9 +77,9 @@ class DispositivoController extends Controller
 	}
 	public function actionEditDisp($id)
 	{	
-		$model=DisDispositivo::model()->findByPk($id);
-		if(isset($_POST['DisDispositivo'])){
-			$model->attributes=$_POST['DisDispositivo'];
+		$model=Dispositivo::model()->findByPk($id);
+		if(isset($_POST['Dispositivo'])){
+			$model->attributes=$_POST['Dispositivo'];
 			if($model->save())
 				$this->redirect(array('adminDisp'));
 		}

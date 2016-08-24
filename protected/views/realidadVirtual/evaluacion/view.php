@@ -1,5 +1,5 @@
 <?php $this->breadcrumbs=array('Evaluación realidad virtual','Ver',);?>
-<?php echo BsHtml::pageHeader($model->nombre,$model->tipoNombre) ?>
+<?php echo BsHtml::pageHeader($model->nombre,$model->tipo->nombre) ?>
 <?php $this->widget('zii.widgets.CDetailView',array(
 	'htmlOptions' => array(
 		'class' => 'table table-striped table-condensed table-hover',
@@ -27,7 +27,7 @@
 		</tr>
 	</thead>
 	<tbody>
-		<?php foreach ($model->Preguntas as $key => $value): ?>
+		<?php foreach ($model->preguntas as $key => $value): ?>
 			<tr>
 				<td><?=$key+1?></td>
 				<th><?=$value->pre_id ?></th>

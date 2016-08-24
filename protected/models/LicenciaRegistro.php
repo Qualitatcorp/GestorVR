@@ -1,21 +1,25 @@
 <?php
 
 /**
- * This is the model class for table "dis_tipo".
+ * This is the model class for table "lic_registro".
  *
- * The followings are the available columns in table 'dis_tipo':
- * @property integer $dit_id
- * @property string $nombre
- * @property string $descripcion
+ * The followings are the available columns in table 'lic_registro':
+ * @property integer $lig_id
+ * @property integer $lic_id
+ * @property integer $iduser
+ * @property integer $cantidad
+ * @property string $tipo
+ * @property integer $descripcion
+ * @property string $habilitado
  */
-class DisTipo extends CActiveRecord
+class LicenciaRegistro extends CActiveRecord
 {
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'dis_tipo';
+		return 'licencia_registro';
 	}
 
 	/**
@@ -26,12 +30,13 @@ class DisTipo extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('nombre', 'required'),
-			array('nombre', 'length', 'max'=>200),
-			array('descripcion', 'safe'),
+			array('lic_id, iduser, descripcion', 'required'),
+			array('lic_id, iduser, cantidad', 'numerical', 'integerOnly'=>true),
+			array('tipo', 'length', 'max'=>5),
+			array('habilitado', 'length', 'max'=>2),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('dit_id, nombre, descripcion', 'safe', 'on'=>'search'),
+			array('lig_id, lic_id, iduser, cantidad, tipo, descripcion, habilitado', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -52,9 +57,13 @@ class DisTipo extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'dit_id' => 'Dit',
-			'nombre' => 'Nombre',
-			'descripcion' => 'Descripción',
+			'lig_id' => 'Lig',
+			'lic_id' => 'Lic',
+			'iduser' => 'Iduser',
+			'cantidad' => 'Cantidad',
+			'tipo' => 'Tipo',
+			'descripcion' => 'Descripcion',
+			'habilitado' => 'Habilitado',
 		);
 	}
 
@@ -76,9 +85,13 @@ class DisTipo extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
-		$criteria->compare('dit_id',$this->dit_id);
-		$criteria->compare('nombre',$this->nombre,true);
-		$criteria->compare('descripcion',$this->descripcion,true);
+		$criteria->compare('lig_id',$this->lig_id);
+		$criteria->compare('lic_id',$this->lic_id);
+		$criteria->compare('iduser',$this->iduser);
+		$criteria->compare('cantidad',$this->cantidad);
+		$criteria->compare('tipo',$this->tipo,true);
+		$criteria->compare('descripcion',$this->descripcion);
+		$criteria->compare('habilitado',$this->habilitado,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -89,7 +102,7 @@ class DisTipo extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return DisTipo the static model class
+	 * @return LicRegistro the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{

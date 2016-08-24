@@ -21,6 +21,8 @@ class RvEvaluacion extends CActiveRecord
 	public function relations()
 	{
 		return array(
+			'preguntas' => array(self::HAS_MANY, 'RvPregunta', 'eva_id'),
+			'tipo' => array(self::BELONGS_TO, 'RvTipo', 'tev_id'),
 		);
 	}
 
@@ -36,18 +38,25 @@ class RvEvaluacion extends CActiveRecord
 			'countEva' => 'Cantidad de evaluaciones',
 		);
 	}
-	//Obtencion de datos extra
-	public function getTipoNombre()
+
+	public function GetCountEva()
 	{
-		return RvTipo::model()->findByPk($this->tev_id)->nombre;
-	}
-	public function getCountEva()
-	{
-		return RvFicha::model()->count('eva_id='.$this->eva_id);
-	}
-	public function getPreguntas()
-	{
-		return RvPregunta::model()->findAll('eva_id='.$this->eva_id);
+
+		$datos= Yii::app()->db->createCommand("
+			SELECT 
+			  COUNT(DISTINCT rv_ficha.fic_id) AS FICHAS
+			FROM
+			  rv_pregunta
+			  INNER JOIN rv_evaluacion ON (rv_pregunta.eva_id = rv_evaluacion.eva_id)
+			  INNER JOIN rv_alternativa ON (rv_pregunta.pre_id = rv_alternativa.pre_id)
+			  INNER JOIN rv_respuesta ON (rv_respuesta.alt_id = rv_alternativa.alt_id)
+			  INNER JOIN rv_ficha ON (rv_respuesta.fic_id = rv_ficha.fic_id)
+			WHERE
+			  rv_evaluacion.eva_id = $this->eva_id
+			GROUP BY
+			  rv_evaluacion.eva_id")
+		->queryRow();
+		return $datos['FICHAS'];
 	}
 	public function search()
 	{

@@ -6,7 +6,7 @@
 
     <p class="help-block">Los campos con un <span class="required">*</span> son requeridos.</p>
     <?= $form->errorSummary($model); ?> 
-    <?php if(Yii::app()->controller->action->id!='createPre')echo BsHtml::imageRounded($model->UrlImagen,'imagen_pregunta',array("width"=>100,"height"=>100));?></td>
+    <?=BsHtml::imageRounded($model->UrlImagen,'imagen_pregunta',array("width"=>100,"height"=>100));?></td>
     <?= $form->fileFieldControlGroup($model,'imagen'); ?>
     <?= $form->textAreaControlGroup($model,'descripcion',array('rows'=>2)); ?>
     <?= $form->textFieldControlGroup($model,'comentario'); ?>
@@ -24,11 +24,9 @@
     		</tr>
     	</thead>
     	<tbody>
-    	<?php foreach ($model->alternativas as $key => $value): ?>
+    	<?php foreach ($list as $key => $value): ?>
 			<tr>
-	         <th>
-                <?= $form->textField($value, "[$key]alternativa", array('required'=>true));?>
-                <?= $form->hiddenField($value, "[$key]alt_id");?></th>
+	         <th><?= $form->textField($value, "[$key]alternativa", array('required'=>true));?></th>
 	         <td><?= $form->textArea($value, "[$key]descripcion", array('rows'=>1));?></td>
 	         <td><?= $form->numberField($value, "[$key]ponderacion", array('min'=>0,'step'=>"0.1",'required'=>true));?></td>
 	         <td><?= $form->dropDownList($value, "[$key]correcta", array("SI"=>"SI","NO"=>"NO"),array());?></td>

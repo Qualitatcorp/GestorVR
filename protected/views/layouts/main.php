@@ -31,58 +31,59 @@ $this->widget('bootstrap.widgets.BsNavbar', array(
                     'label' => 'Sistema',
                     // 'visible'=>Yii::app()->user->checkAccess('action_empresa_create'),
                     'items' => array(
-                        BsHtml::menuHeader(BsHtml::italics('Usuarios')),
-                        array('label' => 'Administar Usuarios','url' => array('usuario/admin')),
-                        array('label' => 'Crear Usuario','url' => array('usuario/create')),
-                        array('label' => 'Registros de ingreso','url' => array('usuario/records')),
-                        BsHtml::menuDivider().BsHtml::menuHeader(BsHtml::italics('Empresa')),
-                        array('label' => 'Administrar Empresas','url' => array('empresa/admin')),
-                        array('label' => 'Crear Empresa','url' => array('empresa/create')),
+                        // BsHtml::menuHeader(BsHtml::italics('Usuarios')),
+                        // array('label' => 'Administar Usuarios','url' => array('/usuario/admin')),
+                        // array('label' => 'Crear Usuario','url' => array('/usuario/create')),
+                        // array('label' => 'Registros de ingreso','url' => array('/usuario/records')),
+                        // BsHtml::menuDivider().
+                        BsHtml::menuHeader(BsHtml::italics('Empresa')),
+                        array('label' => 'Administrar Empresas','url' => array('//empresa/admin')),
+                        array('label' => 'Crear Empresa','url' => array('//empresa/create')),
                         BsHtml::menuDivider().BsHtml::menuHeader(BsHtml::italics('Trabajador')),
-                        array('label' => 'Administrar trabajador','url' => array('trabajador/admin')),
-                        array('label' => 'Crear trabajador','url' => array('trabajador/create')),
+                        array('label' => 'Administrar trabajador','url' => array('//trabajador/admin')),
+                        array('label' => 'Crear trabajador','url' => array('//trabajador/create')),
                     )
                 ),
                 array(
                     'label' => 'Evaluacion',
                     'items' => array(
                         BsHtml::menuHeader(BsHtml::italics('Realidad Virtual')),
-                        array('label' => 'Buscar Evaluación','url' => array('usuario/admin')),
-                        array('label' => 'Buscar Ficha Persona','url' => array('usuario/admin')),
+                        array('label' => 'Buscar Evaluación','url' => array('/RealidadVirtual/adminFicha')),
+                        // array('label' => 'Buscar Ficha Persona','url' => array('/RealidadVirtual/admin')),
                         (Yii::app()->user->checkAccess('action_evaluacionAltair_admin'))?
                             BsHtml::menuDivider().BsHtml::menuHeader(BsHtml::italics('Entrenador de Gases')):"",
                         array(
                             'label' => 'Buscar Evaluación',
-                            'url' => array('EvaluacionAltair/admin'),
+                            'url' => array('/EvaluacionAltair/admin'),
                             'visible'=>Yii::app()->user->checkAccess('action_evaluacionAltair_admin')
                         ),
                         BsHtml::menuDivider().BsHtml::menuHeader(BsHtml::italics('Administrar Evaluación')),
-                        array('label' => 'Tipo Evaluación','url' => array('RealidadVirtual/adminTipo')),
-                        array('label' => 'Crear Evaluación','url' => array('RealidadVirtual/createEva')),
-                        array('label' => 'Buscar Evaluación','url' => array('RealidadVirtual/adminEva')),
+                        array('label' => 'Tipo Evaluación','url' => array('/RealidadVirtual/adminTipo')),
+                        array('label' => 'Crear Evaluación','url' => array('/RealidadVirtual/createEva')),
+                        array('label' => 'Buscar Evaluación','url' => array('/RealidadVirtual/adminEva')),
                     )
                 ),                
                 array(
                     'label' => 'Dispositivo',
                     'items' => array(
                         BsHtml::menuHeader(BsHtml::italics('Dispositivos')),
-                        array('label' => 'Crear','url' => array('Dispositivo/createDisp')),
-                        array('label' => 'Buscar','url' => array('Dispositivo/adminDisp')),
+                        array('label' => 'Crear','url' => array('/Dispositivo/createDisp')),
+                        array('label' => 'Buscar','url' => array('/Dispositivo/adminDisp')),
 
                         BsHtml::menuDivider().BsHtml::menuHeader(BsHtml::italics('Tipo de dispositivo')),
-                        array('label' => 'Crear','url' => array('Dispositivo/createTipo')),
-                        array('label' => 'Buscar','url' => array('Dispositivo/adminTipo')),
+                        array('label' => 'Crear','url' => array('/Dispositivo/createTipo')),
+                        array('label' => 'Buscar','url' => array('/Dispositivo/adminTipo')),
                     )
                 ),                
                 array(
                     'label' => 'Licencia',
                     'items' => array(
                         BsHtml::menuHeader(BsHtml::italics('Licencia')),
-                        array('label' => 'Crear','url' => array('Licencia/createTipo')),
-                        array('label' => 'Registros','url' => array('Licencia/viewRecords')),
+                        array('label' => 'Crear','url' => array('/Licencia/createTipo')),
+                        array('label' => 'Registros','url' => array('/Licencia/viewRecords')),
                         BsHtml::menuDivider().BsHtml::menuHeader(BsHtml::italics('Empresa')),
-                        array('label' => ' Asignar','url' => array('Licencia/createLic')),
-                        array('label' => 'Buscar','url' => array('Licencia/viewLic')),
+                        array('label' => ' Asignar','url' => array('/Licencia/create')),
+                        array('label' => 'Buscar','url' => array('/Licencia/view')),
                     )
                 ),
             )
@@ -98,7 +99,7 @@ $this->widget('bootstrap.widgets.BsNavbar', array(
                     'visible'=>Yii::app()->user->isSuperAdmin
                 ),
                 array('label'=>'Login', 'url'=>Yii::app()->user->ui->loginUrl, 'visible'=>Yii::app()->user->isGuest),
-                array('label' =>'Logout ('.Yii::app()->user->name.')','pull' => BsHtml::NAVBAR_NAV_PULL_RIGHT,'url' => array('/site/logout'),'visible' => !Yii::app()->user->isGuest)
+                array('label' =>'Logout ('.Yii::app()->user->name.')','pull' => BsHtml::NAVBAR_NAV_PULL_RIGHT,'url' => array('//site/logout'),'visible' => !Yii::app()->user->isGuest)
             ),
             'htmlOptions' => array(
                 'pull' => BsHtml::NAVBAR_NAV_PULL_RIGHT
