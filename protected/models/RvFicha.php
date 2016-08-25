@@ -16,7 +16,10 @@ class RvFicha extends CActiveRecord
 	public function relations()
 	{
 		return array(
+			'respuestas' => array(self::HAS_MANY, 'RvRespuesta', 'fic_id'),
 			'trabajador' => array(self::BELONGS_TO, 'Trabajador', 'trab_id'),
+			'evaluacion' => array(self::BELONGS_TO, 'RvEvaluacion', 'eva_id'),
+			'RvProyecto' => array(self::BELONGS_TO, 'RvProyecto', 'pro_id'),
 		);
 	}
 	public function attributeLabels()
@@ -40,27 +43,27 @@ class RvFicha extends CActiveRecord
 			'criteria'=>$criteria,
 		));
 	}
-	public function getEvaluacion()
-	{
-		$command = Yii::app()->db->createCommand("
-		SELECT DISTINCT 
-		  rv_pregunta.eva_id
-		FROM
-		  rv_pregunta
-		  INNER JOIN rv_alternativa ON (rv_pregunta.pre_id = rv_alternativa.pre_id)
-		  INNER JOIN rv_respuesta ON (rv_respuesta.alt_id = rv_alternativa.alt_id)
-		  INNER JOIN rv_ficha ON (rv_respuesta.fic_id = rv_ficha.fic_id)
-		WHERE
-		  rv_ficha.fic_id = $this->fic_id
-		GROUP BY
-		  rv_pregunta.eva_id")->queryRow();
-		return RvEvaluacion::model()->findByPk($command['eva_id']);
-	}
 	public function getNota()
 	{
-		$preguntas=$this->evaluacion->preguntas;
-
-		return 1;
+		if(is_null($this->porcentajeCorrecto)){
+			return '-';
+		}else{
+			return number_format(1+6*$this->porcentajeCorrecto,1);
+		}
+	}
+	public function getPorcentajeCorrecto()
+	{
+		$total=0;
+		$suma=0;
+		foreach ($this->respuestas as $resp) {
+			$alt=$resp->alternativa;
+			if($alt->pregunta->active){
+				$total+=$alt->ponderacion;
+				if($alt->correcta=='SI')
+					$suma+=$alt->ponderacion;
+			}
+		}
+		return ($total!=0)?$suma/$total:null;
 	}
 	public static function model($className=__CLASS__)
 	{

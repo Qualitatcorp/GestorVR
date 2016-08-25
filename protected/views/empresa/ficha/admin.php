@@ -38,7 +38,7 @@ Yii::app()->getClientScript()
 	<thead>	
 		<tr>
 			<th style="width:20px">#</th>
-			<!-- <th style="width:20px">Ficha</th> -->
+			<th style="width:20px">Ficha</th>
 			<th>Trabajador</th>
 			<th width=85>RUT</th>
 			<th>Evaluacion</th>
@@ -53,10 +53,10 @@ Yii::app()->getClientScript()
 			<?php foreach ($disp->fichas as $ficha): ?>
 				<tr>
 					<td><?=++$i; ?></td>
-					<!-- <td><?=$ficha->primaryKey; ?></td> -->
+					<td><?=$ficha->primaryKey; ?></td>
 					<td><?=$ficha->trabajador->nombreCompleto ?></td>
 					<td><?=$ficha->trabajador->rut ?></td>
-					<td><?=$ficha->evaluacion->nombre?></td>
+					<td><?=(($f=$ficha->evaluacion)!==null)?$f->nombre:'CORRUPTO' ?></td>
 					<td><?=$ficha->nota ?></td>
 					<td><?=$ficha->creado ?></td>
 					<td><?=BsHtml::button('Mirar',array('onClick'=>"window.location.href='../viewFicha/$ficha->fic_id'",

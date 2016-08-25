@@ -19,6 +19,7 @@ class SyncController extends Controller
 				$lista[]=$model;
 			}
 			$model=new RvFicha;
+			$model->eva_id=RvAlternativa::model()->findByPk($lista[0]->alt_id)->pregunta->eva_id;
 			$model->trab_id=Trabajador::model()->findByRUT($_POST['trabajador'])->primaryKey;
 			$model->disp_id=Dispositivo::model()->findByKeycode($_POST['keycode'],$_POST['empresa'])->primaryKey;
 			if($valid&&$model->save()){
@@ -44,16 +45,17 @@ class SyncController extends Controller
 		if(!empty($_POST)){
 			$model=Dispositivo::model()->findByKeycode($_POST['keycode'],$_POST['empresa'],$_POST['modelo']);
 			if($model!==null){
-				if($model->serial!=''){
-					if($model->serial==$_POST['serial']){
-						$model->habilitado='SI';
-					}else{
-						$model->habilitado='NO';
-					}
-				}
-				if($model->save()){
-					echo (($model->habilitado=='SI')&&($model->activado=='SI'))?'true':'false';
-				}
+				echo ($model->activado=='SI'&&$model->habilitado=='SI')?'true':'false';
+				// if($model->serial!=''){
+				// 	if($model->serial==$_POST['serial']){
+				// 		$model->habilitado='SI';
+				// 	}else{
+				// 		$model->habilitado='NO';
+				// 	}
+				// }
+				// if($model->save()){
+				// 	echo (($model->habilitado=='SI')&&($model->activado=='SI'))?'true':'false';
+				// }
 			}else{
 				echo "false";
 			}

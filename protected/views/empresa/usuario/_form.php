@@ -1,4 +1,7 @@
 <?php
+array_push($this->menu, 
+    array('label'=>'Volver', 'url'=>array('view', 'id'=>$model->emp_id))
+);
 $baseUrl=Yii::app()->baseUrl;
 Yii::app()->getClientScript()
     ->registerScriptFile($baseUrl.'/js/jquery.Rut.min.js',CClientScript::POS_END)
@@ -34,5 +37,8 @@ Yii::app()->getClientScript()
     <?php if (Yii::app()->user->checkAccess('Administrador')&&$this->action->id=='updateUsu'): ?>    
         <?= BsHtml::formActions(array('<a href="'.Yii::app()->createUrl("cruge/ui/usermanagementupdate/",array("id"=>$model->usu_id)).'">Editar información sensible</a>'));?>
     <?php endif ?>
+
+    <?=BsHtml::button('Volver',array('onClick'=>"window.location.href='../$model->emp_id'",
+    'color' => BsHtml::BUTTON_COLOR_PRIMARY)) ?>
 
 <?php $this->endWidget(); ?>

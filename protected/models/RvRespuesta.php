@@ -16,6 +16,8 @@ class RvRespuesta extends CActiveRecord
 	public function relations()
 	{ 
 		return array(
+			'ficha' => array(self::BELONGS_TO, 'RvFicha', 'fic_id'),
+			'alternativa' => array(self::BELONGS_TO, 'RvAlternativa', 'alt_id'),
 		);
 	}
 	public function attributeLabels()
@@ -27,6 +29,7 @@ class RvRespuesta extends CActiveRecord
 			'creado' => 'Creado',
 		);
 	}
+
 	public function search()
 	{
 		$criteria=new CDbCriteria;

@@ -241,7 +241,7 @@ class RealidadVirtualController extends Controller
 	{
 		$this->render('ficha/edit');
 	}
-	public function actionViewFicha()
+	public function actionViewFicha($id)
 	{
 		$this->render('ficha/view');
 	}

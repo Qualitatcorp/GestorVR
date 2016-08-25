@@ -40,9 +40,9 @@ class RvPregunta extends CActiveRecord
 			'habilitado' => 'Habilitado',
 		);
 	}
-	public function getAlternativas()
+	public function getActive()
 	{
-		return RvAlternativa::model()->findAll('pre_id='.$this->pre_id);
+		return ($this->habilitado=='SI')?true:false;
 	}
 	public function getUrlImagen()
 	{

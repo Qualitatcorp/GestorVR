@@ -47,21 +47,32 @@ class Dispositivo extends CActiveRecord
 
 	public function findByKeycode($keycode,$empresa=null,$modelo=null,$activado='SI',$habilitado='NO')
 	{
-		$model=null;
-		if($empresa!=null){
-			$model=Dispositivo::model()->find("keycode='$keycode' AND emp_id=".Empresa::model()->findByRUT($empresa)->primaryKey);
+		$model=$model=Dispositivo::model()->find("keycode='$keycode'");
+		if(($empresa=Empresa::model()->findByRUT($empresa))!==null){
+			$model=Dispositivo::model()->find("keycode='$keycode' AND emp_id=".$empresa->primaryKey);
 		}
-		if($model===null&&!$empresa!==null&&$model!==null){
+		if($model===null&&$empresa!==null&&$modelo!==null){
 			$model=new Dispositivo;
 			$model->keycode=$keycode;
 			$model->activado=$activado;
 			$model->habilitado=$habilitado;
-			$model->emp_id=Empresa::model()->findByRUT($empresa)->primaryKey;
+			$model->emp_id=$empresa->primaryKey;
 			$model->dit_id=DispositivoTipo::model()->findByModelo($modelo)->primaryKey;
 			$model->save();
 		}
 		return $model;
 	}
+	public function verifySerial($serial)
+	{
+		if($this->serial==$serial){
+			$this->habilitado='SI';
+			$this->save();
+			return true;
+		}else{
+			return false;
+		}
+	}
+
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);

@@ -103,9 +103,9 @@ class EmpresaController extends Controller
 	public function actionCreateUsu($id)
 	{
 		$model=new EmpresaUsuario;
+		$model->emp_id=$id;
 		if(isset($_POST['EmpresaUsuario'])){
 			$model->attributes=$_POST['EmpresaUsuario'];
-			$model->emp_id=$id;
 			if($model->validate()){
 				$usuario = Yii::app()->user->um->createNewUser(array(
 					'username'=>$model->rut,
@@ -250,5 +250,10 @@ class EmpresaController extends Controller
 		$model = Empresa::model()->findByPk($id);
 
 		$this->render('ficha/admin',array('model'=>$model));
+	}
+	public function actionViewFicha($id)
+	{
+		$model = RvFicha::model()->findByPk($id);
+		$this->render('ficha/view',array('model'=>$model));
 	}
 }

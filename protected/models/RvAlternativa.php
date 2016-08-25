@@ -50,6 +50,7 @@ class RvAlternativa extends CActiveRecord
 			'criteria'=>$criteria,
 		));
 	}
+
 	public function findByPregunta($pregunta,$alternativa)
 	{
 		return RvAlternativa::model()->find("alternativa='$alternativa' AND pre_id=$pregunta");
