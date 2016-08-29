@@ -18,6 +18,7 @@ class RvFicha extends CActiveRecord
 		return array(
 			'respuestas' => array(self::HAS_MANY, 'RvRespuesta', 'fic_id'),
 			'trabajador' => array(self::BELONGS_TO, 'Trabajador', 'trab_id'),
+			'dispositivo' => array(self::BELONGS_TO, 'Dispositivo', 'disp_id'),
 			'evaluacion' => array(self::BELONGS_TO, 'RvEvaluacion', 'eva_id'),
 			'RvProyecto' => array(self::BELONGS_TO, 'RvProyecto', 'pro_id'),
 		);
@@ -65,6 +66,19 @@ class RvFicha extends CActiveRecord
 		}
 		return ($total!=0)?$suma/$total:null;
 	}
+	public function command()
+	{
+
+		$command=Yii::app()->db->createCommand()
+		->select('rv_ficha.fic_id,rv_evaluacion.eva_id,trabajador.tra_id,empresa.emp_id')
+		->from('rv_ficha')
+		->join('trabajador','rv_ficha.trab_id=trabajador.tra_id')
+		->join('rv_evaluacion', 'rv_ficha.eva_id = rv_evaluacion.eva_id')
+		->join('dispositivo','rv_ficha.disp_id=dispositivo.dis_id')
+		->leftJoin('empresa','dispositivo.emp_id=empresa.emp_id');
+		return $command;
+	}
+
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);

@@ -21,10 +21,12 @@ Yii::app()->getClientScript()
 
     <?= $form->errorSummary($model); ?>
     <?php if ($this->action->id=='createUsu'): ?>
+        <?php if (Yii::app()->user->checkAccess('Administrador')): ?>
         <?= $form->dropDownListControlGroup($model,'role',array(
             'Supervisor'=>'Supervisor',
             'Cliente'=>'Cliente',
             ));?>
+        <?php endif ?>
         <?= $form->textFieldControlGroup($model,'rut',array('maxlength'=>12)); ?>
         <?= $form->textFieldControlGroup($model,'email'); ?>
         <?= $form->textFieldControlGroup($model,'password'); ?>
@@ -32,13 +34,15 @@ Yii::app()->getClientScript()
     <?= $form->textFieldControlGroup($model,'nombres'); ?>
     <?= $form->textFieldControlGroup($model,'paterno'); ?>
     <?= $form->textFieldControlGroup($model,'materno'); ?>
-    <?= $form->textFieldControlGroup($model,'fono'); ?>
+    <?= $form->textFieldControlGroup($model,'fono'); ?><?php
+echo $form->checkBoxListControlGroup($model, 'disp', CHtml::listData(Dispositivo::model()->findAll(), 'dis_id', 'nombre'),array('checkAll'=>'Todos', 'checkAllLast'=>true));
+?>
+    <?php foreach ($model->emp->dispositivos as $key => $value): ?>
+        
+    <?php endforeach ?>
     <?= BsHtml::formActions(array(BsHtml::submitButton('Guardar', array('color' => BsHtml::BUTTON_COLOR_PRIMARY))));?>
     <?php if (Yii::app()->user->checkAccess('Administrador')&&$this->action->id=='updateUsu'): ?>    
         <?= BsHtml::formActions(array('<a href="'.Yii::app()->createUrl("cruge/ui/usermanagementupdate/",array("id"=>$model->usu_id)).'">Editar información sensible</a>'));?>
     <?php endif ?>
-
-    <?=BsHtml::button('Volver',array('onClick'=>"window.location.href='../$model->emp_id'",
-    'color' => BsHtml::BUTTON_COLOR_PRIMARY)) ?>
 
 <?php $this->endWidget(); ?>

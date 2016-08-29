@@ -10,7 +10,7 @@
     <?php echo $form->dropDownListControlGroup($model,'dit_id', CHtml::listData(DispositivoTipo::model()->findAll(),'dit_id', 'nombre'), array('empty' => 'Seleccione un tipo de dispositivo.'));?>
     <?php echo $form->dropDownListControlGroup($model,'habilitado',array('NO'=>'NO','SI'=>'SI'));?>
     <?php echo $form->dropDownListControlGroup($model,'activado', array('NO'=>'NO','SI'=>'SI'));?>    
-    <?php echo $form->textFieldControlGroup($model,'keycode'); ?>
+    <?php echo $form->textFieldControlGroup($model,'keycode',array('disabled' => true)); ?>
     <?php echo $form->textFieldControlGroup($model,'serial'); ?>
     <?php echo BsHtml::formActions(array(BsHtml::submitButton('Guardar', array('color' => BsHtml::BUTTON_COLOR_PRIMARY))));?>
 

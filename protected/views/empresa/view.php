@@ -40,6 +40,6 @@ array_push($this->menu,
 	),
 )); ?>
 
-<?php $this->renderPartial('usuario/admin', array('model'=>$model->Usuarios)); ?>
-<?php $this->renderPartial('dispositivo/admin', array('model'=>$model->Dispositivos)); ?>
-<?php $this->renderPartial('licencia/admin', array('model'=>$model->Licencias)); ?>
+<?php $this->renderPartial('usuario/admin', array('model'=>$model->usuarios)); ?>
+<?php $this->renderPartial('dispositivo/admin', array('model'=>$model->dispositivos)); ?>
+<?php $this->renderPartial('licencia/admin', array('model'=>$model->licencias)); ?>

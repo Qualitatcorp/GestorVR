@@ -17,7 +17,7 @@ class Dispositivo extends CActiveRecord
 	public function relations()
 	{
 		return array(
-			'emp' => array(self::BELONGS_TO, 'Empresa', 'emp_id'),
+			'empresa' => array(self::BELONGS_TO, 'Empresa', 'emp_id'),
 			'tipo' => array(self::BELONGS_TO, 'DispositivoTipo', 'dit_id'),
 			'fichas' => array(self::HAS_MANY, 'RvFicha', 'disp_id'),
 		);
@@ -34,15 +34,6 @@ class Dispositivo extends CActiveRecord
 			'keycode' => 'Keycode',
 			'serial' => 'Serial',
 		);
-	}
-
-	public function getNombre()
-	{
-		return DispositivoTipo::model()->findByPk($this->dit_id)->nombre;
-	}	
-	public function getEmpresa()
-	{
-		return Empresa::model()->findByPk($this->emp_id)->nombre;
 	}
 
 	public function findByKeycode($keycode,$empresa=null,$modelo=null,$activado='SI',$habilitado='NO')
@@ -71,6 +62,13 @@ class Dispositivo extends CActiveRecord
 		}else{
 			return false;
 		}
+	}
+	public function getAlternativo()
+	{
+		if($this->nombre=='')
+			return $this->tipo->nombre;
+		else
+			return $this->nombre;
 	}
 
 	public static function model($className=__CLASS__)

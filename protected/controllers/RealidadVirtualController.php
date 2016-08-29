@@ -243,7 +243,9 @@ class RealidadVirtualController extends Controller
 	}
 	public function actionViewFicha($id)
 	{
-		$this->render('ficha/view');
+		
+        $mPDF1 = Yii::app()->ePdf->mpdf();
+		// $this->render('ficha/view');
 	}
 
 

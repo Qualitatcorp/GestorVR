@@ -5,7 +5,7 @@ class EmpresaUsuario extends CActiveRecord
 	public $email;
 	public $password;
 	public $role;
-
+	public $disp;
 	public function tableName()
 	{
 		return 'empresa_usuario';
@@ -27,6 +27,8 @@ class EmpresaUsuario extends CActiveRecord
 		return array(
 			'emp' => array(self::BELONGS_TO, 'Empresa', 'emp_id'),
 			'usu' => array(self::BELONGS_TO, 'CrugeStoredUser', 'usu_id'),
+			// 'dis' => array(self::HAS_MANY, 'EmpresaDispositivo', 'emu_id'),
+			'dispositivos'=>array(self::MANY_MANY, 'Dispositivo', 'EmpresaDispositivo(emu_id, dis_id)'),
 		);
 	}
 	public function attributeLabels()
@@ -42,6 +44,7 @@ class EmpresaUsuario extends CActiveRecord
 			'rut' => 'RUT',
 			'email' => 'email',
 			'role' => 'ROL',
+			'disp' => 'Dispositivos',
 		);
 	}
 	public function search()
@@ -69,6 +72,29 @@ class EmpresaUsuario extends CActiveRecord
 		return $this->usu->username;
 	}
 
+	public function setDisp()
+	{
+		EmpresaDispositivo::model()->deleteAll("emu_id=$this->primaryKey");
+		foreach ($this->disp as $key) {
+			$model=new EmpresaDispositivo;
+			$model->emu_id=$this->primaryKey;
+			$model->dis_id=$key;
+			if($model->save()){
+
+			}else{
+				die('No guardo');
+			}
+
+		}
+	}
+	public function getDisp()
+	{
+		$this->disp=array();
+		foreach ($this->dispositivos as $value) {
+			$this->disp[]=$value->primaryKey;
+		};
+		return $this->disp;
+	}
 	// public function __get($name){
 	
 	// 	$field = Yii::app()->user->um->loadFieldByName($name);

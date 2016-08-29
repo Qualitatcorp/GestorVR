@@ -104,8 +104,11 @@ class EmpresaController extends Controller
 	{
 		$model=new EmpresaUsuario;
 		$model->emp_id=$id;
+		if(!Yii::app()->user->checkAccess('Administador'))
+			$model->role='Supervisor';
 		if(isset($_POST['EmpresaUsuario'])){
 			$model->attributes=$_POST['EmpresaUsuario'];
+			$model->disp=$_POST['EmpresaUsuario']['disp'];
 			if($model->validate()){
 				$usuario = Yii::app()->user->um->createNewUser(array(
 					'username'=>$model->rut,
@@ -119,6 +122,7 @@ class EmpresaController extends Controller
 					$model->usu_id=$usuario->primaryKey;
 					$model->scenario='save';
 					if($model->save()){
+						$model->setDisp();
 						$this->redirect(array('view','id'=>$model->emp_id));
 					}else{
 						var_dump($model->getErrors());
@@ -127,6 +131,7 @@ class EmpresaController extends Controller
 					$errores = CHtml::errorSummary($usuario);
           			echo "no se pudo crear el usuario: ".$errores;
 				}
+
 			}
 		}
 		$this->render('usuario/create',array('model'=>$model));
@@ -135,10 +140,13 @@ class EmpresaController extends Controller
 	public function actionUpdateUsu($id)
 	{
 		$model=EmpresaUsuario::model()->findByPk($id);
+		$model->getDisp();
 		if(isset($_POST['EmpresaUsuario'])){
 			$model->attributes=$_POST['EmpresaUsuario'];
+			$model->disp=$_POST['EmpresaUsuario']['disp'];
 			$model->Scenario='save';
 			if($model->save()){
+				$model->setDisp();
 				$this->redirect(array('view','id'=>$model->emp_id));
 			}
 		}
@@ -253,7 +261,12 @@ class EmpresaController extends Controller
 	}
 	public function actionViewFicha($id)
 	{
+
 		$model = RvFicha::model()->findByPk($id);
-		$this->render('ficha/view',array('model'=>$model));
+        $mPDF1 = Yii::app()->ePdf->mpdf();
+        $mPDF1->WriteHTML($this->renderPartial('ficha/viewPDF',array('model'=>$model),true));
+        $mPDF1->Output("{$model->creado} {$model->trabajador->rut} f{$model->fic_id}.pdf",'I');
+        exit();
+        $this->renderPartial('ficha/viewPDF',array('model'=>$model));
 	}
 }

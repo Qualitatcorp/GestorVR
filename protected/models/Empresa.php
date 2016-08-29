@@ -51,9 +51,9 @@ class Empresa extends CActiveRecord
 	public function relations()
 	{
 		return array(
-			'Usuarios' => array(self::HAS_MANY, 'EmpresaUsuario', 'emp_id'),
-			'Dispositivos' => array(self::HAS_MANY, 'Dispositivo', 'emp_id'),
-			'Licencias' => array(self::HAS_MANY, 'Licencia', 'emp_id'),
+			'usuarios' => array(self::HAS_MANY, 'EmpresaUsuario', 'emp_id'),
+			'dispositivos' => array(self::HAS_MANY, 'Dispositivo', 'emp_id'),
+			'licencias' => array(self::HAS_MANY, 'Licencia', 'emp_id'),
 		);
 	}
 	public function getUsers(){
@@ -91,6 +91,8 @@ class Empresa extends CActiveRecord
 	{
 		return Empresa::model()->find("rut='$rut'");
 	}
+
+
 	public function search()
 	{
 

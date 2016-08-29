@@ -7,6 +7,8 @@ Yii::app()->getClientScript()
 	->registerScriptFile($baseUrl.'/js/jquery.dataTables.min.js',CClientScript::POS_END)
 	->registerScriptFile($baseUrl.'/js/dataTables.bootstrap.min.js',CClientScript::POS_END)
 	->registerScript('dataTables', "$('.table').DataTable({
+
+        \"order\": [[ 5, \"desc\" ]],
         'language': {
 			    \"sProcessing\":     \"Procesando...\",
 			    \"sLengthMenu\":     \"Mostrar _MENU_ registros\",
@@ -33,11 +35,12 @@ Yii::app()->getClientScript()
 		}
 	})", CClientScript::POS_READY);
 ?>
-
+<?php 
+// var_dump(RvFicha::command()->where('empresa.emp_id=:id', array(':id'=>$model->emp_id))->order('rv_ficha.creado desc')->queryALL());
+?>
 <table class="table">
 	<thead>	
 		<tr>
-			<th style="width:20px">#</th>
 			<th style="width:20px">Ficha</th>
 			<th>Trabajador</th>
 			<th width=85>RUT</th>
@@ -48,18 +51,16 @@ Yii::app()->getClientScript()
 		</tr>
 	</thead>
 	<tbody>
-		<?php $i=0; ?>
-		<?php foreach ($model->Dispositivos as $disp): ?>
+		<?php foreach ($model->dispositivos as $disp): ?>
 			<?php foreach ($disp->fichas as $ficha): ?>
 				<tr>
-					<td><?=++$i; ?></td>
 					<td><?=$ficha->primaryKey; ?></td>
 					<td><?=$ficha->trabajador->nombreCompleto ?></td>
 					<td><?=$ficha->trabajador->rut ?></td>
 					<td><?=(($f=$ficha->evaluacion)!==null)?$f->nombre:'CORRUPTO' ?></td>
 					<td><?=$ficha->nota ?></td>
 					<td><?=$ficha->creado ?></td>
-					<td><?=BsHtml::button('Mirar',array('onClick'=>"window.location.href='../viewFicha/$ficha->fic_id'",
+					<td><?=BsHtml::button('Mirar',array('onClick'=>"window.open('../viewFicha/$ficha->fic_id')",
     'color' => BsHtml::BUTTON_COLOR_PRIMARY)) ?></td>
 				</tr>
 			<?php endforeach ?>

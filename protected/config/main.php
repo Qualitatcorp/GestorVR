@@ -9,18 +9,18 @@ return array(
 	'basePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..',
 	'name'=>'Gestor VR',
 	
-    'language'=>'es',
+	'language'=>'es',
 	'sourceLanguage' => 'es',
 	'aliases' => array(
-        'bootstrap' => 'ext.bootstrap'
-    ),
+		'bootstrap' => 'ext.bootstrap'
+	),
 
 
 	// autoloading model and component classes
 	'import'=>array(
-        'bootstrap.behaviors.*',
-        'bootstrap.helpers.*',
-        'bootstrap.widgets.*',
+		'bootstrap.behaviors.*',
+		'bootstrap.helpers.*',
+		'bootstrap.widgets.*',
 		'application.models.*',
 		'application.components.*',
 
@@ -37,9 +37,9 @@ return array(
 			'password'=>'123456',
 			// If removed, Gii defaults to localhost only. Edit carefully to taste.
 			'ipFilters'=>array('127.0.0.1','::1'),
-            'generatorPaths' => array(
-                'bootstrap.gii'
-            ),
+			'generatorPaths' => array(
+				'bootstrap.gii'
+			),
 
 		),
 		'cruge'=>array(
@@ -54,7 +54,7 @@ return array(
 
 			'availableAuthModes'=>array('username','email'),
 
-                            // url base para los links de activacion de cuenta de usuario
+							// url base para los links de activacion de cuenta de usuario
 			'baseUrl'=>'http://coco.com/',
 
 			 // NO OLVIDES PONER EN FALSE TRAS INSTALAR
@@ -74,8 +74,8 @@ return array(
 			// Estos tres atributos controlan la redirección del usuario. Solo serán son usados si no
 			// hay un filtro de sesion definido (el componente MiSesionCruge), es mejor usar un filtro.
 			//  lee en la wiki acerca de:
-                            //   "CONTROL AVANZADO DE SESIONES Y EVENTOS DE AUTENTICACION Y SESION"
-                            //
+							//   "CONTROL AVANZADO DE SESIONES Y EVENTOS DE AUTENTICACION Y SESION"
+							//
 			// ejemplo:
 			//		'afterLoginUrl'=>array('/site/welcome'),  ( !!! no olvidar el slash inicial / )
 			//		'afterLogoutUrl'=>array('/site/page','view'=>'about'),
@@ -113,7 +113,7 @@ return array(
 		// 	'allowAutoLogin'=>true,
 		// 	'loginUrl'=>array('Usuario/login'),
 		// ),
-        //
+		//
 		//  IMPORTANTE:  asegurate de que la entrada 'user' (y format) que por defecto trae Yii
 		//               sea sustituida por estas a continuación:
 		//
@@ -135,9 +135,9 @@ return array(
 			'datetimeFormat'=>"d M, Y h:m:s a",
 		),
 
-        'bootstrap' => array(
-            'class' => 'bootstrap.components.BsApi'
-        ),
+		'bootstrap' => array(
+			'class' => 'bootstrap.components.BsApi'
+		),
 		// uncomment the following to enable URLs in path-format
 		
 		'urlManager'=>array(
@@ -173,6 +173,44 @@ return array(
 				*/
 			),
 		),
+		'ePdf' => array(
+			'class'         => 'ext.yii-pdf.EYiiPdf',
+			'params'        => array(
+				'mpdf'     => array(
+					'librarySourcePath' => 'application.vendors.mpdf.*',
+					'constants'         => array(
+						'_MPDF_TEMP_PATH' => Yii::getPathOfAlias('application.runtime'),
+					),
+					'class'=>'mpdf', // the literal class filename to be loaded from the vendors folder
+					'defaultParams'     => array( // More info: http://mpdf1.com/manual/index.php?tid=184
+						'mode'              => '', //  This parameter specifies the mode of the new document.
+						'format'            => 'Letter', // format A4, A5, ...
+						'default_font_size' => 0, // Sets the default document font size in points (pt)
+						'default_font'      => '', // Sets the default font-family for the new document.
+						'mgl'               => 15, // margin_left. Sets the page margins for the new document.
+						'mgr'               => 15, // margin_right
+						'mgt'               => 16, // margin_top
+						'mgb'               => 16, // margin_bottom
+						'mgh'               => 9, // margin_header
+						'mgf'               => 9, // margin_footer
+						'orientation'       => 'P', // landscape or portrait orientation
+					)
+				),
+				// 'HTML2PDF' => array(
+				//     'librarySourcePath' => 'application.vendors.html2pdf.*',
+				//     'classFile'         => 'html2pdf.class.php', // For adding to Yii::$classMap
+				//     'defaultParams'     => array( // More info: http://wiki.spipu.net/doku.php?id=html2pdf:en:v4:accueil
+				//         'orientation' => 'P', // landscape or portrait orientation
+				//         'format'      => 'A4', // format A4, A5, ...
+				//         'language'    => 'en', // language: fr, en, it ...
+				//         'unicode'     => true, // TRUE means clustering the input text IS unicode (default = true)
+				//         'encoding'    => 'UTF-8', // charset encoding; Default is UTF-8
+				//         'marges'      => array(5, 5, 5, 8), // margins by default, in order (left, top, right, bottom)
+				//     )
+				// )
+			),
+		),
+
 
 	),
 

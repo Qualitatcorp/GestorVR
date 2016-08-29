@@ -14,7 +14,7 @@
 		<tr>
 			<td><?php echo $key+1; ?></td>
 			<td><?=$data->primaryKey ?></td>
-			<td><?php echo $data->nombre ?></td>
+			<td><?php echo $data->alternativo ?></td>
 			<td>
 				<?php
 					#modal de eliminar
