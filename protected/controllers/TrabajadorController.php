@@ -22,11 +22,6 @@ class TrabajadorController extends Controller
 			'model'=>$this->loadModel($id),
 		));
 	}
-
-	/**
-	* Creates a new model.
-	* If creation is successful, the browser will be redirected to the 'view' page.
-	*/
 	public function actionCreate()
 	{
 		$model=new Trabajador;
@@ -43,11 +38,6 @@ class TrabajadorController extends Controller
 		));
 	}
 
-	/**
-	* Updates a particular model.
-	* If update is successful, the browser will be redirected to the 'view' page.
-	* @param integer $id the ID of the model to be updated
-	*/
 	public function actionUpdate($id)
 	{
 		$model=$this->loadModel($id);
@@ -75,9 +65,6 @@ class TrabajadorController extends Controller
 			throw new CHttpException(400,'Invalid request. Please do not repeat this request again.');
 	}
 
-	/**
-	* Lists all models.
-	*/
 	public function actionIndex()
 	{
 		$dataProvider=new CActiveDataProvider('Trabajador');
@@ -85,10 +72,6 @@ class TrabajadorController extends Controller
 			'dataProvider'=>$dataProvider,
 		));
 	}
-
-	/**
-	* Manages all models.
-	*/
 	public function actionAdmin()
 	{
 		$model=new Trabajador('search');
@@ -100,14 +83,6 @@ class TrabajadorController extends Controller
 			'model'=>$model,
 		));
 	}
-
-	/**
-	* Returns the data model based on the primary key given in the GET variable.
-	* If the data model is not found, an HTTP exception will be raised.
-	* @param integer $id the ID of the model to be loaded
-	* @return Trabajador the loaded model
-	* @throws CHttpException
-	*/
 	public function loadModel($id)
 	{
 		$model=Trabajador::model()->findByPk($id);
@@ -115,11 +90,6 @@ class TrabajadorController extends Controller
 			throw new CHttpException(404,'The requested page does not exist.');
 		return $model;
 	}
-
-	/**
-	* Performs the AJAX validation.
-	* @param Trabajador $model the model to be validated
-	*/
 	protected function performAjaxValidation($model)
 	{
 		if(isset($_POST['ajax']) && $_POST['ajax']==='trabajador-form')
@@ -127,5 +97,56 @@ class TrabajadorController extends Controller
 			echo CActiveForm::validate($model);
 			Yii::app()->end();
 		}
+	}
+	public function actionDownExcel()
+	{
+		$e=new Excel;
+		$model=Trabajador::model()->findAll();
+		$e->addModel('Trabajadores',
+			array('rut','nombre','paterno','materno'/*,'nacimiento','fono','mail'*/),$model);
+		$e->out('prueba',true);
+	}
+	public function actionLoadExcel()
+	{
+// 		Yii::app()->user->setFlash('success', "Data1 saved!");
+// Yii::app()->user->setFlash('error', "Data2 failed!");
+// Yii::app()->user->setFlash('info', "Data3 ignored.");
+		$model=new Excel;
+		if(isset($_POST['Excel'])){
+			$model->file=CUploadedFile::getInstance($model, 'file');
+			if($model->validate()){
+				$trabajadores=$model->load($model->file->getTempName());
+				// var_dump($trabajadores);
+				$valid=true;
+				$act=0;
+				unset($trabajadores[0]);
+				foreach ($trabajadores as $value) {
+					if($rut=Trabajador::checkRut($value[0])!==null){
+						$t=Trabajador::findByRUT($rut);
+
+						if($value[1]){
+							$t->nombre=$value[1];
+						}
+						if($value[2]){
+							$t->paterno=$value[2];
+						}
+						if($value[3]){
+							$t->materno=$value[3];
+						}
+						if($t->save()){
+							$act++;
+						}
+					}else{
+						Yii::app()->user->setFlash('error', "El rut $value[0] es invalido o no tiene un formato correcto.");
+					}
+					Yii::app()->user->setFlash('info', "Se han actualizado {$act} trabajadores");
+				}
+				// var_dump($model->file);
+				// $model->file->saveAs('file/excel/'.$model->file->name);				
+				// var_dump($model->load('file/excel/'.$model->file->name));
+
+			};
+		}
+		$this->render('excel/load',array('model'=>$model));
 	}
 }
