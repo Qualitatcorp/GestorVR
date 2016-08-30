@@ -27,7 +27,7 @@ class EmpresaUsuario extends CActiveRecord
 		return array(
 			'emp' => array(self::BELONGS_TO, 'Empresa', 'emp_id'),
 			'usu' => array(self::BELONGS_TO, 'CrugeStoredUser', 'usu_id'),
-			// 'dis' => array(self::HAS_MANY, 'EmpresaDispositivo', 'emu_id'),
+			'dis' => array(self::HAS_MANY, 'EmpresaDispositivo', 'emu_id'),
 			'dispositivos'=>array(self::MANY_MANY, 'Dispositivo', 'EmpresaDispositivo(emu_id, dis_id)'),
 		);
 	}
@@ -90,10 +90,14 @@ class EmpresaUsuario extends CActiveRecord
 	public function getDisp()
 	{
 		$this->disp=array();
-		foreach ($this->dispositivos as $value) {
-			$this->disp[]=$value->primaryKey;
+		foreach ($this->dis as $value) {
+			$this->disp[]=$value->dis->primaryKey;
 		};
 		return $this->disp;
+	}
+	public function findByID($id)
+	{
+		return EmpresaUsuario::model()->find('usu_id='.$id);
 	}
 	// public function __get($name){
 	

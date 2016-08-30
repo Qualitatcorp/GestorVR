@@ -100,11 +100,28 @@ class TrabajadorController extends Controller
 	}
 	public function actionDownExcel()
 	{
-		$e=new Excel;
-		$model=Trabajador::model()->findAll();
-		$e->addModel('Trabajadores',
-			array('rut','nombre','paterno','materno'/*,'nacimiento','fono','mail'*/),$model);
-		$e->out('prueba',true);
+		if(Yii::app()->user->checkAccess('Supervisor')){
+			$model=Trabajador::model()->findAllByEmpresaUsuario(Yii::app()->user->id);
+			$e=new Excel;
+			$e->addModel('Trabajadores',array('rut','nombre','paterno','materno'/*,'nacimiento','fono','mail'*/),$model);
+			$e->out('trabajadores',true);
+		}else{
+			if(Yii::app()->user->checkAccess('Cliente')) {
+				$id=EmpresaUsuario::findByID(Yii::app()->user->id)->emp_id;
+				$model=Trabajador::model()->findAllByEmpresa($id);
+				$e=new Excel;
+				$e->addModel('Trabajadores',array('rut','nombre','paterno','materno'/*,'nacimiento','fono','mail'*/),$model);
+				$e->out('trabajadores',true);
+			}else{	
+				if(Yii::app()->user->checkAccess('Administrador')||Yii::app()->user->isSuperAdmin) {
+					$model=Trabajador::model()->findAll();
+					$e=new Excel;
+					$e->addModel('Trabajadores',array('rut','nombre','paterno','materno'/*,'nacimiento','fono','mail'*/),$model);
+					$e->out('trabajadores',true);
+				}
+			}
+		}
+		echo "Sin acceso";
 	}
 	public function actionLoadExcel()
 	{
@@ -121,30 +138,32 @@ class TrabajadorController extends Controller
 				$act=0;
 				unset($trabajadores[0]);
 				foreach ($trabajadores as $value) {
-					if($rut=Trabajador::checkRut($value[0])!==null){
-						$t=Trabajador::findByRUT($rut);
-
-						if($value[1]){
-							$t->nombre=$value[1];
-						}
-						if($value[2]){
-							$t->paterno=$value[2];
-						}
-						if($value[3]){
-							$t->materno=$value[3];
-						}
-						if($t->save()){
-							$act++;
+					if(($rut=Trabajador::checkRut($value[0]))!==null){
+						if(strlen($rut)<11||strlen($rut)>12){
+						Yii::app()->user->setFlash('error', "El rut $rut no tiene el largo correcto.");
+						}else{
+							$t=Trabajador::findByRUT($rut);
+							if($value[1]){
+								$t->nombre=$value[1];
+							}
+							if($value[2]){
+								$t->paterno=$value[2];
+							}
+							if($value[3]){
+								$t->materno=$value[3];
+							}
+							if($t->save()){
+								$act++;
+							}else{
+								Yii::app()->user->setFlash('error', "El rut $value[0] es invalido o no tiene un formato correcto.");
+							}
 						}
 					}else{
 						Yii::app()->user->setFlash('error', "El rut $value[0] es invalido o no tiene un formato correcto.");
 					}
+
 					Yii::app()->user->setFlash('info', "Se han actualizado {$act} trabajadores");
 				}
-				// var_dump($model->file);
-				// $model->file->saveAs('file/excel/'.$model->file->name);				
-				// var_dump($model->load('file/excel/'.$model->file->name));
-
 			};
 		}
 		$this->render('excel/load',array('model'=>$model));

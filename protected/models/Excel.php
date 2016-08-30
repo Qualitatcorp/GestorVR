@@ -18,7 +18,7 @@ class Excel extends CFormModel
 	public function attributeLabels()
 	{
 		return array(
-			'file' => 'Excel 2003',
+			'file' => 'Excel',
 		);
 	}
 
