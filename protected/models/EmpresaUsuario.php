@@ -6,6 +6,7 @@ class EmpresaUsuario extends CActiveRecord
 	public $password;
 	public $role;
 	public $disp;
+
 	public function tableName()
 	{
 		return 'empresa_usuario';
@@ -13,7 +14,7 @@ class EmpresaUsuario extends CActiveRecord
 	public function rules()
 	{
 		return array(
-			array('rut,email,password,role,emp_id,nombres', 'required','on'=>'insert'),
+			array('rut,email,password,role,emp_id,nombres,clasificacion', 'required','on'=>'insert'),
 			array('emp_id, usu_id', 'numerical', 'integerOnly'=>true),
 			array('nombres, paterno, materno, fono', 'length', 'max'=>150),			
 			array('email','unique','className'=>'CrugeStoredUser','attributeName'=>'email','message'=>'Este email ya se encuentra en uso','on'=>'insert'),
@@ -28,7 +29,6 @@ class EmpresaUsuario extends CActiveRecord
 			'emp' => array(self::BELONGS_TO, 'Empresa', 'emp_id'),
 			'usu' => array(self::BELONGS_TO, 'CrugeStoredUser', 'usu_id'),
 			'dis' => array(self::HAS_MANY, 'EmpresaDispositivo', 'emu_id'),
-			'dispositivos'=>array(self::MANY_MANY, 'Dispositivo', 'EmpresaDispositivo(emu_id, dis_id)'),
 		);
 	}
 	public function attributeLabels()
@@ -75,17 +75,19 @@ class EmpresaUsuario extends CActiveRecord
 	public function setDisp()
 	{
 		EmpresaDispositivo::model()->deleteAll("emu_id=$this->primaryKey");
-		foreach ($this->disp as $key) {
-			$model=new EmpresaDispositivo;
-			$model->emu_id=$this->primaryKey;
-			$model->dis_id=$key;
-			if($model->save()){
+		if($this->disp!==''){
+			foreach ($this->disp as $key) {
+				$model=new EmpresaDispositivo;
+				$model->emu_id=$this->primaryKey;
+				$model->dis_id=$key;
+				if($model->save()){
 
-			}else{
-				die('No guardo');
-			}
+				}else{
+					die('No guardo');
+				}
 
-		}
+			}	
+		}		
 	}
 	public function getDisp()
 	{
@@ -95,8 +97,10 @@ class EmpresaUsuario extends CActiveRecord
 		};
 		return $this->disp;
 	}
-	public function findByID($id)
+	public function findByID($id='')
 	{
+		if($id==='')
+			$id = Yii::app()->user->id;
 		return EmpresaUsuario::model()->find('usu_id='.$id);
 	}
 	// public function __get($name){

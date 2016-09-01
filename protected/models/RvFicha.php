@@ -44,12 +44,98 @@ class RvFicha extends CActiveRecord
 			'criteria'=>$criteria,
 		));
 	}
-	public function getNota()
+	public function getNota($clasificacion='')
 	{
-		if(is_null($this->porcentajeCorrecto)){
-			return '-';
-		}else{
-			return number_format(1+6*$this->porcentajeCorrecto,1);
+		if($clasificacion!==null)
+			$clasificacion=(($model=EmpresaUsuario::findByID())!==null)?$model->clasificacion:'Sobre 100';
+		if($this->calificacion===null){
+			$this->calificacion=$this->porcentajeCorrecto;
+			$this->save();
+			echo '*';
+		}
+		return $this->MapNota($this->calificacion,$clasificacion);
+	}
+	public function MapNota($value,$tipo)
+	{
+		switch ($tipo) {
+			case 'Sobre 100':
+				return number_format(100*$value);
+				break;			
+			case 'Sobre 20':
+				return number_format(20*$value);
+				break;			
+			case 'Sobre 10':
+				return number_format(10*$value,1);
+				break;			
+			case 'Sobre 7':
+				return number_format(1+6*$value,1);
+				break;			
+			case 'Sobre 6':
+				return number_format(1+5*$value,1);
+				break;			
+			case 'Sobre 5':
+				return number_format(1+4*$value,1);
+				break;
+			case 'Letras':
+				if ($value>0.5) 
+					if ($value>0.75) 
+						if ($value>0.9) 
+							if ($value>0.95) 
+								return 'A++';
+							 else 
+								return 'A++';
+						 else 
+							if ($value>0.85) 
+								return 'A';
+							 else 
+								if ($value>8) 
+									return 'A-';
+								 else 
+									return 'B+';	
+					 else 
+						if ($value>0.65) 
+							if ($value>0.7) 
+								return 'B';
+							 else 
+								return 'B-';
+						 else 
+							if ($value>0.6) 
+								return 'C+';
+							 else 
+								if ($value>0.55) 
+									return 'C';
+								 else 
+									return 'C-';
+				 else 
+					if ($value>0.25) 
+						if ($value>0.35) 
+							if ($value>0.45) 
+								return 'D+';
+							 else 
+								if ($value>0.40) 
+									return 'D';
+								 else 
+									return 'D-';
+						 else 
+							if ($value>0.3) 
+								return 'E+';
+							 else 
+								return 'E';
+					 else 
+						if($value>0.2)
+							return 'E-';
+						else
+							if ($value>15) 
+								return 'F+';
+							 else 
+								if ($value>0.5) 
+									return 'F';
+								 else {
+									return 'F-';					
+				}
+			default:
+				return $value;
+				break;
 		}
 	}
 	public function getPorcentajeCorrecto()
@@ -66,19 +152,20 @@ class RvFicha extends CActiveRecord
 		}
 		return ($total!=0)?$suma/$total:null;
 	}
-	public function command()
+
+	public function SaveNota()
 	{
-
-		$command=Yii::app()->db->createCommand()
-		->select('rv_ficha.fic_id,rv_evaluacion.eva_id,trabajador.tra_id,empresa.emp_id')
-		->from('rv_ficha')
-		->join('trabajador','rv_ficha.trab_id=trabajador.tra_id')
-		->join('rv_evaluacion', 'rv_ficha.eva_id = rv_evaluacion.eva_id')
-		->join('dispositivo','rv_ficha.disp_id=dispositivo.dis_id')
-		->leftJoin('empresa','dispositivo.emp_id=empresa.emp_id');
-		return $command;
+		$this->nota=$this->porcentajeCorrecto;
+		$this->save();
 	}
-
+	public function findAllByEmpresa($id,$condition='')
+	{	
+		if(Yii::app()->user->checkAccess('Supervisor')){
+			return RvFicha::model()->findAll("Exists(Select * From empresa_dispositivo Inner join dispositivo On (empresa_dispositivo.dis_id = dispositivo.dis_id) Inner join empresa_usuario On (empresa_dispositivo.emu_id = empresa_usuario.emu_id) Where dispositivo.dis_id = t.disp_id and empresa_usuario.usu_id=".Yii::app()->user->getId().") $condition");
+		}else{
+			return RvFicha::model()->findAll("EXISTS(SELECT * FROM dispositivo INNER JOIN empresa ON (dispositivo.emp_id = empresa.emp_id) WHERE t.disp_id = dispositivo.dis_id AND empresa.emp_id = $id) $condition");
+		}
+	}
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);

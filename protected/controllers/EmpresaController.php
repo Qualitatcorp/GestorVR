@@ -143,10 +143,16 @@ class EmpresaController extends Controller
 		$model->getDisp();
 		if(isset($_POST['EmpresaUsuario'])){
 			$model->attributes=$_POST['EmpresaUsuario'];
-			$model->disp=$_POST['EmpresaUsuario']['disp'];
+			$model->clasificacion=$_POST['EmpresaUsuario']['clasificacion'];
+			if (isset($_POST['EmpresaUsuario']['disp'])) {
+				$model->disp=$_POST['EmpresaUsuario']['disp'];
+			}
+			
 			$model->Scenario='save';
-			if($model->save()){
-				$model->setDisp();
+			if($model->save()){			
+				if (isset($_POST['EmpresaUsuario']['disp'])) {
+					$model->setDisp();
+				}
 				$this->redirect(array('view','id'=>$model->emp_id));
 			}
 		}
@@ -259,14 +265,29 @@ class EmpresaController extends Controller
 
 		$this->render('ficha/admin',array('model'=>$model));
 	}
-	public function actionViewFicha($id)
+	public function actionViewFichaPDF($id)
 	{
-
 		$model = RvFicha::model()->findByPk($id);
         $mPDF1 = Yii::app()->ePdf->mpdf();
         $mPDF1->WriteHTML($this->renderPartial('ficha/viewPDF',array('model'=>$model),true));
         $mPDF1->Output("{$model->creado} {$model->trabajador->rut} f{$model->fic_id}.pdf",'I');
         exit();
         $this->renderPartial('ficha/viewPDF',array('model'=>$model));
+	}
+	public function actionViewFicha($id)
+	{
+		
+		$model = RvFicha::model()->findByPk($id);
+        $this->render('ficha/view',array('model'=>$model));
+	}
+
+	public function actionBarra()
+	{
+		$this->render('reportes/barras');
+	}
+	public function actionRendimiento($id)
+	{
+		$model=Empresa::model()->findByPk($id);
+		$this->render('reportes/rendimiento',array('model'=>$model));
 	}
 }

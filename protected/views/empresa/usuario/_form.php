@@ -25,7 +25,7 @@ Yii::app()->getClientScript()
         <?= $form->dropDownListControlGroup($model,'role',array(
             'Supervisor'=>'Supervisor',
             'Cliente'=>'Cliente',
-            ));?>
+            ));?>        
         <?php endif ?>
         <?= $form->textFieldControlGroup($model,'rut',array('maxlength'=>12)); ?>
         <?= $form->textFieldControlGroup($model,'email'); ?>
@@ -34,12 +34,20 @@ Yii::app()->getClientScript()
     <?= $form->textFieldControlGroup($model,'nombres'); ?>
     <?= $form->textFieldControlGroup($model,'paterno'); ?>
     <?= $form->textFieldControlGroup($model,'materno'); ?>
-    <?= $form->textFieldControlGroup($model,'fono'); ?><?php
-echo $form->checkBoxListControlGroup($model, 'disp', CHtml::listData(Dispositivo::model()->findAll(), 'dis_id', 'nombre'),array('checkAll'=>'Todos', 'checkAllLast'=>true));
-?>
-    <?php foreach ($model->emp->dispositivos as $key => $value): ?>
-        
-    <?php endforeach ?>
+    <?= $form->textFieldControlGroup($model,'fono'); ?>
+        <?= $form->dropDownListControlGroup($model,'clasificacion',array(
+    'Sobre 100'=>'Sobre 100',
+    'Sobre 20'=>'Sobre 20',
+    'Sobre 10'=>'Sobre 10',
+    'Sobre 7'=>'Sobre 7',
+    'Sobre 6'=>'Sobre 6',
+    'Sobre 5'=>'Sobre 5',
+    'Letras'=>'Letras'
+            ));?>
+    <?php
+        if(!Yii::app()->user->checkAccess('Supervisor'))
+            echo $form->checkBoxListControlGroup($model, 'disp', CHtml::listData($model->emp->dispositivos, 'dis_id', 'nombre'),array('checkAll'=>'Todos', 'checkAllLast'=>true));
+    ?>
     <?= BsHtml::formActions(array(BsHtml::submitButton('Guardar', array('color' => BsHtml::BUTTON_COLOR_PRIMARY))));?>
     <?php if (Yii::app()->user->checkAccess('Administrador')&&$this->action->id=='updateUsu'): ?>    
         <?= BsHtml::formActions(array('<a href="'.Yii::app()->createUrl("cruge/ui/usermanagementupdate/",array("id"=>$model->usu_id)).'">Editar información sensible</a>'));?>

@@ -1,37 +1,16 @@
 <?php
 
-/**
- * This is the model class for table "empresa".
- *
- * The followings are the available columns in table 'empresa':
- * @property integer $emp_id
- * @property string $nombre
- * @property string $rut
- * @property integer $com_id
- * @property string $razon_social
- * @property integer $giro
- * @property string $fono
- * @property string $mail
- * @property string $creado
- * @property string $activa
- */
+
 class Empresa extends CActiveRecord
 {
-	/**
-	 * @return string the associated database table name
-	 */
+
 	public function tableName()
 	{
 		return 'empresa';
 	}
 
-	/**
-	 * @return array validation rules for model attributes.
-	 */
 	public function rules()
 	{
-		// NOTE: you should only define rules for those attributes that
-		// will receive user inputs.
 		return array(
 			array('nombre, com_id, razon_social', 'required'),
 			array('com_id, giro', 'numerical', 'integerOnly'=>true),
@@ -39,15 +18,10 @@ class Empresa extends CActiveRecord
 			array('fono', 'length', 'max'=>50),
 			array('activa', 'length', 'max'=>2),
 			array('mail', 'safe'),
-			// The following rule is used by search().
-			// @todo Please remove those attributes that should not be searched.
 			array('emp_id, nombre, rut, com_id, razon_social, giro, fono, mail, creado, activa', 'safe', 'on'=>'search'),
 		);
 	}
 
-	/**
-	 * @return array relational rules.
-	 */
 	public function relations()
 	{
 		return array(
