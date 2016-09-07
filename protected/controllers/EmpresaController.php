@@ -158,7 +158,11 @@ class EmpresaController extends Controller
 		}
 		$this->render('usuario/update',array('model'=>$model));
 	}
-
+	public function actionUsu($id)
+	{
+        $model = EmpresaUsuario::model()->findByPk($id);
+		$this->render('usuario/view',array('model'=>$model));
+	}
 	public function actionDeleteUsu($id)
 	{
 		
@@ -287,7 +291,12 @@ class EmpresaController extends Controller
 	}
 	public function actionRendimiento($id)
 	{
-		$model=Empresa::model()->findByPk($id);
-		$this->render('reportes/rendimiento',array('model'=>$model));
+// foreach ($model as $key => $value) {
+// 	$series[]=array(
+// 		'name'=>$key,
+// 		'data'=>$value
+// 		)
+// }
+		// $this->render('reportes/barras');
 	}
 }

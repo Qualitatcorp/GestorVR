@@ -32,7 +32,6 @@ class Empresa extends CActiveRecord
 	}
 	public function getUsers(){
 		$u = array();
-		var_dump($this->Usuarios);
 		foreach($this->Usuarios as $rel)
 			$u[] = $rel->user0;
 		return $u;

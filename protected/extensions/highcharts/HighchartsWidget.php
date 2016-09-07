@@ -99,7 +99,8 @@ class HighchartsWidget extends CWidget
         }
 
         // merge options with default values
-        $defaultOptions = array('chart' => array('renderTo' => $this->id));
+        $defaultOptions = array('chart' => array('renderTo' => $this->id,),
+        'credits'=>array('enabled'=>false));
         $this->options = CMap::mergeArray($defaultOptions, $this->options);
         array_unshift($this->scripts, $this->_baseScript);
 

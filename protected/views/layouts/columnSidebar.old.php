@@ -1,9 +1,9 @@
 <?php $this->beginContent('//layouts/main'); ?>
 
-    <div class="row row-offcanvas row-offcanvas-left">
-        <div class="col-xs-6 col-sm-3 sidebar-offcanvas" id="sidebar">
+    <div class="row">
+        <div class="col-md-3">
             <!-- It can be fixed with bootstrap affix http://getbootstrap.com/javascript/#affix-->
-            <div id="sidebar" class="well list-group">
+            <div id="sidebar" class="well sidebar-nav">
                 <h5><i class="glyphicon glyphicon-home"></i>
                     <small><b>OPCIONES</b></small>
                 </h5>
@@ -26,10 +26,7 @@
                 // $this->endWidget();
             ?>
         </div>
-        <div class="col-xs-12 col-sm-9">
-            <p class="pull-left visible-xs">
-                <button type="button" class="btn" data-toggle="offcanvas">Opciones</button>
-            </p>
+        <div class="col-md-9">
             <?php echo $content; ?>
         </div>
 </div>

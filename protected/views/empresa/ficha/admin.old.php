@@ -36,7 +36,8 @@ Yii::app()->getClientScript()
 		}
 	})", CClientScript::POS_READY);
 ?>
-
+<div>
+</div>
 <table class="table">
 	<thead>	
 		<tr>

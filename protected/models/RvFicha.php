@@ -44,10 +44,8 @@ class RvFicha extends CActiveRecord
 			'criteria'=>$criteria,
 		));
 	}
-	public function getNota($clasificacion='')
+	public function getNota($clasificacion=null)
 	{
-		if($clasificacion!==null)
-			$clasificacion=(($model=EmpresaUsuario::findByID())!==null)?$model->clasificacion:'Sobre 100';
 		if($this->calificacion===null){
 			$this->calificacion=$this->porcentajeCorrecto;
 			$this->save();
@@ -55,8 +53,14 @@ class RvFicha extends CActiveRecord
 		}
 		return $this->MapNota($this->calificacion,$clasificacion);
 	}
-	public function MapNota($value,$tipo)
+	public function getNameClasificacion()
 	{
+			return (($model=EmpresaUsuario::findByID())!==null)?$model->clasificacion:'Sobre 100';
+	}
+	public function MapNota($value,$tipo=null)
+	{
+		if($tipo===null)
+			$tipo=RvFicha::getNameClasificacion();
 		switch ($tipo) {
 			case 'Sobre 100':
 				return number_format(100*$value);
@@ -166,6 +170,46 @@ class RvFicha extends CActiveRecord
 			return RvFicha::model()->findAll("EXISTS(SELECT * FROM dispositivo INNER JOIN empresa ON (dispositivo.emp_id = empresa.emp_id) WHERE t.disp_id = dispositivo.dis_id AND empresa.emp_id = $id) $condition");
 		}
 	}
+	public function CountByEmpresa($id,$value='')
+	{
+if($value!==''){
+	$value="AND $value";
+}
+		$query="SELECT 
+  YEAR(rv_ficha.creado) As YEAR,
+  MONTH(rv_ficha.creado) As MONTH,
+  COUNT(*) As DATA
+FROM
+  rv_ficha
+  Inner join dispositivo On (rv_ficha.disp_id = dispositivo.dis_id)
+WHERE
+  dispositivo.emp_id = $id $value
+GROUP BY
+  Year(rv_ficha.creado),
+  MONTH(rv_ficha.creado)
+		";
+		return Yii::app()->db->createCommand($query)->queryAll();
+	}
+
+
+public function AvgByEmpresa($id)
+	{
+		return Yii::app()->db->createCommand("
+SELECT 
+  YEAR(rv_ficha.creado) as YEAR,
+  MONTH(rv_ficha.creado) as MONTH,
+  AVG(rv_ficha.calificacion) AS DATA
+FROM
+  dispositivo
+  INNER JOIN rv_ficha ON (dispositivo.dis_id = rv_ficha.disp_id)
+WHERE
+  dispositivo.emp_id = $id
+GROUP BY
+  YEAR(rv_ficha.creado),
+  MONTH(rv_ficha.creado)
+ ")->queryAll();
+	}
+
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);

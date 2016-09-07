@@ -8,8 +8,11 @@
 	$baseUrl = Yii::app()->baseUrl; 
 	Yii::app()->getClientScript()
 		->registerCssFile($baseUrl.'/css/bootstrap.cerulean.min.css')
+	    ->registerCssFile($baseUrl.'/css/ie10-viewport-bug-workaround.css')
 		->registerCoreScript('jquery')
-		->registerScriptFile($baseUrl.'/js/bootstrap.js',CClientScript::POS_END);
+		->registerScriptFile($baseUrl.'/js/bootstrap.js',CClientScript::POS_END)    ->registerCssFile($baseUrl.'/css/offcanvas.css')
+	    ->registerScriptFile($baseUrl.'/js/ie10-viewport-bug-workaround.js',CClientScript::POS_END)
+	    ->registerScriptFile($baseUrl.'/js/offcanvas.js',CClientScript::POS_END);
 	$flashMessages = Yii::app()->user->getFlashes();
 	if ($flashMessages) {
 		Yii::app()->getClientScript()

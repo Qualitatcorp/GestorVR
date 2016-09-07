@@ -58,6 +58,31 @@ class RvEvaluacion extends CActiveRecord
 		->queryRow();
 		return $datos['FICHAS'];
 	}
+
+	public function FindByEmpresa($emp,$eva=null)
+	{
+		if($eva!==null)
+			$eva+='AND RV_EVALUACION.EVA_ID='.$eva;
+		return Yii::app()->db->createCommand("
+SELECT 
+  `RV_EVALUACION`.`NOMBRE` AS `EVALUACION`,
+  YEAR(`RV_FICHA`.`CREADO`) AS YEAR,
+  MONTH(`RV_FICHA`.`CREADO`) AS MONTH,
+  COUNT(*) AS `DATA`
+FROM
+  `RV_FICHA`
+  INNER JOIN `RV_EVALUACION` ON (`RV_FICHA`.`EVA_ID` = `RV_EVALUACION`.`EVA_ID`)
+  INNER JOIN `DISPOSITIVO` ON (`RV_FICHA`.`DISP_ID` = `DISPOSITIVO`.`DIS_ID`)
+  INNER JOIN `EMPRESA` ON (`DISPOSITIVO`.`EMP_ID` = `EMPRESA`.`EMP_ID`)
+WHERE
+  `EMPRESA`.`EMP_ID` = $emp $eva
+GROUP BY
+  `RV_EVALUACION`.`NOMBRE`,
+  YEAR(`RV_FICHA`.`CREADO`),
+  MONTH(`RV_FICHA`.`CREADO`)
+ORDER BY
+  `EVALUACION`")->queryAll();
+	}
 	public function search()
 	{
 		$criteria=new CDbCriteria;
