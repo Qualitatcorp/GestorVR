@@ -5,7 +5,7 @@
 		<th style="width:20px">#</th>
 		<th>RUT</th>
 		<th>Nombre</th>
-		<th style="width:200px">Opciones</th>
+		<th style="width:240px">Opciones</th>
 	</thead>
 	<tbody>
 		<?php foreach ($model as $key=>$data): ?>
@@ -15,13 +15,34 @@
 				<td><?php echo $data->nombreCompleto ?></td>
 				<td>
 					<?php
+						echo BsHtml::buttonGroup(array(
+							array(
+								'label'=>BsHtml::icon(BsHtml::GLYPHICON_EYE_OPEN).' Ver',
+							    'color' => BsHtml::BUTTON_COLOR_PRIMARY,
+							    'size' => BsHtml::BUTTON_SIZE_SMALL,
+								'onclick'=>"window.location.href='usu/$data->emu_id'",
+								),
+							array(
+								'label'=>BsHtml::icon(BsHtml::GLYPHICON_EDIT).' Modificar', 
+								'color' => BsHtml::BUTTON_COLOR_PRIMARY,
+								'size' => BsHtml::BUTTON_SIZE_SMALL,
+								'onclick'=>"window.location.href='updateUsu/$data->emu_id'",
+								),
+							array(
+								'label'=>BsHtml::icon(BsHtml::GLYPHICON_TRASH).' Eliminar', 
+								'color' => BsHtml::BUTTON_COLOR_DANGER,
+								'size' => BsHtml::BUTTON_SIZE_SMALL,
+								'data-target'=>'#EliminarUsu'.$key,
+								'data-toggle'=>'modal'
+								),
+							));
 						#trigger modal
-						echo BsHtml::Button(BsHtml::icon(BsHtml::GLYPHICON_TRASH).' Eliminar', array(
-						    'color' => BsHtml::BUTTON_COLOR_PRIMARY,
-						    'size' => BsHtml::BUTTON_SIZE_SMALL,
-						    'data-target'=>'#EliminarUsu'.$key,
-						    'data-toggle'=>'modal'
-						));
+						// echo BsHtml::Button(BsHtml::icon(BsHtml::GLYPHICON_TRASH).' Eliminar', array(
+						//     'color' => BsHtml::BUTTON_COLOR_PRIMARY,
+						//     'size' => BsHtml::BUTTON_SIZE_SMALL,
+						//     'data-target'=>'#EliminarUsu'.$key,
+						//     'data-toggle'=>'modal'
+						// )); 
 						#Creador de Modal
 						$this->widget('bootstrap.widgets.BsModal', array(
 						    'id' => 'EliminarUsu'.$key,
@@ -38,11 +59,11 @@
 						    )
 						));
 						#Fin Modal
-						echo BsHtml::Button(BsHtml::icon(BsHtml::GLYPHICON_EDIT).' Modificar', array(
-						    'color' => BsHtml::BUTTON_COLOR_PRIMARY,
-						    'size' => BsHtml::BUTTON_SIZE_SMALL,
-							'onclick'=>"window.location.href='updateUsu/$data->emu_id'",
-						));
+						// echo BsHtml::Button(BsHtml::icon(BsHtml::GLYPHICON_EDIT).' Modificar', array(
+						//     'color' => BsHtml::BUTTON_COLOR_PRIMARY,
+						//     'size' => BsHtml::BUTTON_SIZE_SMALL,
+						// 	'onclick'=>"window.location.href='updateUsu/$data->emu_id'",
+						// ));	
 					?>
 				</td>
 			</tr>

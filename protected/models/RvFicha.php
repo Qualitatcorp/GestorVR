@@ -164,11 +164,11 @@ class RvFicha extends CActiveRecord
 	}
 	public function findAllByEmpresa($id,$condition='')
 	{	
-		if(Yii::app()->user->checkAccess('Supervisor')){
-			return RvFicha::model()->findAll("Exists(Select * From empresa_dispositivo Inner join dispositivo On (empresa_dispositivo.dis_id = dispositivo.dis_id) Inner join empresa_usuario On (empresa_dispositivo.emu_id = empresa_usuario.emu_id) Where dispositivo.dis_id = t.disp_id and empresa_usuario.usu_id=".Yii::app()->user->getId().") $condition");
-		}else{
 			return RvFicha::model()->findAll("EXISTS(SELECT * FROM dispositivo INNER JOIN empresa ON (dispositivo.emp_id = empresa.emp_id) WHERE t.disp_id = dispositivo.dis_id AND empresa.emp_id = $id) $condition");
-		}
+	}
+	public function findAllByUsuario($id,$condition='')
+	{			
+		return RvFicha::model()->findAll("Exists(Select * From empresa_dispositivo Inner join dispositivo On (empresa_dispositivo.dis_id = dispositivo.dis_id) Inner join empresa_usuario On (empresa_dispositivo.emu_id = empresa_usuario.emu_id) Where dispositivo.dis_id = t.disp_id and empresa_usuario.usu_id=$id) $condition");
 	}
 	public function CountByEmpresa($id,$value='')
 	{
@@ -209,7 +209,29 @@ GROUP BY
   MONTH(rv_ficha.creado)
  ")->queryAll();
 	}
+	public function AvgByUsuario($id)
+	{
+		return Yii::app()->db->createCommand("
+SELECT 
+  YEAR(`rv_ficha`.`creado`) AS `YEAR`,
+  MONTH(`rv_ficha`.`creado`) AS `MONTH`,
+  AVG(`rv_ficha`.`calificacion`) AS `DATA`
+FROM
+  `dispositivo`
+  INNER JOIN `rv_ficha` ON (`dispositivo`.`dis_id` = `rv_ficha`.`disp_id`)
+  INNER JOIN `empresa_dispositivo` ON (`dispositivo`.`dis_id` = `empresa_dispositivo`.`dis_id`)
+WHERE 
+	`empresa_dispositivo`.`emu_id`=$id
+GROUP BY
+  YEAR(`rv_ficha`.`creado`),
+  MONTH(`rv_ficha`.`creado`)
+ ")->queryAll();
+	}
 
+	public function CountByUsuario($id)
+	{
+		return RvFicha::model()->count("EXISTS(SELECT * FROM `EMPRESA_DISPOSITIVO` INNER JOIN `DISPOSITIVO` ON (`EMPRESA_DISPOSITIVO`.`DIS_ID` = `DISPOSITIVO`.`DIS_ID`) WHERE `DISPOSITIVO`.`DIS_ID` = `t`.`DISP_ID` AND `EMPRESA_DISPOSITIVO`.`EMU_ID` = $id)");
+	}
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);

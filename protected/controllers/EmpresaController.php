@@ -3,11 +3,6 @@
 class EmpresaController extends Controller
 {
 	public $layout='//layouts/columnSidebar';
-	public $menu=array(
-				    array('label'=>'Empresa'),
-				    array('label'=>'Crear', 'url'=>array('create')),
-				    array('label'=>'Administar', 'url'=>array('admin')),
-				);
 	public function filters()
 	{
 		return array(array('CrugeAccessControlFilter'));
@@ -20,6 +15,18 @@ class EmpresaController extends Controller
 			array('accessControl'),			
 		);
 	}
+	/*
+		Trabajador
+	*/
+	public function actionTrabajador($id)
+	{
+		$model=Trabajador::model()->findByPk($id);
+		$this->render('trabajador/view',array('model'=>$model));
+	}
+
+
+
+
 	/*
 		Empresa
 	*/
@@ -163,6 +170,15 @@ class EmpresaController extends Controller
         $model = EmpresaUsuario::model()->findByPk($id);
 		$this->render('usuario/view',array('model'=>$model));
 	}
+	public function actionAdminFichaUsu($id)
+	{
+		$user=EmpresaUsuario::model()->findByPk($id);
+		$model=RvFicha::findAllByUsuario($user->usu_id,'Order By t.creado DESC LIMIT 300');
+		$this->render('ficha/admin',array(
+			'model'=>$model,
+			'urlReturn'=>Yii::app()->createUrl("empresa/usu/$id")
+			));
+	}
 	public function actionDeleteUsu($id)
 	{
 		
@@ -265,9 +281,12 @@ class EmpresaController extends Controller
 
 	public function actionAdminFicha($id)
 	{
-		$model = Empresa::model()->findByPk($id);
-
-		$this->render('ficha/admin',array('model'=>$model));
+		$model=RvFicha::findAllByEmpresa($id,'Order By t.creado DESC LIMIT 300');
+		$this->render('ficha/admin',array(
+			'model'=>$model,
+			'nombre'=>Empresa::model()->findByPk($id)->nombre,
+			'urlReturn'=>Yii::app()->createUrl("empresa/$id")
+			));
 	}
 	public function actionViewFichaPDF($id)
 	{

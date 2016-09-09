@@ -1,7 +1,8 @@
 <?php $this->breadcrumbs=array('Empresas','Ver','Fichas de evaluación');?>
-<?php echo BsHtml::pageHeader('Ver Fichas de evaluación',$model->nombre) ?>
+<?php echo BsHtml::pageHeader('Ver Fichas de evaluación') ?>
 <?php
-
+$this->menu[]=array('label'=>'Empresa');
+$this->menu[]=array('label'=>'Volver','url'=>$urlReturn);
 $baseUrl=Yii::app()->baseUrl;
 Yii::app()->getClientScript()
 	->registerCssFile($baseUrl.'/css/dataTables.bootstrap.min.css')
@@ -50,7 +51,7 @@ Yii::app()->getClientScript()
 		</tr>
 	</thead>
 	<tbody>
-			<?php foreach (RvFicha::findAllByEmpresa($model->primaryKey,'Order By t.creado DESC LIMIT 300') as $ficha): ?>
+			<?php foreach ($model as $ficha): ?>
 				<tr>
 					<td><?=$ficha->primaryKey; ?></td>
 					<td><?=$ficha->trabajador->nombreCompleto ?></td>
@@ -78,5 +79,3 @@ Yii::app()->getClientScript()
 			<?php endforeach ?>
 	</tbody>
 </table>
-	<?=BsHtml::button('Volver',array('onClick'=>"window.location.href='../$model->emp_id'",
-	'color' => BsHtml::BUTTON_COLOR_PRIMARY)) ?>

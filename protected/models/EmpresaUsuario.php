@@ -45,6 +45,7 @@ class EmpresaUsuario extends CActiveRecord
 			'email' => 'email',
 			'role' => 'ROL',
 			'disp' => 'Dispositivos',
+			'countEvaluaciones'=>'Total de evaluaciones',
 		);
 	}
 	public function search()
@@ -102,6 +103,10 @@ class EmpresaUsuario extends CActiveRecord
 		if($id==='')
 			$id = Yii::app()->user->id;
 		return EmpresaUsuario::model()->find('usu_id='.$id);
+	}
+	public function getCountEvaluaciones()
+	{
+		return RvFicha::CountByUsuario($this->emu_id);
 	}
 	// public function __get($name){
 	

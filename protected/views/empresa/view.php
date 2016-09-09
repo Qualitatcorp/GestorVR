@@ -40,26 +40,19 @@ array_push($this->menu,
 	),
 ));?>
 <div>
-  <!-- Nav tabs -->
   <ul class="nav nav-tabs" role="tablist">
-    <!-- <li role="presentation" class="active"><a href="#Perfil" aria-controls="Perfil" role="tab" data-toggle="tab">Perfil</a></li> -->
     <li role="presentation" class="active"><a href="#Graficos" aria-controls="Graficos" role="tab" data-toggle="tab">Graficos</a></li>
     <li role="presentation"><a href="#Usuario" aria-controls="Usuario" role="tab" data-toggle="tab">Usuarios</a></li>
     <li role="presentation"><a href="#Licencia" aria-controls="Licencia" role="tab" data-toggle="tab">Licencia</a></li>
     <li role="presentation"><a href="#Dispositivos" aria-controls="Dispositivos" role="tab" data-toggle="tab">Dispositivos</a></li>
   </ul>
-
-  <!-- Tab panes -->
   <div class="tab-content">
-
     <div role="tabpanel" class="tab-pane fade" id="Perfil"></div>
     <div role="tabpanel" class="tab-pane fade" id="Usuario"><?php $this->renderPartial('usuario/admin', array('model'=>$model->usuarios)); ?></div>
     <div role="tabpanel" class="tab-pane fade" id="Licencia"><?php $this->renderPartial('licencia/admin', array('model'=>$model->licencias)); ?></div>
     <div role="tabpanel" class="tab-pane fade in active" id="Graficos"><?php $this->renderPartial('chart', array('model'=>$model)); ?></div>
    	  <div role="tabpanel" class="tab-pane fade" id="Dispositivos"><?php $this->renderPartial('dispositivo/admin', array('model'=>$model->dispositivos)); ?></div>
-
   </div>
-
 </div>
 
 
