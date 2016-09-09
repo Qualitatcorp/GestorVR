@@ -9,7 +9,7 @@
 ?>
 <style type="text/css">
 	body {
-    width:100px;
+    /*width:100px;*/
 	height:100px;
   background: -webkit-linear-gradient(90deg, #16222A 10%, #3A6073 90%); /* Chrome 10+, Saf5.1+ */
   background:    -moz-linear-gradient(90deg, #16222A 10%, #3A6073 90%); /* FF3.6+ */
@@ -27,7 +27,7 @@ p {
 	padding-top:7px;
 	padding-bottom:7px;
 }
-.middlePage {
+/*.middlePage {
 	width: 680px;
     height: 500px;
     position: absolute;
@@ -36,7 +36,7 @@ p {
     left: 0;
     right: 0;
     margin: auto;
-}
+}*/
 
 .logo {
 	color:#CCC;
@@ -45,56 +45,53 @@ p {
 
 </style><link href='http://fonts.googleapis.com/css?family=Raleway:500' rel='stylesheet' type='text/css'>
 <body>
+<div class="container col-md-6 col-md-offset-3">
+  
 <div class="middlePage">
 <div class="page-header">
-  <h1 class="logo"><img src="<?=Yii::app()->baseUrl ?>/images/logo.png" alt="Smiley face" height="100">Qualitatcorp <small>Workshop</small></h1>
+  <h1 class="logo">
+    <img  src="<?=Yii::app()->baseUrl ?>/images/logo.png" alt="Qualitatcorp" height="50">
+    <small>Gestor VR</small>
+  </h1>
 </div>
 
 <div class="panel panel-info">
   <div class="panel-heading">
-    <h3 class="panel-title">Acceso a la plataforma <?= BsHtml::bold('Workshop');?></h3>
+    <h3 class="panel-title">Acceso a la plataforma <?= BsHtml::bold('Gestor VR');?></h3>
   </div>
-  <div class="panel-body">
-  
-  <div class="row">
-  
-<div class="col-md-5" >
-  <?= BsHtml::lead('Sí desea conocer su evaluación, solo debe ingresar el RUT, dejando en blanco la contraseña. ');?>
+<div class="panel-body">
+  <div class="col-md-5" >
+    <?= BsHtml::lead('Sí desea conocer su evaluación, solo debe ingresar el RUT, dejando en blanco la contraseña. ');?>
+  </div>
+  <div class="col-md-7">
+    <fieldset>
+    <?php if(Yii::app()->user->hasFlash('loginflash')): ?>
+    <div class="flash-error">
+      <?php echo Yii::app()->user->getFlash('loginflash'); ?>
+    </div>
+    <?php else: ?>
+    <?php $form=$this->beginWidget('bootstrap.widgets.BsActiveForm', array(
+        // 'layout' => BsHtml::FORM_LAYOUT_HORIZONTAL,
+        'enableClientValidation'=>true,
+    )); ?>
 
-</div>
+    <?= $form->textField($model, 'username', array('prepend' => BsHtml::icon(BsHtml::GLYPHICON_USER),'placeholder'=>'Rut','required'=>'required'));?><br>
+    <?= $form->passwordField($model, 'password', array('prepend' => BsHtml::icon(BsHtml::GLYPHICON_LOCK),'placeholder'=>'Contraseña','required'=>'required'));?>
 
-    <div class="col-md-7" style="border-left:1px solid #ccc;height:160px">
-<fieldset>
-<?php if(Yii::app()->user->hasFlash('loginflash')): ?>
-<div class="flash-error">
-	<?php echo Yii::app()->user->getFlash('loginflash'); ?>
-</div>
-<?php else: ?>
-<?php $form=$this->beginWidget('bootstrap.widgets.BsActiveForm', array(
-    // 'layout' => BsHtml::FORM_LAYOUT_HORIZONTAL,
-    'enableClientValidation'=>true,
-)); ?>
+        <?php echo $form->error($model,'password'); ?>
+    <?= $form->checkBoxControlGroup($model, 'rememberMe');?>
+    <?= BsHtml::submitButton('Acceder', array('color' => BsHtml::BUTTON_COLOR_INFO,'pull' => BsHtml::PULL_RIGHT));?>
 
-<?= $form->textField($model, 'username', array('prepend' => BsHtml::icon(BsHtml::GLYPHICON_USER),'placeholder'=>'Rut','required'=>'required'));?><br>
-<?= $form->passwordField($model, 'password', array('prepend' => BsHtml::icon(BsHtml::GLYPHICON_LOCK),'placeholder'=>'Contraseña','required'=>'required'));?>
-
-		<?php echo $form->error($model,'password'); ?>
-<?= $form->checkBoxControlGroup($model, 'rememberMe');?>
-<?= BsHtml::submitButton('Acceder', array('color' => BsHtml::BUTTON_COLOR_INFO,'pull' => BsHtml::PULL_RIGHT));?>
-
-<?php echo Yii::app()->user->ui->passwordRecoveryLink; ?>
-<?php if(Yii::app()->user->um->getDefaultSystem()->getn('registrationonlogin')===1)
-		echo Yii::app()->user->ui->registrationLink;?>
-<?php $this->endWidget();?>
-<?php endif; ?>
-</fieldset>
-</form>
-</div>
-    
+    <?php echo Yii::app()->user->ui->passwordRecoveryLink; ?>
+    <?php if(Yii::app()->user->um->getDefaultSystem()->getn('registrationonlogin')===1)
+        echo Yii::app()->user->ui->registrationLink;?>
+    <?php $this->endWidget();?>
+    <?php endif; ?>
+    </fieldset>
+  </div>
 </div>
     
 </div>
 </div>
-
 </div>
 </body>
