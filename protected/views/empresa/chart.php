@@ -2,8 +2,8 @@
 $this->breadcrumbs=array('Empresa','rendimiento','trabajadores');?>
 <?php echo BsHtml::pageHeader('Rendimiento','Trabajadores ') ?>
 <?php
-if (true) {
 
+if (true) {
 //Cantidad de evaluaciones
 $query=RvFicha::CountByEmpresa($model->primaryKey);
 $categories=array_map(function($value){return Validation::strToMonth($value['MONTH']).' '.$value['YEAR'];}, $query);
