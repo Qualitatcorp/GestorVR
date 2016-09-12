@@ -66,7 +66,7 @@ class Trabajador extends CActiveRecord
 			'modificado' => 'Modificado',
 		);
 	}
-	public function checkRut($rut)
+	public static function checkRut($rut)
 	{
 	    if (!preg_match("/^[0-9.]+[-]?+[0-9kK]{1}/", $rut)) {
 	        return null;
@@ -119,15 +119,15 @@ class Trabajador extends CActiveRecord
 	{
 		return implode(" ", array($this->paterno,$this->materno,$this->nombre));
 	}
-	public function findAllByEmpresa($id)
+	public static function findAllByEmpresa($id)
 	{
 		return Trabajador::findAll("EXISTS(SELECT * FROM `rv_ficha` INNER JOIN `dispositivo` ON (`rv_ficha`.`disp_id` = `dispositivo`.`dis_id`) INNER JOIN `empresa` ON (`dispositivo`.`emp_id` = `empresa`.`emp_id`) INNER JOIN `empresa_usuario` ON (`empresa`.`emp_id` = `empresa_usuario`.`emp_id`) WHERE `rv_ficha`.`trab_id` = `t`.`tra_id` AND `empresa`.`emp_id` = $id)");
 	}
-	public function findAllByEmpresaUsuario($id)
+	public static function findAllByEmpresaUsuario($id)
 	{
 		return Trabajador::findAll("EXISTS(SELECT * FROM `rv_ficha` INNER JOIN `dispositivo` ON (`rv_ficha`.`disp_id` = `dispositivo`.`dis_id`) INNER JOIN `empresa_dispositivo` ON (`empresa_dispositivo`.`dis_id` = `dispositivo`.`dis_id`) INNER JOIN `empresa_usuario` ON (`empresa_dispositivo`.`emu_id` = `empresa_usuario`.`emu_id`) WHERE `rv_ficha`.`trab_id` = `t`.`tra_id` AND `empresa_usuario`.`usu_id`= $id)");
 	}
-	public function findByRUT($rut)
+	public static function findByRUT($rut)
 	{
 		$model=Trabajador::model()->find("rut='$rut'");
 		if($model===null){

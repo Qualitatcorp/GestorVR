@@ -53,11 +53,11 @@ class RvFicha extends CActiveRecord
 		}
 		return $this->MapNota($this->calificacion,$clasificacion);
 	}
-	public function getNameClasificacion()
+	public static function getNameClasificacion()
 	{
 			return (($model=EmpresaUsuario::findByID())!==null)?$model->clasificacion:'Sobre 100';
 	}
-	public function MapNota($value,$tipo=null)
+	public static function MapNota($value,$tipo=null)
 	{
 		if($tipo===null)
 			$tipo=RvFicha::getNameClasificacion();
@@ -162,15 +162,15 @@ class RvFicha extends CActiveRecord
 		$this->nota=$this->porcentajeCorrecto;
 		$this->save();
 	}
-	public function findAllByEmpresa($id,$condition='')
+	public static function findAllByEmpresa($id,$condition='')
 	{	
 			return RvFicha::model()->findAll("EXISTS(SELECT * FROM dispositivo INNER JOIN empresa ON (dispositivo.emp_id = empresa.emp_id) WHERE t.disp_id = dispositivo.dis_id AND empresa.emp_id = $id) $condition");
 	}
-	public function findAllByUsuario($id,$condition='')
+	public static function findAllByUsuario($id,$condition='')
 	{			
 		return RvFicha::model()->findAll("Exists(Select * From empresa_dispositivo Inner join dispositivo On (empresa_dispositivo.dis_id = dispositivo.dis_id) Inner join empresa_usuario On (empresa_dispositivo.emu_id = empresa_usuario.emu_id) Where dispositivo.dis_id = t.disp_id and empresa_usuario.usu_id=$id) $condition");
 	}
-	public function CountByEmpresa($id,$value='')
+	public static function CountByEmpresa($id,$value='')
 	{
 if($value!==''){
 	$value="AND $value";
@@ -192,7 +192,7 @@ GROUP BY
 	}
 
 
-public function AvgByEmpresa($id)
+public static function AvgByEmpresa($id)
 	{
 		return Yii::app()->db->createCommand("
 SELECT 
@@ -209,7 +209,7 @@ GROUP BY
   MONTH(rv_ficha.creado)
  ")->queryAll();
 	}
-	public function AvgByUsuario($id)
+	public static function AvgByUsuario($id)
 	{
 		return Yii::app()->db->createCommand("
 		SELECT 
@@ -228,7 +228,7 @@ GROUP BY
 		 ")->queryAll();
 	}
 
-public function FindByTrabajadorAndEmpresa($id,$emp,$arg=null)
+public static function FindByTrabajadorAndEmpresa($id,$emp,$arg=null)
 {
 	$from='';
 	if(isset($arg['range'])){
@@ -251,7 +251,7 @@ public function FindByTrabajadorAndEmpresa($id,$emp,$arg=null)
 		GROUP BY
 		  DATE_FORMAT(`rv_ficha`.`creado`, '%Y-%m-%d')")->queryAll();
 }
-	public function CountByUsuario($id)
+	public static function CountByUsuario($id)
 	{
 		return RvFicha::model()->count("EXISTS(SELECT * FROM `EMPRESA_DISPOSITIVO` INNER JOIN `DISPOSITIVO` ON (`EMPRESA_DISPOSITIVO`.`DIS_ID` = `DISPOSITIVO`.`DIS_ID`) WHERE `DISPOSITIVO`.`DIS_ID` = `t`.`DISP_ID` AND `EMPRESA_DISPOSITIVO`.`EMU_ID` = $id)");
 	}

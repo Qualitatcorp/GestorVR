@@ -53,7 +53,7 @@ class EmpresaController extends Controller
 		{
 			$model->attributes=$_POST['Empresa'];
 			if($model->save())
-				$this->redirect(array('view','id'=>$model->emp_id));
+				$this->redirect(array('view','id'=>$model->primaryKey));
 		}
 
 		$this->render('create',array(
@@ -67,7 +67,7 @@ class EmpresaController extends Controller
 		{
 			$model->attributes=$_POST['Empresa'];
 			if($model->save())
-				$this->redirect(array('view','id'=>$model->emp_id));
+				$this->redirect(array('view','id'=>$model->primaryKey));
 		}
 
 		$this->render('update',array(
@@ -132,7 +132,8 @@ class EmpresaController extends Controller
 					'email'=>$model->email,
 				));
 				Yii::app()->user->um->activateAccount($usuario);
-				Yii::app()->user->um->changePassword($usuario,$model->password);
+				if($model->password!='')
+					Yii::app()->user->um->changePassword($usuario,$model->password);
 				if(Yii::app()->user->um->save($usuario)){
 					$auth=Yii::app()->authManager;
 					$auth->assign($model->role,$usuario->primaryKey);
@@ -165,6 +166,8 @@ class EmpresaController extends Controller
 				$model->disp=$_POST['EmpresaUsuario']['disp'];
 			}
 			
+			if($model->password!='')
+				Yii::app()->user->um->changePassword($model->usu_id,$model->password);
 			$model->Scenario='save';
 			if($model->save()){			
 				if (isset($_POST['EmpresaUsuario']['disp'])) {

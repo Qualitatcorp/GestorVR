@@ -46,8 +46,8 @@ Yii::app()->getClientScript()
 	<?php foreach ($List as $key=>$model): ?>
 		<tr>
 			<td><?php echo $key+1; ?></td>
-			<td><?php echo $model->nombre ?></td>
-			<td><?php echo $model->empresa ?></td>
+			<td><?php echo $model->Alternativo ?></td>
+			<td><?php echo $model->empresa->nombre ?></td>
 			<td>
 				<?= BsHtml::Button(BsHtml::icon(BsHtml::GLYPHICON_EDIT).' Ver', array(
 				    'color' => BsHtml::BUTTON_COLOR_PRIMARY,

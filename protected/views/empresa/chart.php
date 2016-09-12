@@ -2,7 +2,7 @@
 $this->breadcrumbs=array('Empresa','rendimiento','trabajadores');?>
 <?php echo BsHtml::pageHeader('Rendimiento','Trabajadores ') ?>
 <?php
-
+if (true) {
 
 //Cantidad de evaluaciones
 $query=RvFicha::CountByEmpresa($model->primaryKey);
@@ -338,6 +338,7 @@ $this->Widget('ext.highcharts.HighchartsWidget', array(
 
 
 
+}
 
 ?>
 

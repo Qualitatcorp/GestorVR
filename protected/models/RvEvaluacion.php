@@ -39,7 +39,7 @@ class RvEvaluacion extends CActiveRecord
 		);
 	}
 
-	public function GetCountEva()
+	public  function GetCountEva()
 	{
 
 		$datos= Yii::app()->db->createCommand("
@@ -59,29 +59,27 @@ class RvEvaluacion extends CActiveRecord
 		return $datos['FICHAS'];
 	}
 
-	public function FindByEmpresa($emp,$eva=null)
+	public static function FindByEmpresa($emp,$eva=null)
 	{
 		if($eva!==null)
-			$eva+='AND RV_EVALUACION.EVA_ID='.$eva;
+			$eva+='AND rv_evaluacion.eva_id='.$eva;
 		return Yii::app()->db->createCommand("
 SELECT 
-  `RV_EVALUACION`.`NOMBRE` AS `EVALUACION`,
-  YEAR(`RV_FICHA`.`CREADO`) AS YEAR,
-  MONTH(`RV_FICHA`.`CREADO`) AS MONTH,
-  COUNT(*) AS `DATA`
-FROM
-  `RV_FICHA`
-  INNER JOIN `RV_EVALUACION` ON (`RV_FICHA`.`EVA_ID` = `RV_EVALUACION`.`EVA_ID`)
-  INNER JOIN `DISPOSITIVO` ON (`RV_FICHA`.`DISP_ID` = `DISPOSITIVO`.`DIS_ID`)
-  INNER JOIN `EMPRESA` ON (`DISPOSITIVO`.`EMP_ID` = `EMPRESA`.`EMP_ID`)
-WHERE
-  `EMPRESA`.`EMP_ID` = $emp $eva
-GROUP BY
-  `RV_EVALUACION`.`NOMBRE`,
-  YEAR(`RV_FICHA`.`CREADO`),
-  MONTH(`RV_FICHA`.`CREADO`)
-ORDER BY
-  `EVALUACION`")->queryAll();
+  rv_evaluacion.nombre as evaluacion,
+  year(rv_ficha.creado),
+  month(rv_ficha.creado),
+  count(*) as `data`
+from
+  rv_ficha
+  inner join rv_evaluacion on (rv_ficha.eva_id = rv_evaluacion.eva_id)
+  inner join dispositivo on (rv_ficha.disp_id = dispositivo.dis_id)
+  inner join empresa on (dispositivo.emp_id = empresa.emp_id)
+where
+  empresa.emp_id = $emp $eva
+group by
+  rv_evaluacion.nombre,
+  year(rv_ficha.creado),
+  month(rv_ficha.creado)")->queryAll();
 	}
 	public function search()
 	{

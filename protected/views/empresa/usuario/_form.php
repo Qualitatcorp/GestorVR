@@ -29,11 +29,11 @@ Yii::app()->getClientScript()
         <?php endif ?>
         <?= $form->textFieldControlGroup($model,'rut',array('maxlength'=>12)); ?>
         <?= $form->textFieldControlGroup($model,'email'); ?>
-        <?= $form->textFieldControlGroup($model,'password'); ?>
     <?php endif ?>
     <?= $form->textFieldControlGroup($model,'nombres'); ?>
     <?= $form->textFieldControlGroup($model,'paterno'); ?>
     <?= $form->textFieldControlGroup($model,'materno'); ?>
+    <?= $form->textFieldControlGroup($model,'password',array('placeholder'=>'Campo en blanco se le asignara una automaticamente.')); ?>
     <?= $form->textFieldControlGroup($model,'fono'); ?>
         <?= $form->dropDownListControlGroup($model,'clasificacion',array(
     'Sobre 100'=>'Sobre 100',
