@@ -24,6 +24,16 @@ class EmpresaController extends Controller
 		$this->render('trabajador/view',array('model'=>$model));
 	}
 
+	public function actionAdminTrabajador($id)
+	{
+		$model=Trabajador::findByEmpresa($id);
+		$this->render('trabajador/admin',array('model'=>$model));
+	}	
+	public function actionAdminTrabajadorUsu($id)
+	{
+		$model=Trabajador::findByUsuario($id);
+		$this->render('trabajador/admin',array('model'=>$model));
+	}
 
 
 

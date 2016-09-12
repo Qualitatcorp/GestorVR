@@ -41,7 +41,7 @@ class EmpresaUsuario extends CActiveRecord
 			'paterno' => 'Apellido Paterno',
 			'materno' => 'Apellido Materno',
 			'fono' => 'Fono',
-			'rut' => 'RUT',
+			'Rut' => 'RUT',
 			'email' => 'email',
 			'role' => 'ROL',
 			'disp' => 'Dispositivos',

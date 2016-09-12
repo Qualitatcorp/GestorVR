@@ -22,7 +22,7 @@ $this->menu[]=array('label'=>'Volver', 'url'=>array($model->emp_id),'visible'=>Y
 	),
 	'data'=>$model,
 	'attributes'=>array(
-		'rut',
+		'Rut',
 		'nombres',
 		'paterno',
 		'materno',

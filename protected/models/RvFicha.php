@@ -212,22 +212,45 @@ GROUP BY
 	public function AvgByUsuario($id)
 	{
 		return Yii::app()->db->createCommand("
-SELECT 
-  YEAR(`rv_ficha`.`creado`) AS `YEAR`,
-  MONTH(`rv_ficha`.`creado`) AS `MONTH`,
-  AVG(`rv_ficha`.`calificacion`) AS `DATA`
-FROM
-  `dispositivo`
-  INNER JOIN `rv_ficha` ON (`dispositivo`.`dis_id` = `rv_ficha`.`disp_id`)
-  INNER JOIN `empresa_dispositivo` ON (`dispositivo`.`dis_id` = `empresa_dispositivo`.`dis_id`)
-WHERE 
-	`empresa_dispositivo`.`emu_id`=$id
-GROUP BY
-  YEAR(`rv_ficha`.`creado`),
-  MONTH(`rv_ficha`.`creado`)
- ")->queryAll();
+		SELECT 
+		  YEAR(`rv_ficha`.`creado`) AS `YEAR`,
+		  MONTH(`rv_ficha`.`creado`) AS `MONTH`,
+		  AVG(`rv_ficha`.`calificacion`) AS `DATA`
+		FROM
+		  `dispositivo`
+		  INNER JOIN `rv_ficha` ON (`dispositivo`.`dis_id` = `rv_ficha`.`disp_id`)
+		  INNER JOIN `empresa_dispositivo` ON (`dispositivo`.`dis_id` = `empresa_dispositivo`.`dis_id`)
+		WHERE 
+			`empresa_dispositivo`.`emu_id`=$id
+		GROUP BY
+		  YEAR(`rv_ficha`.`creado`),
+		  MONTH(`rv_ficha`.`creado`)
+		 ")->queryAll();
 	}
 
+public function FindByTrabajadorAndEmpresa($id,$emp,$arg=null)
+{
+	$from='';
+	if(isset($arg['range'])){
+		$max=$$arg['range']['MAX'];
+		$min=$$arg['range']['MIN'];
+		$from+="AND `rv_ficha`.`creado` BETWEEN '$max' AND '$min'";
+	}
+	return Yii::app()->db->createCommand("
+		SELECT 
+		  DATE_FORMAT(`rv_ficha`.`creado`, '%Y-%m-%d') AS `DATE`,
+		  MAX(`rv_ficha`.`calificacion`) AS `DATA`
+		FROM
+		  `rv_ficha`
+		  INNER JOIN `trabajador` ON (`rv_ficha`.`trab_id` = `trabajador`.`tra_id`)
+		  INNER JOIN `dispositivo` ON (`rv_ficha`.`disp_id` = `dispositivo`.`dis_id`)
+		  INNER JOIN `empresa` ON (`dispositivo`.`emp_id` = `empresa`.`emp_id`)
+		WHERE
+		  `empresa`.`emp_id` = $emp AND 
+		  `trabajador`.`tra_id` = $id
+		GROUP BY
+		  DATE_FORMAT(`rv_ficha`.`creado`, '%Y-%m-%d')")->queryAll();
+}
 	public function CountByUsuario($id)
 	{
 		return RvFicha::model()->count("EXISTS(SELECT * FROM `EMPRESA_DISPOSITIVO` INNER JOIN `DISPOSITIVO` ON (`EMPRESA_DISPOSITIVO`.`DIS_ID` = `DISPOSITIVO`.`DIS_ID`) WHERE `DISPOSITIVO`.`DIS_ID` = `t`.`DISP_ID` AND `EMPRESA_DISPOSITIVO`.`EMU_ID` = $id)");
