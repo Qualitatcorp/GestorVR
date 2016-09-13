@@ -3,7 +3,7 @@ $this->breadcrumbs=array('Empresa','rendimiento','trabajadores');?>
 <?php echo BsHtml::pageHeader('Rendimiento','Trabajadores ') ?>
 <?php
 
-
+if (true) {
 //Cantidad de evaluaciones
 $query=RvFicha::CountByEmpresa($model->primaryKey);
 $categories=array_map(function($value){return Validation::strToMonth($value['MONTH']).' '.$value['YEAR'];}, $query);
@@ -338,6 +338,7 @@ $this->Widget('ext.highcharts.HighchartsWidget', array(
 
 
 
+}
 
 ?>
 

@@ -4,7 +4,7 @@
 */
 class Validation
 {
-	public function strToMonth($month){
+	public static function strToMonth($month){
 		if(Yii::app()->language==='es'){
 			switch ($month) {
 				case 1:

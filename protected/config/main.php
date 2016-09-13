@@ -53,9 +53,9 @@ return array(
 			'baseUrl'=>'http://coco.com/',
 
 			 // NO OLVIDES PONER EN FALSE TRAS INSTALAR
-			 'debug'=>true,
-			 'rbacSetupEnabled'=>true,
-			 'allowUserAlways'=>true,
+			 'debug'=>false,
+			 'rbacSetupEnabled'=>false,
+			 'allowUserAlways'=>false,
 
 			// MIENTRAS INSTALAS..PONLO EN: false
 			// lee mas abajo respecto a 'Encriptando las claves'
@@ -76,8 +76,8 @@ return array(
 			//		'afterLogoutUrl'=>array('/site/page','view'=>'about'),
 			//
 			'afterLoginUrl'=>array('/site/index'),
-			'afterLogoutUrl'=>array('/site/index'),
-			'afterSessionExpiredUrl'=>array('/site/index'),
+			'afterLogoutUrl'=>array('/cruge/ui/login'),
+			'afterSessionExpiredUrl'=>array('/cruge/ui/login'),
 
 			// manejo del layout con cruge.
 			//
@@ -122,8 +122,8 @@ return array(
 		),
 		'crugemailer'=>array(
 			'class' => 'application.modules.cruge.components.CrugeMailer',
-			'mailfrom' => 'email-desde-donde-quieres-enviar-los-mensajes@xxxx.com',
-			'subjectprefix' => 'Tu Encabezado del asunto - ',
+			'mailfrom' => 'gestorvr@qualitatcorp.com',
+			'subjectprefix' => 'Plataforma GestorVR - ',
 			'debug' => true,
 		),
 		'format' => array(

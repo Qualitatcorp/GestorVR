@@ -2,7 +2,7 @@
 $this->breadcrumbs=array('Empresa','Supervisor',$model->RUT);
 if(Yii::app()->user->checkAccess('Cliente')){
 	$this->menu[]=array('label'=>'Usuario');
-	$this->menu[]=array('label'=>'Modificar', 'url'=>array('update', 'id'=>$model->primaryKey));
+	$this->menu[]=array('label'=>'Modificar', 'url'=>array('updateUsu', 'id'=>$model->primaryKey));
 	$this->menu[]=array(
 		'label'=>'Eliminar', 'url'=>'#', 'linkOptions'=>array(
 			'submit'=>array('deleteUsu','id'=>$model->primaryKey),
