@@ -20,7 +20,7 @@ class RvFicha extends CActiveRecord
 			'trabajador' => array(self::BELONGS_TO, 'Trabajador', 'trab_id'),
 			'dispositivo' => array(self::BELONGS_TO, 'Dispositivo', 'disp_id'),
 			'evaluacion' => array(self::BELONGS_TO, 'RvEvaluacion', 'eva_id'),
-			'RvProyecto' => array(self::BELONGS_TO, 'RvProyecto', 'pro_id'),
+			'proyecto' => array(self::BELONGS_TO, 'RvProyecto', 'pro_id'),
 		);
 	}
 	public function attributeLabels()

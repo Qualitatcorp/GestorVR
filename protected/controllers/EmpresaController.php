@@ -184,10 +184,20 @@ class EmpresaController extends Controller
 	public function actionAdminFichaUsu($id)
 	{
 		$user=EmpresaUsuario::model()->findByPk($id);
-		$model=RvFicha::findAllByUsuario($user->usu_id,'Order By t.creado DESC LIMIT 300');
+		$find=new RvFichaForm;
+		$find->usuario=$user->primaryKey;
+		$find->inicio=date("Y-m-d",strtotime(date("Y-m-d").' - 15 days'));
+		$find->termino=date("Y-m-d");
+		$find->limite=100;
+		if(isset($_POST['RvFichaForm'])){
+			$find->attributes=$_POST['RvFichaForm'];
+			$find->validate();
+		}
+		$model=RvFicha::findAllByUsuario($user->usu_id,'Order By t.creado DESC LIMIT 10');
 		$this->render('ficha/admin',array(
 			'model'=>$model,
-			'urlReturn'=>Yii::app()->createUrl("empresa/usu/$id")
+			'urlReturn'=>Yii::app()->createUrl("empresa/usu/$id"),
+			'find'=>$find,
 			));
 	}
 	public function actionDeleteUsu($id)
@@ -293,10 +303,12 @@ class EmpresaController extends Controller
 	public function actionAdminFicha($id)
 	{
 		$model=RvFicha::findAllByEmpresa($id,'Order By t.creado DESC LIMIT 300');
+		$find=new RvFichaForm;
 		$this->render('ficha/admin',array(
 			'model'=>$model,
 			'nombre'=>Empresa::model()->findByPk($id)->nombre,
-			'urlReturn'=>Yii::app()->createUrl("empresa/$id")
+			'urlReturn'=>Yii::app()->createUrl("empresa/$id"),
+			'find'=>$find,
 			));
 	}
 	public function actionViewFichaPDF($id)
