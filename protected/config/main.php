@@ -53,9 +53,9 @@ return array(
 			'baseUrl'=>'http://coco.com/',
 
 			 // NO OLVIDES PONER EN FALSE TRAS INSTALAR
-			 'debug'=>true,
-			 'rbacSetupEnabled'=>true,
-			 'allowUserAlways'=>true,
+			 'debug'=>false,
+			 'rbacSetupEnabled'=>false,
+			 'allowUserAlways'=>false,
 
 			// MIENTRAS INSTALAS..PONLO EN: false
 			// lee mas abajo respecto a 'Encriptando las claves'

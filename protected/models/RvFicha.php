@@ -20,7 +20,7 @@ class RvFicha extends CActiveRecord
 			'trabajador' => array(self::BELONGS_TO, 'Trabajador', 'trab_id'),
 			'dispositivo' => array(self::BELONGS_TO, 'Dispositivo', 'disp_id'),
 			'evaluacion' => array(self::BELONGS_TO, 'RvEvaluacion', 'eva_id'),
-			'RvProyecto' => array(self::BELONGS_TO, 'RvProyecto', 'pro_id'),
+			'proyecto' => array(self::BELONGS_TO, 'RvProyecto', 'pro_id'),
 		);
 	}
 	public function attributeLabels()
@@ -253,7 +253,7 @@ public static function FindByTrabajadorAndEmpresa($id,$emp,$arg=null)
 }
 	public static function CountByUsuario($id)
 	{
-		return RvFicha::model()->count("EXISTS(SELECT * FROM `EMPRESA_DISPOSITIVO` INNER JOIN `DISPOSITIVO` ON (`EMPRESA_DISPOSITIVO`.`DIS_ID` = `DISPOSITIVO`.`DIS_ID`) WHERE `DISPOSITIVO`.`DIS_ID` = `t`.`DISP_ID` AND `EMPRESA_DISPOSITIVO`.`EMU_ID` = $id)");
+		return RvFicha::model()->count("EXISTS(SELECT * FROM `empresa_dispositivo` INNER JOIN `dispositivo` ON (`empresa_dispositivo`.`dis_id` = `dispositivo`.`dis_id`) WHERE `dispositivo`.`dis_id` = `t`.`disp_id` AND `empresa_dispositivo`.`emu_id` = $id)");
 	}
 	public static function model($className=__CLASS__)
 	{

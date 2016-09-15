@@ -121,11 +121,11 @@ class Trabajador extends CActiveRecord
 	}
 	public static function findAllByEmpresa($id)
 	{
-		return Trabajador::findAll("EXISTS(SELECT * FROM `rv_ficha` INNER JOIN `dispositivo` ON (`rv_ficha`.`disp_id` = `dispositivo`.`dis_id`) INNER JOIN `empresa` ON (`dispositivo`.`emp_id` = `empresa`.`emp_id`) INNER JOIN `empresa_usuario` ON (`empresa`.`emp_id` = `empresa_usuario`.`emp_id`) WHERE `rv_ficha`.`trab_id` = `t`.`tra_id` AND `empresa`.`emp_id` = $id)");
+		return Trabajador::model()->findAll("EXISTS(SELECT * FROM `rv_ficha` INNER JOIN `dispositivo` ON (`rv_ficha`.`disp_id` = `dispositivo`.`dis_id`) INNER JOIN `empresa` ON (`dispositivo`.`emp_id` = `empresa`.`emp_id`) INNER JOIN `empresa_usuario` ON (`empresa`.`emp_id` = `empresa_usuario`.`emp_id`) WHERE `rv_ficha`.`trab_id` = `t`.`tra_id` AND `empresa`.`emp_id` = $id)");
 	}
 	public static function findAllByEmpresaUsuario($id)
 	{
-		return Trabajador::findAll("EXISTS(SELECT * FROM `rv_ficha` INNER JOIN `dispositivo` ON (`rv_ficha`.`disp_id` = `dispositivo`.`dis_id`) INNER JOIN `empresa_dispositivo` ON (`empresa_dispositivo`.`dis_id` = `dispositivo`.`dis_id`) INNER JOIN `empresa_usuario` ON (`empresa_dispositivo`.`emu_id` = `empresa_usuario`.`emu_id`) WHERE `rv_ficha`.`trab_id` = `t`.`tra_id` AND `empresa_usuario`.`usu_id`= $id)");
+		return Trabajador::model()->findAll("EXISTS(SELECT * FROM `rv_ficha` INNER JOIN `dispositivo` ON (`rv_ficha`.`disp_id` = `dispositivo`.`dis_id`) INNER JOIN `empresa_dispositivo` ON (`empresa_dispositivo`.`dis_id` = `dispositivo`.`dis_id`) INNER JOIN `empresa_usuario` ON (`empresa_dispositivo`.`emu_id` = `empresa_usuario`.`emu_id`) WHERE `rv_ficha`.`trab_id` = `t`.`tra_id` AND `empresa_usuario`.`usu_id`= $id)");
 	}
 	public static function findByRUT($rut)
 	{

@@ -65,10 +65,10 @@ class RvEvaluacion extends CActiveRecord
 			$eva+='AND rv_evaluacion.eva_id='.$eva;
 		return Yii::app()->db->createCommand("
 SELECT 
-  rv_evaluacion.nombre as evaluacion,
-  year(rv_ficha.creado),
-  month(rv_ficha.creado),
-  count(*) as `data`
+  rv_evaluacion.nombre as EVALUACION,
+  year(rv_ficha.creado) as YEAR,
+  month(rv_ficha.creado) as MONTH,
+  count(*) as `DATA`
 from
   rv_ficha
   inner join rv_evaluacion on (rv_ficha.eva_id = rv_evaluacion.eva_id)
