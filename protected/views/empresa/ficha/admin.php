@@ -1,5 +1,4 @@
 <?php $this->breadcrumbs=array('Empresas','Ver','Fichas de evaluación');?>
-<?php echo BsHtml::pageHeader('Ver Fichas de evaluación') ?>
 <?php
 $this->menu[]=array('label'=>'Empresa');
 $this->menu[]=array('label'=>'Volver','url'=>$urlReturn);
@@ -36,8 +35,27 @@ Yii::app()->getClientScript()
 				}
 		}
 	})", CClientScript::POS_READY);
-?>
 
+?>
+<div class="row">
+	
+<div class="col-md-12">
+	
+<?=BsHtml::button('Busqueda Avanzada', array(
+'data-toggle'=>'collapse',
+'data-target'=>'#find',
+    // 'color' => BsHtml::BUTTON_COLOR_PRIMARY,
+    'size' => BsHtml::BUTTON_SIZE_SMALL,
+    'pull' => BsHtml::PULL_RIGHT
+));
+?>
+</div>
+<div id="find" class="collapse col-md-12">
+	<?php $this->renderPartial('ficha/_advanced',array('model'=>$find)) ?>
+</div>
+<?php echo BsHtml::pageHeader('Ver Fichas de evaluación') ?>
+<div class="col-md-12">
+</div>
 <table class="table">
 	<thead>	
 		<tr>
@@ -63,12 +81,12 @@ Yii::app()->getClientScript()
 						array(
 							array(
 								'label' => 'VER',
-								'onClick'=>"window.open('../viewFicha/$ficha->fic_id')",
+								'onClick'=>"window.open('../viewficha/$ficha->fic_id')",
 								'color' => BsHtml::BUTTON_COLOR_INFO
 							),
 							array(
 								'label' => 'PDF',
-								'onClick'=>"window.open('../viewFichaPDF/$ficha->fic_id')",
+								'onClick'=>"window.open('../viewfichapdf/$ficha->fic_id')",
 								'color' => BsHtml::BUTTON_COLOR_DANGER
 							),
 						), 
@@ -79,3 +97,4 @@ Yii::app()->getClientScript()
 			<?php endforeach ?>
 	</tbody>
 </table>
+</div>
