@@ -34,33 +34,52 @@
 $menu=array();
 if(Yii::app()->user->checkAccess('Cliente')&&!Yii::app()->user->isSuperAdmin&&!Yii::app()->user->checkAccess('Adminsitrador')){
 	$emp_id=EmpresaUsuario::findByID()->emp_id;
-		$menu[]=array(
-				'label' => 'Empresa',
-				'items' => array(
-					array('label' => 'Administrar','url' => array('//empresa/'.$emp_id)),
-					)
-				);
-		$menu[]=array(
-				'label' => 'Usuario',
-				'items' => array(
-					array('label' => 'Crear','url' => array('//empresa/createUsu/'.$emp_id)),
+	$menu[]=array(
+			'label' => 'Empresa',
+			'items' => array(
+				array('label' => 'Administrar','url' => array('//empresa/'.$emp_id)),
 				)
 			);
-		$menu[]=array(
-				'label' => 'Trabajador',
-				'items' => array(
-					array('label' => 'Crear','url' => array('//trabajador/create')),
-					array('label' => 'Carga Masiva','url' => array('//trabajador/loadExcel')),
-				)
-			);
-		$menu[]=array(
-				'label' => 'Ficha de Evaluación',
-				'items' => array(
-					array('label' => 'Buscar Ultimos','url' => array('//empresa/adminFicha/'.$emp_id)),	
-				)
-			);
+	$menu[]=array(
+			'label' => 'Usuario',
+			'items' => array(
+				array('label' => 'Crear','url' => array('//empresa/createUsu/'.$emp_id)),
+			)
+		);
+	$menu[]=array(
+			'label' => 'Trabajador',
+			'items' => array(
+				array('label' => 'Crear','url' => array('//trabajador/create')),
+				array('label' => 'Carga Masiva','url' => array('//trabajador/loadExcel')),
+			)
+		);
+	$menu[]=array(
+			'label' => 'Ficha de Evaluación',
+			'items' => array(
+				array('label' => 'Buscar Ultimos','url' => array('//empresa/adminFicha/'.$emp_id)),	
+			)
+		);
 }else if(Yii::app()->user->checkAccess('Supervisor')&&!Yii::app()->user->isSuperAdmin){
-
+	$emu_id=EmpresaUsuario::findByID()->primaryKey;	
+	$menu[]=array(
+		'label' => 'Supervisor',
+		'items' => array(
+			array('label' => 'Administrar','url' => array('//empresa/usu/'.$emu_id)),
+			)
+		);	
+	$menu[]=array(
+			'label' => 'Trabajador',
+			'items' => array(
+				array('label' => 'Crear','url' => array('//trabajador/create')),
+				array('label' => 'Carga Masiva','url' => array('//trabajador/loadExcel')),
+			)
+		);	
+	$menu[]=array(
+			'label' => 'Ficha de Evaluación',
+			'items' => array(
+				array('label' => 'Buscar Ultimos','url' => array('//empresa/adminFichaUsu/'.$emu_id)),	
+			)
+		);
 }
 
 
@@ -68,7 +87,7 @@ if(Yii::app()->user->checkAccess('Cliente')&&!Yii::app()->user->isSuperAdmin&&!Y
 
 $this->widget('bootstrap.widgets.BsNavbar', array(
 	'collapse' => true,
-	'brandLabel' => BsHtml::icon(BsHtml::GLYPHICON_GLOBE).BsHtml::bold(' Gestor VR').BsHtml::small(' Qualitatcorp'),
+	'brandLabel' => BsHtml::icon(BsHtml::GLYPHICON_GLOBE).BsHtml::bold(' Gestor VR').BsHtml::small(' Qualitat'),
 	'brandUrl' => Yii::app()->homeUrl,
 	'items' => array(
 		array(
