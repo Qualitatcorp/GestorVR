@@ -26,7 +26,7 @@ class RvProyecto extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('pro_id, nombre', 'required'),
+			array('nombre', 'required'),
 			array('pro_id', 'length', 'max'=>10),
 			array('nombre', 'length', 'max'=>300),
 			array('pro_id, nombre, descripcion', 'safe', 'on'=>'search'),
@@ -65,5 +65,16 @@ class RvProyecto extends CActiveRecord
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
+	}
+	public static function findByNombre($nombre)
+	{
+		$model=RvProyecto::model()->find("nombre='$nombre'");
+		if(empty($model)){
+			$model=new RvProyecto;
+			$model->nombre=$nombre;
+			if(!$model->save())
+				var_dump($model->getErrors());
+		}
+		return $model;
 	}
 }
