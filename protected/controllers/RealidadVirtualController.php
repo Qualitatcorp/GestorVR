@@ -1,6 +1,6 @@
 <?php
 
-class RealidadVirtualController extends Controller
+class RealidadvirtualController extends Controller
 {
 	public $layout='//layouts/column2';
 	public $menu=array(
@@ -63,7 +63,7 @@ class RealidadVirtualController extends Controller
 		if(isset($_POST['RvEvaluacion'])){
 			$model->attributes=$_POST['RvEvaluacion'];
 			if($model->save())
-				$this->redirect(array('adminEva'));
+				$this->redirect(array('RealidadVirtual/viewEva/'.$model->primarykey));
 		}
 		$this->render('evaluacion/create',array('model'=>$model));
 	}
