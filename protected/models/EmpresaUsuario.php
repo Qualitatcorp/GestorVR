@@ -14,7 +14,7 @@ class EmpresaUsuario extends CActiveRecord
 	public function rules()
 	{
 		return array(
-			array('rut,email,password,role,emp_id,nombres,clasificacion', 'required','on'=>'insert'),
+			array('rut,email,role,emp_id,nombres,clasificacion', 'required','on'=>'insert'),
 			array('emp_id, usu_id', 'numerical', 'integerOnly'=>true),
 			array('nombres, paterno, materno, fono', 'length', 'max'=>150),			
 			array('email','unique','className'=>'CrugeStoredUser','attributeName'=>'email','message'=>'Este email ya se encuentra en uso','on'=>'insert'),
