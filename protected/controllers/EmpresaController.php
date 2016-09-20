@@ -188,12 +188,16 @@ class EmpresaController extends Controller
 		$find->usuario=$user->primaryKey;
 		$find->inicio=date("Y-m-d",strtotime(date("Y-m-d").' - 15 days'));
 		$find->termino=date("Y-m-d");
+		$find->termino=date("Y-m-d");
+		$find->order='t.creado desc';
 		$find->limite=100;
 		if(isset($_POST['RvFichaForm'])){
+			// var_dump($_POST);
 			$find->attributes=$_POST['RvFichaForm'];
+			$find->activo=true;
 			$find->validate();
 		}
-		$model=RvFicha::findAllByUsuario($user->usu_id,'Order By t.creado DESC LIMIT 10');
+		$model=RvFicha::model()->findAll($find->fichas);
 		$this->render('ficha/admin',array(
 			'model'=>$model,
 			'urlReturn'=>Yii::app()->createUrl("empresa/usu/$id"),
@@ -302,8 +306,23 @@ class EmpresaController extends Controller
 
 	public function actionAdminFicha($id)
 	{
-		$model=RvFicha::findAllByEmpresa($id,'Order By t.creado DESC LIMIT 300');
 		$find=new RvFichaForm;
+		$find->empresa=$id;
+		$find->inicio=date("Y-m-d",strtotime(date("Y-m-d").' - 15 days'));
+		$find->termino=date("Y-m-d");
+		$find->termino=date("Y-m-d");
+		$find->order='t.creado desc';
+		$find->limite=100;
+		if(isset($_POST['RvFichaForm'])){
+			$find->attributes=$_POST['RvFichaForm'];
+			$find->activo=true;
+			if($find->validate()){
+				if(isset($_POST['excel'])){
+					$find->excel;
+				}
+			}
+		}
+		$model=RvFicha::model()->findAll($find->fichas);
 		$this->render('ficha/admin',array(
 			'model'=>$model,
 			'nombre'=>Empresa::model()->findByPk($id)->nombre,
