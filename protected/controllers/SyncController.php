@@ -20,6 +20,9 @@ class SyncController extends Controller
 			}
 			$model=new RvFicha;
 			$model->eva_id=RvAlternativa::model()->findByPk($lista[0]->alt_id)->pregunta->eva_id;
+			if(isset($_POST['proyecto'])){
+				$model->pro_id=RvProyecto::findByNombre($_POST['proyecto'])->primaryKey;
+			}
 			$model->trab_id=Trabajador::model()->findByRUT($_POST['trabajador'])->primaryKey;
 			$model->disp_id=Dispositivo::model()->findByKeycode($_POST['keycode'],$_POST['empresa'])->primaryKey;
 			if($valid&&$model->save()){
