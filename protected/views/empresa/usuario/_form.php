@@ -20,8 +20,9 @@ Yii::app()->getClientScript()
     <p class="help-block">Los campos con <span class="required">*</span> son requeridos.</p>
 
     <?= $form->errorSummary($model); ?>
-    <?php if ($this->action->id=='createUsu'): ?>
-        <?php if (Yii::app()->user->checkAccess('Administrador')): ?>
+    <?php var_dump($this->action->id); ?>
+    <?php if ($this->action->id=='createusu'): ?>
+        <?php if (Yii::app()->user->checkAccess('Administrador')||Yii::app()->user->isSuperAdmin): ?>
         <?= $form->dropDownListControlGroup($model,'role',array(
             'Supervisor'=>'Supervisor',
             'Cliente'=>'Cliente',

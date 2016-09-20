@@ -100,13 +100,13 @@ class TrabajadorController extends Controller
 	}
 	public function actionDownExcel()
 	{
-		if(Yii::app()->user->checkAccess('Supervisor')){
+		if(Yii::app()->user->checkAccess('Supervisor')&&!Yii::app()->user->isSuperAdmin){
 			$model=Trabajador::model()->findAllByEmpresaUsuario(Yii::app()->user->id);
 			$e=new Excel;
 			$e->addModel('Trabajadores',array('rut','nombre','paterno','materno'/*,'nacimiento','fono','mail'*/),$model);
 			$e->out('trabajadores',true);
 		}else{
-			if(Yii::app()->user->checkAccess('Cliente')) {
+			if(Yii::app()->user->checkAccess('Cliente')&&!Yii::app()->user->isSuperAdmin) {
 				$id=EmpresaUsuario::findByID(Yii::app()->user->id)->emp_id;
 				$model=Trabajador::model()->findAllByEmpresa($id);
 				$e=new Excel;

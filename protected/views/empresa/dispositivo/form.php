@@ -8,7 +8,7 @@
     <?php echo $form->errorSummary($model); ?>
 
     <?php echo $form->textFieldControlGroup($model,'nombre'); ?>
-    <?php if (Yii::app()->user->isSuperAdmin||Yii::app()->user->checkAccess('Adminsitrador')): ?>
+    <?php if (Yii::app()->user->isSuperAdmin||Yii::app()->user->checkAccess('Administrador')): ?>
     <?php echo $form->dropDownListControlGroup($model,'dit_id', CHtml::listData(DispositivoTipo::model()->findAll(),'dit_id', 'nombre'), array('empty' => 'Seleccione un tipo de dispositivo.'));?>
     <?php echo $form->dropDownListControlGroup($model,'habilitado',array('NO'=>'NO','SI'=>'SI'));?>
     <?php echo $form->dropDownListControlGroup($model,'activado', array('NO'=>'NO','SI'=>'SI'));?>    
