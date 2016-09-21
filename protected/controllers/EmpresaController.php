@@ -15,25 +15,6 @@ class EmpresaController extends Controller
 			array('accessControl'),			
 		);
 	}
-	/*
-		Trabajador
-	*/
-	public function actionTrabajador($id)
-	{
-		$model=Trabajador::model()->findByPk($id);
-		$this->render('trabajador/view',array('model'=>$model));
-	}
-
-	public function actionAdminTrabajador($id)
-	{
-		$model=Trabajador::findByEmpresa($id);
-		$this->render('trabajador/admin',array('model'=>$model));
-	}	
-	public function actionAdminTrabajadorUsu($id)
-	{
-		$model=Trabajador::findByUsuario($id);
-		$this->render('trabajador/admin',array('model'=>$model));
-	}
 
 
 
@@ -304,8 +285,19 @@ class EmpresaController extends Controller
 		Ficha
 	*/
 
-	public function actionAdminFicha($id)
+	public function actionAdminFicha($id=null)
 	{
+		if(empty($id)){
+			if(Yii::app()->user->checkAccess('Cliente')){
+				$this->redirect(array('adminFicha','id'=>EmpresaUsuario::findByID()->emp->primaryKey));
+			}
+		}else{
+			if(Yii::app()->user->checkAccess('Cliente')){
+				if($id!=EmpresaUsuario::findByID()->emp->primaryKey){
+					$this->redirect(array('adminFicha','id'=>EmpresaUsuario::findByID()->emp->primaryKey));
+				}
+			}
+		}
 		$find=new RvFichaForm;
 		$find->empresa=$id;
 		$find->inicio=date("Y-m-d",strtotime(date("Y-m-d").' - 15 days'));
@@ -345,19 +337,38 @@ class EmpresaController extends Controller
 		$model = RvFicha::model()->findByPk($id);
         $this->render('ficha/view',array('model'=>$model));
 	}
+	/*
+		Evaluacion
+	*/
+	public function actionAdminEva($id)
+	{
+		
+	}
+	public function actionViewEva($id)
+	{
 
-	public function actionBarra()
-	{
-		$this->render('reportes/barras');
 	}
-	public function actionRendimiento($id)
+
+	/*
+		Trabajador
+	*/
+	public function actionTrabajador($id)
 	{
-// foreach ($model as $key => $value) {
-// 	$series[]=array(
-// 		'name'=>$key,
-// 		'data'=>$value
-// 		)
-// }
-		// $this->render('reportes/barras');
+		// $model=Trabajador::model()->findByPk($id);
+		// $this->render('trabajador/view',array('model'=>$model));
 	}
+
+	public function actionAdminTrabajador($id)
+	{
+		$model=new Trabajador('search');
+		$this->render('trabajador/admin',array('model'=>$model,));
+		// $model=Trabajador::findAllByEmpresa($id);
+		// $this->render('trabajador/admin',array('model'=>$model));
+	}	
+	public function actionAdminTrabajadorUsu($id)
+	{
+		$model=Trabajador::findAllByUsuario($id);
+		$this->render('trabajador/admin',array('model'=>$model));
+	}
+	
 }

@@ -37,7 +37,7 @@ if(Yii::app()->user->checkAccess('Cliente')&&!Yii::app()->user->isSuperAdmin&&!Y
 	$menu[]=array(
 			'label' => 'Empresa',
 			'items' => array(
-				array('label' => 'Administrar','url' => array('//empresa/'.$emp_id)),
+				array('label' => 'Resumen','url' => array('//empresa/'.$emp_id)),
 				)
 			);
 	$menu[]=array(
@@ -64,7 +64,7 @@ if(Yii::app()->user->checkAccess('Cliente')&&!Yii::app()->user->isSuperAdmin&&!Y
 	$menu[]=array(
 		'label' => 'Supervisor',
 		'items' => array(
-			array('label' => 'Administrar','url' => array('//empresa/usu/'.$emu_id)),
+			array('label' => 'Resumen','url' => array('//empresa/usu/'.$emu_id)),
 			)
 		);	
 	$menu[]=array(
@@ -80,6 +80,61 @@ if(Yii::app()->user->checkAccess('Cliente')&&!Yii::app()->user->isSuperAdmin&&!Y
 				array('label' => 'Buscar Ultimos','url' => array('//empresa/adminFichaUsu/'.$emu_id)),	
 			)
 		);
+}else if(Yii::app()->user->checkAccess('Administrador')&&!Yii::app()->user->isSuperAdmin){
+	$menu[]=array(
+				'label' => 'Sistema',
+
+				'items' => array(
+					BsHtml::menuHeader(BsHtml::italics('Empresa')),
+					array('label' => 'Administrar Empresas','url' => array('//empresa/admin')),
+					array('label' => 'Crear Empresa','url' => array('//empresa/create')),
+					BsHtml::menuDivider().BsHtml::menuHeader(BsHtml::italics('Trabajador')),
+					array('label' => 'Administrar trabajador','url' => array('//trabajador/admin')),
+					array('label' => 'Crear trabajador','url' => array('//trabajador/create')),
+				)
+			);
+	$menu[]=array(
+				'label' => 'Evaluacion',
+				'items' => array(
+					BsHtml::menuHeader(BsHtml::italics('Realidad Virtual')),
+					array('label' => 'Buscar Ficha','url' => array('//empresa/adminFicha/')),
+					// array('label' => 'Buscar Ficha Persona','url' => array('/RealidadVirtual/admin')),
+					(Yii::app()->user->checkAccess('action_evaluacionAltair_admin'))?
+						BsHtml::menuDivider().BsHtml::menuHeader(BsHtml::italics('Entrenador de Gases')):"",
+					array(
+						'label' => 'Buscar Evaluación',
+						'url' => array('/EvaluacionAltair/admin'),
+						'visible'=>Yii::app()->user->checkAccess('action_evaluacionAltair_admin')
+					),
+					BsHtml::menuDivider().BsHtml::menuHeader(BsHtml::italics('Administrar Evaluación')),
+					array('label' => 'Tipo Evaluación','url' => array('/RealidadVirtual/adminTipo')),
+					array('label' => 'Crear Evaluación','url' => array('/RealidadVirtual/createEva')),
+					array('label' => 'Buscar Evaluación','url' => array('/RealidadVirtual/adminEva')),
+				)
+			);
+	$menu[]=array(
+					'label' => 'Dispositivo',
+					'items' => array(
+						BsHtml::menuHeader(BsHtml::italics('Dispositivos')),
+						array('label' => 'Crear','url' => array('/Dispositivo/createDisp')),
+						array('label' => 'Buscar','url' => array('/Dispositivo/adminDisp')),
+
+						BsHtml::menuDivider().BsHtml::menuHeader(BsHtml::italics('Tipo de dispositivo')),
+						array('label' => 'Crear','url' => array('/Dispositivo/createTipo')),
+						array('label' => 'Buscar','url' => array('/Dispositivo/adminTipo')),
+					)
+				);
+	$menu[]=array(
+					'label' => 'Licencia',
+					'items' => array(
+						BsHtml::menuHeader(BsHtml::italics('Licencia')),
+						array('label' => 'Crear','url' => array('/Licencia/createTipo')),
+						// array('label' => 'Registros','url' => array('/Licencia/viewRecords')),
+						BsHtml::menuDivider().BsHtml::menuHeader(BsHtml::italics('Empresa')),
+						array('label' => ' Asignar','url' => array('/Licencia/create')),
+						// array('label' => 'Buscar','url' => array('/Licencia/view')),
+					)
+				);
 }
 
 

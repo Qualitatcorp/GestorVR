@@ -114,7 +114,7 @@ class Trabajador extends CActiveRecord
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));
-	}
+	}	
 	public function getNombreCompleto()
 	{
 		return implode(" ", array($this->paterno,$this->materno,$this->nombre));
