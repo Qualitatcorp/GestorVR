@@ -1,5 +1,5 @@
 <?php 
-$list=RvFicha::FindByTrabajadorAndEmpresa(1,1);
+$list=RvFicha::FindByTrabajadorAndEmpresa($model->primaryKey,$empresa);
 $categories=array_column($list, 'DATE');
 $data=array_map(function($value)
 {

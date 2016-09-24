@@ -1,3 +1,4 @@
+
 <?php $this->breadcrumbs=array(
 	'Trabajador',
 	$model->rut,
@@ -15,4 +16,4 @@
 		'materno',
 	),
 ));?>
-<?php $this->renderPartial('trabajador/chart',array('model'=>$model)); ?>
+<?php $this->renderPartial('trabajador/chart',array('model'=>$model,'empresa'=>$empresa)); ?>

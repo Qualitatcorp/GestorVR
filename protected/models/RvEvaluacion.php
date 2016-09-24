@@ -81,6 +81,14 @@ group by
   year(rv_ficha.creado),
   month(rv_ficha.creado)")->queryAll();
 	}
+	public static function findAllByEmpresa($emp)
+	{
+		return RvEvaluacion::model()->findAll("EXISTS(SELECT * FROM `rv_ficha` INNER JOIN `dispositivo` ON (`rv_ficha`.`disp_id` = `dispositivo`.`dis_id`) WHERE `t`.`eva_id` = `rv_ficha`.`eva_id` and `dispositivo`.`emp_id`=$emp)");
+	}
+	public static function findAllByUsuario($usu)
+	{
+		return RvEvaluacion::model()->findAll("EXISTS(SELECT * FROM `rv_ficha` INNER JOIN `dispositivo` ON (`rv_ficha`.`disp_id` = `dispositivo`.`dis_id`) INNER JOIN `empresa_dispositivo` ON (`dispositivo`.`dit_id` = `empresa_dispositivo`.`dis_id`) WHERE t.`eva_id`=`rv_ficha`.`eva_id` and `empresa_dispositivo`.`emu_id`=$usu)");
+	}
 	public function search()
 	{
 		$criteria=new CDbCriteria;

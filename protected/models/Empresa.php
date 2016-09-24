@@ -86,7 +86,10 @@ class Empresa extends CActiveRecord
 			'criteria'=>$criteria,
 		));
 	}
-
+	public function getEvaluaciones()
+	{
+		return RvEvaluacion::findAllByEmpresa($this->emp_id);
+	}
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);

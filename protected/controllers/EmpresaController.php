@@ -340,35 +340,51 @@ class EmpresaController extends Controller
 	/*
 		Evaluacion
 	*/
-	public function actionAdminEva($id)
+	public function actionEvaluacion($id=null)
 	{
-		
-	}
-	public function actionViewEva($id)
-	{
+		if(empty($id)){
+			if(Yii::app()->user->checkAccess('Cliente')){
+				$this->redirect(array('evaluacion','id'=>EmpresaUsuario::findByID()->emp->primaryKey));
+			}
+		}else{
+			if(Yii::app()->user->checkAccess('Cliente')){
+				if($id!=EmpresaUsuario::findByID()->emp->primaryKey){
+					$this->redirect(array('evaluacion','id'=>EmpresaUsuario::findByID()->emp->primaryKey));
+				}
+			}
+		}
+		$model=Empresa::model()->findByPk($id);
+		$this->render('evaluacion/view',array('model'=>$model));
 
 	}
+	// public function action($id)
+	// {
+
+	// }
 
 	/*
 		Trabajador
 	*/
-	public function actionTrabajador($id)
+	public function actionTrabajador()
 	{
-		// $model=Trabajador::model()->findByPk($id);
-		// $this->render('trabajador/view',array('model'=>$model));
+		$id=EmpresaUsuario::model()->findByID()->emp->primaryKey;
+		$model = new Trabajador;
+		if (isset($_POST['Trabajador'])) {
+			$model=Trabajador::model()->findByRUT($_POST['Trabajador']['rut']);
+		}
+		$this->render('trabajador/find',array('model'=>$model,'empresa'=>$id));
 	}
-
-	public function actionAdminTrabajador($id)
+	public function actionTrabajadorUpdate($id)
 	{
-		$model=new Trabajador('search');
-		$this->render('trabajador/admin',array('model'=>$model,));
-		// $model=Trabajador::findAllByEmpresa($id);
-		// $this->render('trabajador/admin',array('model'=>$model));
-	}	
-	public function actionAdminTrabajadorUsu($id)
-	{
-		$model=Trabajador::findAllByUsuario($id);
-		$this->render('trabajador/admin',array('model'=>$model));
+		$model=Trabajador::model()->findByPk($id);
+		if(isset($_POST['Trabajador']))
+		{
+			$model->attributes=$_POST['Trabajador'];
+			if($model->save())
+				$this->redirect(array('Trabajador'));
+		}
+		$this->render('trabajador/update',array(
+			'model'=>$model,
+		));
 	}
-	
 }

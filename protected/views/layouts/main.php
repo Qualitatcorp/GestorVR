@@ -50,6 +50,7 @@ if(Yii::app()->user->checkAccess('Cliente')&&!Yii::app()->user->isSuperAdmin&&!Y
 			'label' => 'Trabajador',
 			'items' => array(
 				array('label' => 'Crear','url' => array('//trabajador/create')),
+				array('label' => 'Buscar','url' => array('//empresa/trabajador')),
 				array('label' => 'Carga Masiva','url' => array('//trabajador/loadExcel')),
 			)
 		);
