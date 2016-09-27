@@ -2,10 +2,19 @@
 
 class DispositivoController extends Controller
 {
+	function init(){
+		if(isset(Yii::app()->session['lang']))
+			Yii::app()->setLanguage(Yii::app()->session['lang']);
+		else{
+			Yii::app()->setLanguage('es');
+			Yii::app()->session['lang']='es';
+		}
+		parent::init();
+	}
 	public $layout='columnSidebar';
 	public $menu=array(
 		array('label'=>'Tipo de Dispositivo'),
-	    array('label'=>'Crear', 'url'=>array('createTipo')),
+		array('label'=>'Crear', 'url'=>array('createTipo')),
 		array('label'=>'Administrar', 'url'=>array('adminTipo')),
 		array('label'=>'Dispositivo'),
 		array('label'=>'Crear', 'url'=>array('createDisp')),

@@ -3,7 +3,15 @@
 class TrabajadorController extends Controller
 {
 	public $layout='//layouts/columnSidebar';
-
+	function init(){
+		if(isset(Yii::app()->session['lang']))
+			Yii::app()->setLanguage(Yii::app()->session['lang']);
+		else{
+			Yii::app()->setLanguage('es');
+			Yii::app()->session['lang']='es';
+		}
+		parent::init();
+	}
 	public function filters()
 	{
 		return array(array('CrugeAccessControlFilter'));

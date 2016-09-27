@@ -3,6 +3,15 @@
 class RealidadvirtualController extends Controller
 {
 	public $layout='//layouts/column2';
+	function init(){
+		if(isset(Yii::app()->session['lang']))
+			Yii::app()->setLanguage(Yii::app()->session['lang']);
+		else{
+			Yii::app()->setLanguage('es');
+			Yii::app()->session['lang']='es';
+		}
+		parent::init();
+	}
 	public $menu=array(
 		array('label'=>'Tipo de Evaluación'),
 	    array('label'=>'Crear', 'url'=>array('createTipo')),

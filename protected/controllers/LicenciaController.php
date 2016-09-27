@@ -3,6 +3,15 @@
 class LicenciaController extends Controller
 {
 	public $layout='columnSidebar';
+	function init(){
+		if(isset(Yii::app()->session['lang']))
+			Yii::app()->setLanguage(Yii::app()->session['lang']);
+		else{
+			Yii::app()->setLanguage('es');
+			Yii::app()->session['lang']='es';
+		}
+		parent::init();
+	}
 	public $menu=array(
 		array('label'=>'Tipo de Licencia'),
 	    array('label'=>'Crear', 'url'=>array('createTipo')),
