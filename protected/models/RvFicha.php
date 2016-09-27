@@ -228,6 +228,25 @@ GROUP BY
 		 ")->queryAll();
 	}
 
+	public static function CountMonthByUsuario($id,$eva=null)
+	{
+		if(!empty($eva)){
+			$eva='AND `rv_ficha`.`eva_id`='.$eva;
+		}
+		return Yii::app()->db->createCommand("
+		SELECT 
+		  DATE_FORMAT(`rv_ficha`.`creado`, \"%Y-%m\") AS `CATEGORIES`,
+		  COUNT(`rv_ficha`.`calificacion`) AS `DATA`
+		FROM
+		  `dispositivo`
+		  INNER JOIN `rv_ficha` ON (`dispositivo`.`dis_id` = `rv_ficha`.`disp_id`)
+		  INNER JOIN `empresa_dispositivo` ON (`dispositivo`.`dis_id` = `empresa_dispositivo`.`dis_id`)
+		WHERE
+		  `empresa_dispositivo`.`emu_id` = $id $eva
+		GROUP BY
+		  DATE_FORMAT(`rv_ficha`.`creado`, '%Y-%m') 
+		")->queryAll();
+	}
 public static function FindByTrabajadorAndEmpresa($id,$emp,$arg=null)
 {
 	$from='';
