@@ -10,7 +10,7 @@ Yii::app()->getClientScript()
         on_error: function(){ alert('El rut ingresado es incorrecto'); }
 })
 ");?>
-<?php var_dump($model->evaluaciones) ?>
+
     <p class="help-block">Los campos con <span class="required">*</span> son requeridos.</p>
 <div class="col-md-4">
     <?= $form->numberFieldControlGroup($model,'ficha',array('class' => BsHtml::INPUT_SIZE_SM,'min'=>1)); ?>
@@ -24,7 +24,7 @@ Yii::app()->getClientScript()
 <div class="col-md-4">
     <?= $form->dateFieldControlGroup($model,'inicio',array('class' => BsHtml::INPUT_SIZE_SM,'min'=>"2015-01-01")); ?>    
     <?= $form->numberFieldControlGroup($model,'limite',array('class' => BsHtml::INPUT_SIZE_SM)); ?>    
-    <?= $form->dropDownListControlGroup($model,'order',array('order by t.creado desc'=>'Mayor a menor fecha','order by t.creado asc'=>'menor a mayor fecha','order by t.calificacion desc'=>'mayor a menor calificacion','order by t.calificacion asc'=>'menor a mayor calificacion'),
+    <?= $form->dropDownListControlGroup($model,'order',array('t.creado desc'=>'Mayor a menor fecha','t.creado asc'=>'menor a mayor fecha','t.calificacion desc'=>'mayor a menor calificacion','t.calificacion asc'=>'menor a mayor calificacion'),
      array(
     'empty' => 'Elija ...',
     'class' => BsHtml::INPUT_SIZE_SM
@@ -44,6 +44,8 @@ Yii::app()->getClientScript()
 	));?>
 </div>
 
-    <?= BsHtml::formActions(array(BsHtml::submitButton('Buscar', array('color' => BsHtml::BUTTON_COLOR_PRIMARY,
-    'pull' => BsHtml::PULL_RIGHT))));?>
+    <?= BsHtml::formActions(array(
+        BsHtml::submitButton('Excel', array('color' => BsHtml::BUTTON_COLOR_SUCCESS,'pull' => BsHtml::PULL_RIGHT,'name'=>'excel','value'=>"excel")),
+        BsHtml::submitButton('Buscar', array('color' => BsHtml::BUTTON_COLOR_PRIMARY,'pull' => BsHtml::PULL_RIGHT,'name'=>'find','value'=>"find")))
+        );?>
 <?php $this->endWidget(); ?>

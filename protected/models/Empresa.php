@@ -48,16 +48,16 @@ class Empresa extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'emp_id' => 'Empresa',
-			'nombre' => 'Nombre Corto',
-			'rut' => 'RUT',
-			'com_id' => 'Comuna',
-			'razon_social' => 'Razon Social',
-			'giro' => 'Giro',
-			'fono' => 'Fono',
-			'mail' => 'Mail',
-			'creado' => 'Creado',
-			'activa' => 'Activa',
+			'emp_id' => Yii::t('Navbar','Empresa'),
+			'nombre' => Yii::t('Navbar','Nombre Corto'),
+			'rut' => Yii::t('Navbar','RUT'),
+			'com_id' => Yii::t('Navbar','Comuna'),
+			'razon_social' => Yii::t('Navbar','Razon Social'),
+			'giro' => Yii::t('Navbar','Giro'),
+			'fono' => Yii::t('Navbar','Fono'),
+			'mail' => Yii::t('Navbar','Mail'),
+			'creado' =>Yii::t('Navbar','Creado'),
+			'activa' => Yii::t('Navbar','Activa'),
 		);
 	}
 	public function findByRUT($rut)

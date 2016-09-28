@@ -35,18 +35,18 @@ class EmpresaUsuario extends CActiveRecord
 	{
 		return array(
 			'emu_id' => 'Emu',
-			'emp_id' => 'Empresa',
-			'usu_id' => 'Usuario',
-			'nombres' => 'Nombres',
-			'paterno' => 'Apellido Paterno',
-			'materno' => 'Apellido Materno',
-			'fono' => 'Fono',
-			'Rut' => 'RUT',
-			'email' => 'email',
-			'role' => 'ROL',
-			'disp' => 'Dispositivos',
-			'countEvaluaciones'=>'Total de evaluaciones',
-			'password'=>'Contraseña',
+			'emp_id' => Yii::t('Navbar','Empresa'),
+			'usu_id' => Yii::t('Navbar','Usuario'),
+			'nombres' => Yii::t('Navbar','Nombres'),
+			'paterno' => Yii::t('Navbar','Apellido Paterno'),
+			'materno' => Yii::t('Navbar','Apellido Materno'),
+			'fono' => Yii::t('Navbar','Fono'),
+			'Rut' => Yii::t('Navbar','RUT'),
+			'email' => Yii::t('Navbar','Email'),
+			'role' =>Yii::t('Navbar','ROL'),
+			'disp' => Yii::t('Navbar','Dispositivos'),
+			'countEvaluaciones'=>Yii::t('Navbar','Total de evaluaciones'),
+			'password'=>Yii::t('Navbar','Contraseña'),
 		);
 	}
 	public function search()
@@ -85,7 +85,7 @@ class EmpresaUsuario extends CActiveRecord
 				if($model->save()){
 
 				}else{
-					die('No guardo');
+					die(Yii::t('Navbar','No guardo'));
 				}
 
 			}	
@@ -105,9 +105,13 @@ class EmpresaUsuario extends CActiveRecord
 			$id = Yii::app()->user->id;
 		return EmpresaUsuario::model()->find('usu_id='.$id);
 	}
-	public static function getCountEvaluaciones()
+	public function getCountEvaluaciones()
 	{
 		return RvFicha::CountByUsuario($this->emu_id);
+	}
+	public function getEvaluaciones()
+	{
+		return RvEvaluacion::model()->findAll("EXISTS(SELECT * FROM `empresa_dispositivo` INNER JOIN `rv_ficha` ON (`empresa_dispositivo`.`dis_id` = `rv_ficha`.`disp_id`) WHERE `rv_ficha`.`eva_id` = `t`.`eva_id` AND `empresa_dispositivo`.`emd_id` = $this->emu_id)");
 	}
 	// public function __get($name){
 	
