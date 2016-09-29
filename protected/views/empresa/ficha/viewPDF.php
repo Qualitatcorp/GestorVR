@@ -21,7 +21,7 @@
 				));
 			?>
 			<p align="center"><?= $model->Nota ?></p>
-			<?php $this->endWidget();?>
+		<?php $this->endWidget();?>
 		</div>
 	</div>
 	<div class="row">

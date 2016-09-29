@@ -23,8 +23,8 @@
 						<td><?=$key+1 ?></td>
 						<?php $pregunta=$value->alternativa->pregunta; ?>
 						<td><?=$pregunta->renderImagen ?></td>
-						<td align="center"><?=BsHtml::bold($pregunta->descripcion).'<br>'.BsHtml::italics("$pregunta->comentario") ?></td>
-						<td><?=$value->alternativa->descripcion ?></td>
+						<td align="center"><?=BsHtml::bold($pregunta->descripcion).'<br>'.BsHtml::italics($pregunta->comentario) ?></td>
+						<td><?=$value->alternativa->traduce()->descripcion ?></td>
 						<td align="center"><?=$value->alternativa->renderCorrecto ?></td>
 					</tr>
 					<?php endforeach ?>

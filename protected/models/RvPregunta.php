@@ -50,6 +50,11 @@ class RvPregunta extends CActiveRecord
 		// return Yii::app()->request->baseUrl.'/images/rv/SIN IMAGEN.png';
 		return Yii::app()->request->baseUrl.'/images/rv/'.(($this->imagen=='')?"/SIN IMAGEN.png":"$this->pre_id-$this->imagen");
 	}
+	public function language()
+	{
+
+		return $this;
+	}
 	public function getRenderImagen()
 	{
 		return BsHtml::imageThumbnail($this->UrlImagen,'pregunta',array('height'=>'120px','width'=>'120px'));

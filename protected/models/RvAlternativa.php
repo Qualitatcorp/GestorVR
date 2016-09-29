@@ -63,6 +63,13 @@ class RvAlternativa extends CActiveRecord
 			return BsHtml::imageCircle(Yii::app()->request->baseUrl.'/images/ficha/incorrecto.jpg','pregunta',array('height'=>'50x','width'=>'50px'));
 		}
 	}
+	public function traduce()
+	{
+		if(Yii::app()->session['lang']!=='es'){
+			echo "Hola";
+		}
+		return $this;
+	}
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
