@@ -43,14 +43,14 @@ array_push($this->menu,
   <ul class="nav nav-tabs" role="tablist">
     <li role="presentation" class="active"><a href="#Graficos" aria-controls="Graficos" role="tab" data-toggle="tab"><?=Yii::t('Navbar','Graficos')?></a></li>
     <li role="presentation"><a href="#Usuario" aria-controls="Usuario" role="tab" data-toggle="tab"><?=Yii::t('Navbar','Usuarios')?></a></li>
-    <li role="presentation"><a href="#Licencia" aria-controls="Licencia" role="tab" data-toggle="tab"><?php Yii::t('Navbar','Licencia')?></a></li>
+    <li role="presentation"><a href="#Licencia" aria-controls="Licencia" role="tab" data-toggle="tab"><?=Yii::t('Navbar','Licencia')?></a></li>
     <li role="presentation"><a href="#Dispositivos" aria-controls="Dispositivos" role="tab" data-toggle="tab"><?=Yii::t('Navbar','Dispositivos')?></a></li>
   </ul>
   <div class="tab-content">
     <div role="tabpanel" class="tab-pane fade" id="Usuario"><?php $this->renderPartial('usuario/admin', array('model'=>$model->usuarios)); ?></div>
     <div role="tabpanel" class="tab-pane fade" id="Licencia"><?php $this->renderPartial('licencia/admin', array('model'=>$model->licencias)); ?></div>
     <div role="tabpanel" class="tab-pane fade in active" id="Graficos"><?php $this->renderPartial('chart', array('model'=>$model)); ?></div>
-   	  <div role="tabpanel" class="tab-pane fade" id="Dispositivos"><?php $this->renderPartial('dispositivo/admin', array('model'=>$model->dispositivos)); ?></div>
+   	  <div role="tabpanel" class="tab-pane fade" id="Dispositivos"><?php $this->renderPartial('dispositivo/admin', array('model'=>$model->dispositivos));?></div>
   </div>
 </div>
 
