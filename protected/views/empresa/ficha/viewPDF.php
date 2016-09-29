@@ -14,16 +14,14 @@
 		<div class="col-xs-6">
 			<?=BsHtml::pageHeader("Ficha de evaluación","<br>".$model->dispositivo->empresa->nombre."<br>".$model->evaluacion->nombre."<br>".$model->trabajador->rut."<br>".$model->trabajador->nombreCompleto,$htmlOptions=array('style'=>'position: relative;padding-top: 0px;'))?>
 		</div>
-		<div style="width:15%"><?php
-$this->beginWidget('bootstrap.widgets.BsPanel', array(
-    'title' => '<p align="center">NOTA</p>',
-    // 'footer' => 'Ficha '.$model->primaryKey
-));
-?>
-		<p align="center"><?= $model->Nota ?></p>
-<?php
-$this->endWidget();
-?>
+		<div style="width:15%">
+			<?php
+				$this->beginWidget('bootstrap.widgets.BsPanel', array(
+				    'title' => '<p align="center">NOTA</p>',
+				));
+			?>
+			<p align="center"><?= $model->Nota ?></p>
+			<?php $this->endWidget();?>
 		</div>
 	</div>
 	<div class="row">
@@ -39,7 +37,7 @@ $this->endWidget();
 						<td><?=$key+1 ?></td>
 						<?php $pregunta=$value->alternativa->pregunta; ?>
 						<td><?=$pregunta->renderImagen ?></td>
-						<td align="center"><?=BsHtml::bold($pregunta->descripcion).'<br>'.BsHtml::italics("$pregunta->comentario") ?></td>
+						<td align="center"><?=BsHtml::bold($pregunta->descripcion).'<br>'.BsHtml::italics($pregunta->comentario) ?></td>
 						<td><?=$value->alternativa->descripcion ?></td>
 						<td align="center"><?=$value->alternativa->renderCorrecto ?></td>
 					</tr>

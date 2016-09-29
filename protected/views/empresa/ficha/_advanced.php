@@ -45,7 +45,7 @@ Yii::app()->getClientScript()
 </div>
 
     <?= BsHtml::formActions(array(
-        BsHtml::submitButton('Excel', array('color' => BsHtml::BUTTON_COLOR_SUCCESS,'pull' => BsHtml::PULL_RIGHT,'name'=>'excel','value'=>"excel")),
-        BsHtml::submitButton('Buscar', array('color' => BsHtml::BUTTON_COLOR_PRIMARY,'pull' => BsHtml::PULL_RIGHT,'name'=>'find','value'=>"find")))
-        );?>
+        BsHtml::submitButton('Buscar', array('color' => BsHtml::BUTTON_COLOR_PRIMARY,'pull' => BsHtml::PULL_RIGHT,'name'=>'find','value'=>"find")),
+        BsHtml::submitButton('Excel', array('color' => BsHtml::BUTTON_COLOR_SUCCESS,'pull' => BsHtml::PULL_RIGHT,'name'=>'excel','value'=>"excel"))
+        ));?>
 <?php $this->endWidget(); ?>
