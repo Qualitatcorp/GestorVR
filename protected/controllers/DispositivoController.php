@@ -2,6 +2,24 @@
 
 class DispositivoController extends Controller
 {
+	function init(){
+		if(isset(Yii::app()->session['lang']))
+			Yii::app()->setLanguage(Yii::app()->session['lang']);
+		else{
+			Yii::app()->setLanguage('es');
+			Yii::app()->session['lang']='es';
+		}
+		parent::init();
+	}
+	public $layout='columnSidebar';
+	public $menu=array(
+		array('label'=>'Tipo de Dispositivo'),
+		array('label'=>'Crear', 'url'=>array('createTipo')),
+		array('label'=>'Administrar', 'url'=>array('adminTipo')),
+		array('label'=>'Dispositivo'),
+		array('label'=>'Crear', 'url'=>array('createDisp')),
+		array('label'=>'Administrar', 'url'=>array('adminDisp')),
+		);
 	public function filters()
 	{
 		return array(array('CrugeAccessControlFilter'));
@@ -13,71 +31,72 @@ class DispositivoController extends Controller
 			array('accessControl'),
 		);
 	}
-	
-	public function actionAdminDisp()
-	{
-		$this->render('adminDisp');
-	}
-
+	//Tipo de Dispositivo
 	public function actionAdminTipo()
 	{
-		$this->render('adminTipo');
+		$model=DispositivoTipo::model()->findAll();
+		$this->render('tipo/admin',array('List'=>$model));
 	}
-
-	public function actionCreateDisp()
-	{
-		$this->render('createDisp');
-	}
-
 	public function actionCreateTipo()
 	{
-		$this->render('createTipo');
+		$model=new DispositivoTipo;
+		if(isset($_POST['DispositivoTipo'])){
+			$model->attributes=$_POST['DispositivoTipo'];
+			if($model->save())
+				$this->redirect(array('adminTipo'));
+		}
+		$this->render('tipo/create',array('model'=>$model));
 	}
 
-	public function actionEditDisp()
+	public function actionEditTipo($id)
 	{
-		$this->render('editDisp');
+		$model=DispositivoTipo::model()->findByPk($id);
+		if(isset($_POST['DispositivoTipo'])){
+			$model->attributes=$_POST['DispositivoTipo'];
+			if($model->save())
+				$this->redirect(array('adminTipo'));
+		}
+		$this->render('tipo/edit',array('model'=>$model));
 	}
-
-	public function actionEditTipo()
-	{
-		$this->render('editTipo');
-	}
-
-	public function actionViewDisp()
-	{
-		$this->render('viewDisp');
-	}
-
 	public function actionViewTipo()
 	{
-		$this->render('viewTipo');
+		$this->render('tipo/view');
 	}
 
-	// Uncomment the following methods and override them if needed
-	/*
-	public function filters()
+	public function actionDeleteTipo($id)
 	{
-		// return the filter configuration for this controller, e.g.:
-		return array(
-			'inlineFilterName',
-			array(
-				'class'=>'path.to.FilterClass',
-				'propertyName'=>'propertyValue',
-			),
-		);
+		DispositivoTipo::model()->deleteByPk($id);
+		$this->redirect(array('adminTipo'));
+	}
+	//Dispositivo
+	public function actionAdminDisp()
+	{
+		$model=Dispositivo::model()->findAll();
+		$this->render('admin',array('List'=>$model));
+	}
+	public function actionCreateDisp()
+	{		
+		$model=new Dispositivo;
+		if(isset($_POST['Dispositivo'])){
+			$model->attributes=$_POST['Dispositivo'];
+			if($model->save())
+				$this->redirect(array('adminDisp'));
+		}
+		$this->render('create',array('model'=>$model));
+	}
+	public function actionEditDisp($id)
+	{	
+		$model=Dispositivo::model()->findByPk($id);
+		if(isset($_POST['Dispositivo'])){
+			$model->attributes=$_POST['Dispositivo'];
+			if($model->save())
+				$this->redirect(array('adminDisp'));
+		}
+		$this->render('edit',array('model'=>$model));
+	}
+	public function actionViewDisp()
+	{
+		$this->render('view');
 	}
 
-	public function actions()
-	{
-		// return external action classes, e.g.:
-		return array(
-			'action1'=>'path.to.ActionClass',
-			'action2'=>array(
-				'class'=>'path.to.AnotherActionClass',
-				'propertyName'=>'propertyValue',
-			),
-		);
-	}
-	*/
 }

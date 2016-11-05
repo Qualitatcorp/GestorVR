@@ -2,6 +2,27 @@
 
 class LicenciaController extends Controller
 {
+	public $layout='columnSidebar';
+	function init(){
+		if(isset(Yii::app()->session['lang']))
+			Yii::app()->setLanguage(Yii::app()->session['lang']);
+		else{
+			Yii::app()->setLanguage('es');
+			Yii::app()->session['lang']='es';
+		}
+		parent::init();
+	}
+	public $menu=array(
+		array('label'=>'Tipo de Licencia'),
+	    array('label'=>'Crear', 'url'=>array('createTipo')),
+		array('label'=>'Administrar', 'url'=>array('adminTipo')),
+		array('label'=>'Licencias'),
+		array('label'=>'Asignar', 'url'=>array('create')),
+		array('label'=>'Administrar', 'url'=>array('admin')),
+		array('label'=>'Registros'),
+		array('label'=>'Ver', 'url'=>array('adminRecords')),
+		array('label'=>'Crear', 'url'=>array('viewRecords')),
+		);
 	public function filters()
 	{
 		return array(array('CrugeAccessControlFilter'));
@@ -13,70 +34,98 @@ class LicenciaController extends Controller
 			array('accessControl'),
 		);
 	}
-	public function actionCreateLic()
-	{
-		$this->render('createLic');
-	}
-
-	public function actionCreateRecords()
-	{
-		$this->render('createRecords');
-	}
-
+	/**
+		Tipo Licencia 
+	**/
 	public function actionCreateTipo()
 	{
-		$this->render('createTipo');
+		$model=new LicenciaTipo;
+		if(isset($_POST['LicenciaTipo'])){
+			$model->attributes=$_POST['LicenciaTipo'];
+			if($model->save())
+				$this->redirect(array('adminTipo'));
+		}
+		$this->render('tipo/create',array('model'=>$model));
 	}
-
-	public function actionEditLic()
-	{
-		$this->render('editLic');
+	public function actionUpdateTipo($id)
+	{		
+		$model=LicenciaTipo::model()->findByPk($id);
+		if(isset($_POST['LicenciaTipo'])){
+			$model->attributes=$_POST['LicenciaTipo'];
+			if($model->save())
+				$this->redirect(array('adminTipo'));
+		}
+		$this->render('tipo/update',array('model'=>$model));
 	}
-
-	public function actionEditTipo()
-	{
-		$this->render('editTipo');
-	}
-
-	public function actionViewLic()
-	{
-		$this->render('viewLic');
-	}
-
-	public function actionViewRecords()
-	{
-		$this->render('viewRecords');
-	}
-
 	public function actionViewTipo()
 	{
-		$this->render('viewTipo');
-	}
-
-	// Uncomment the following methods and override them if needed
-	/*
-	public function filters()
+		$this->render('tipo/view');
+	}	
+	public function actionAdminTipo()
 	{
-		// return the filter configuration for this controller, e.g.:
-		return array(
-			'inlineFilterName',
-			array(
-				'class'=>'path.to.FilterClass',
-				'propertyName'=>'propertyValue',
-			),
-		);
-	}
-
-	public function actions()
+		$model=LicenciaTipo::model()->findAll();
+		$this->render('tipo/admin',array('List'=>$model));
+	}	
+	public function actionDeleteTipo()
 	{
-		// return external action classes, e.g.:
-		return array(
-			'action1'=>'path.to.ActionClass',
-			'action2'=>array(
-				'class'=>'path.to.AnotherActionClass',
-				'propertyName'=>'propertyValue',
-			),
-		);
+		$this->render('tipo/view');
 	}
-	*/
+	/**
+		Licencia
+	**/
+	public function actionCreate()
+	{		
+		$model=new Licencia;
+		if(isset($_POST['Licencia'])){
+			$model->attributes=$_POST['Licencia'];
+			if($model->save()){
+				$registro=new LicenciaRegistro;
+				$registro->lic_id=$model->lic_id;
+				$registro->iduser=Yii::app()->user->id;
+				$registro->cantidad=$model->cantidadTotal;
+				$registro->tipo='ABONO';
+				$registro->descripcion='ASIGNACION DE LICENCIA';
+				if($registro->save()){
+					echo "guardo";
+					die();
+				}else
+				{
+					var_dump($registro->getErrors());
+					echo "no se guardo";
+					die();
+				}
+				$this->redirect(array('admin'));
+			}
+		}
+		$this->render('create',array('model'=>$model));
+	}
+	public function actionUpdate($id)
+	{		
+		$model=Licencia::model()->findByPk($id);
+		if(isset($_POST['Licencia'])){
+			$model->attributes=$_POST['Licencia'];
+			if($model->save())
+				$this->redirect(array('adminTipo'));
+		}
+		$this->render('update',array('model'=>$model));
+	}
+	public function actionView()
+	{
+		$this->render('view');
+	}	
+	public function actionDelete($id)
+	{		
+			Licencia::model()->findByPk($id)->delete();
+	}
+	/**
+		Registro
+	**/
+	public function actionCreateRecords()
+	{
+		$this->render('record/create');
+	}
+	public function actionViewRecords()
+	{
+		$this->render('record/view');
+	}
 }

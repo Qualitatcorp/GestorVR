@@ -1,95 +1,118 @@
 <?php
-
-/**
- * This is the model class for table "trabajador".
- *
- * The followings are the available columns in table 'trabajador':
- * @property string $tra_id
- * @property string $nombre
- * @property string $paterno
- * @property string $materno
- * @property string $nacimiento
- * @property string $fono
- * @property string $mail
- * @property string $creacion
- * @property string $modificado
- */
 class Trabajador extends CActiveRecord
 {
-	/**
-	 * @return string the associated database table name
-	 */
 	public function tableName()
 	{
 		return 'trabajador';
 	}
-
-	/**
-	 * @return array validation rules for model attributes.
-	 */
 	public function rules()
 	{
-		// NOTE: you should only define rules for those attributes that
-		// will receive user inputs.
 		return array(
-			array('nombre', 'length', 'max'=>150),
+			array('rut', 'required'),
+			array('rut', 'unique','message'=>'El trabajador ya se encuentra registrado.'),
+			array('antiguedad,hijos','numerical',
+			    'integerOnly'=>true,
+			    'min'=>0,
+			    'max'=>70,),
+			array('rut', 'length', 'max'=>12),
+			array('rut', 'valida_rut'),/* 'attributeName'=>'rut', 'className'=>'cliente','allowEmpty'=>'false'),*/
+			array('estado_civil,gerencia,cargo,nombre', 'length', 'max'=>150),
 			array('paterno, materno', 'length', 'max'=>100),
+			array('nacimiento', 'date', 'format'=>'yyyy-MM-dd','allowEmpty'=>true),
 			array('fono', 'length', 'max'=>50),
 			array('nacimiento, mail, modificado', 'safe'),
-			// The following rule is used by search().
-			// @todo Please remove those attributes that should not be searched.
-			array('tra_id, nombre, paterno, materno, nacimiento, fono, mail, creacion, modificado', 'safe', 'on'=>'search'),
+			array('tra_id, rut, nombre, paterno, materno, nacimiento, fono, mail, creacion, modificado', 'safe', 'on'=>'search'),
 		);
 	}
 
-	/**
-	 * @return array relational rules.
-	 */
+
+	public function valida_rut($attribute, $params){
+		$rut=$this->$attribute;
+	    if (!preg_match("/^[0-9.]+[-]?+[0-9kK]{1}/", $rut)) {
+	        $this->addError($attribute, 'Rut inválido.');
+	    }
+	    $rut = preg_replace('/[\.\-]/i', '', $rut);
+	    $dv = substr($rut, -1);
+	    $numero = substr($rut, 0, strlen($rut) - 1);
+	    $i = 2;
+	    $suma = 0;
+	    foreach (array_reverse(str_split($numero)) as $v) {
+	        if ($i == 8)
+	            $i = 2;
+	        $suma += $v * $i;
+	        ++$i;
+	    }
+	    $dvr = 11 - ($suma % 11);
+	    if ($dvr == 11)
+	        $dvr = 0;
+	    if ($dvr == 10)
+	        $dvr = 'K';
+	    if ($dvr != strtoupper($dv))
+	        $this->addError($attribute, 'Rut inválido.');
+	}
+
 	public function relations()
 	{
-		// NOTE: you may need to adjust the relation name and the related
-		// class name for the relations automatically generated below.
 		return array(
 		);
 	}
-
-	/**
-	 * @return array customized attribute labels (name=>label)
-	 */
 	public function attributeLabels()
 	{
 		return array(
-			'tra_id' => 'Tra',
+			'tra_id' => 'Trabajador',
+			'rut' => 'RUT',
 			'nombre' => 'Nombre',
 			'paterno' => 'Paterno',
 			'materno' => 'Materno',
-			'nacimiento' => 'Nacimiento',
-			'fono' => 'Fono',
-			'mail' => 'Mail',
-			'creacion' => 'Creacion',
+			'nacimiento' => 'Fecha de nacimiento',
+			'fono' => 'Número Telefónico',
+			'mail' => 'Correo electrónico',
+			'creacion' => 'Creación',
 			'modificado' => 'Modificado',
-		);
+			'gerencia'=>'Gerencia',
+			'cargo'=>'Cargo',
+			'antiguedad'=>'Antigüedad',
+			'estado_civil'=>'Estado civil',
+			'hijos'=>'Cantidad de hijos',
+			'edad'=>'Edad'
+			);
 	}
+	public static function checkRut($rut)
+	{
+	    if (!preg_match("/^[0-9.]+[-]?+[0-9kK]{1}/", $rut)) {
+	        return null;
+	    }
 
-	/**
-	 * Retrieves a list of models based on the current search/filter conditions.
-	 *
-	 * Typical usecase:
-	 * - Initialize the model fields with values from filter form.
-	 * - Execute this method to get CActiveDataProvider instance which will filter
-	 * models according to data in model fields.
-	 * - Pass data provider to CGridView, CListView or any similar widget.
-	 *
-	 * @return CActiveDataProvider the data provider that can return the models
-	 * based on the search/filter conditions.
-	 */
+	    $rut = preg_replace('/[\.\-]/i', '', $rut);
+	    $dv = substr($rut, -1);
+	    $numero = substr($rut, 0, strlen($rut) - 1);
+	    $numero = intval($numero);
+	    $numero = strval($numero);
+	    $rut=number_format( substr ( $rut, 0 , -1 ) , 0, "", ".") . '-' . substr ( $rut, strlen($rut) -1 , 1 );	    $i = 2;
+	    $suma = 0;
+	    foreach (array_reverse(str_split($numero)) as $v) {
+	        if ($i == 8)
+	            $i = 2;
+	        $suma += $v * $i;
+	        ++$i;
+	    }
+	    $dvr = 11 - ($suma % 11);
+
+	    if ($dvr == 11)
+	        $dvr = 0;
+	    if ($dvr == 10)
+	        $dvr = 'K';
+	    if ($dvr == strtoupper($dv))
+	        return $rut;
+	    else
+	        return null;
+	}
 	public function search()
 	{
-		// @todo Please modify the following code to remove attributes that should not be searched.
-
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('tra_id',$this->tra_id,true);
+		$criteria->compare('rut',$this->rut,true);
 		$criteria->compare('nombre',$this->nombre,true);
 		$criteria->compare('paterno',$this->paterno,true);
 		$criteria->compare('materno',$this->materno,true);
@@ -103,15 +126,41 @@ class Trabajador extends CActiveRecord
 			'criteria'=>$criteria,
 		));
 	}
-
-	/**
-	 * Returns the static model of the specified AR class.
-	 * Please note that you should have this exact method in all your CActiveRecord descendants!
-	 * @param string $className active record class name.
-	 * @return Trabajador the static model class
-	 */
+	public function getEdad()
+	{
+		if(!empty($this->nacimiento)){
+			return strval(DateTime::createFromFormat('Y-m-d',$this->nacimiento)
+				->diff(new DateTime('now'))
+				->y);
+		}else{
+			return null;
+		}
+	}
+	public function getNombreCompleto()
+	{
+		return implode(" ", array($this->paterno,$this->materno,$this->nombre));
+	}
+	public static function findAllByEmpresa($id)
+	{
+		return Trabajador::model()->findAll("EXISTS(SELECT * FROM `rv_ficha` INNER JOIN `dispositivo` ON (`rv_ficha`.`disp_id` = `dispositivo`.`dis_id`) INNER JOIN `empresa` ON (`dispositivo`.`emp_id` = `empresa`.`emp_id`) INNER JOIN `empresa_usuario` ON (`empresa`.`emp_id` = `empresa_usuario`.`emp_id`) WHERE `rv_ficha`.`trab_id` = `t`.`tra_id` AND `empresa`.`emp_id` = $id)");
+	}
+	public static function findAllByEmpresaUsuario($id)
+	{
+		return Trabajador::model()->findAll("EXISTS(SELECT * FROM `rv_ficha` INNER JOIN `dispositivo` ON (`rv_ficha`.`disp_id` = `dispositivo`.`dis_id`) INNER JOIN `empresa_dispositivo` ON (`empresa_dispositivo`.`dis_id` = `dispositivo`.`dis_id`) INNER JOIN `empresa_usuario` ON (`empresa_dispositivo`.`emu_id` = `empresa_usuario`.`emu_id`) WHERE `rv_ficha`.`trab_id` = `t`.`tra_id` AND `empresa_usuario`.`usu_id`= $id)");
+	}
+	public static function findByRUT($rut)
+	{
+		$model=Trabajador::model()->find("rut='$rut'");
+		if($model===null){
+			$model=new Trabajador;
+			$model->rut=$rut;
+			$model->save();
+		}
+		return $model;
+	}
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
 	}
+
 }

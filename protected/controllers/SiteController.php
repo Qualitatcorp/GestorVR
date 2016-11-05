@@ -2,6 +2,15 @@
 
 class SiteController extends Controller
 {
+		function init(){
+		if(isset(Yii::app()->session['lang']))
+			Yii::app()->setLanguage(Yii::app()->session['lang']);
+		else{
+			Yii::app()->setLanguage('es');
+			Yii::app()->session['lang']='es';
+		}
+		parent::init();
+	}
 	/**
 	 * Declares class-based actions.
 	 */

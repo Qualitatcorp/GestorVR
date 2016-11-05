@@ -5,18 +5,18 @@
 
 <?php
 $this->breadcrumbs=array(
-	'Trabajadors'=>array('index'),
-	$model->tra_id,
+	'Trabajadores',
+	$model->rut,
 );
 $this->menu=array(
 	array('label'=>'Crear Trabajador', 'url'=>array('create')),
-	array('label'=>'Editar Trabajador', 'url'=>array('update', 'id'=>$model->emp_id)),
-	array('label'=>'Eliminar Trabajador', 'url'=>'#', 'linkOptions'=>array('submit'=>array('delete','id'=>$model->emp_id),'confirm'=>'¿Estas seguro que deseas eliminar este Trabajador?')),
+	array('label'=>'Editar Trabajador', 'url'=>array('update', 'id'=>$model->tra_id)),
+	array('label'=>'Eliminar Trabajador', 'url'=>'#', 'linkOptions'=>array('submit'=>array('delete','id'=>$model->tra_id),'confirm'=>'¿Estas seguro que deseas eliminar este Trabajador?')),
     array('label'=>'Administrar Trabajador', 'url'=>array('admin')),
 );
 ?>
 
-<?php echo BsHtml::pageHeader('View','Trabajador '.$model->tra_id) ?>
+<?php echo BsHtml::pageHeader('Ver','Trabajador '.$model->rut) ?>
 
 <?php $this->widget('zii.widgets.CDetailView',array(
 	'htmlOptions' => array(
@@ -24,13 +24,19 @@ $this->menu=array(
 	),
 	'data'=>$model,
 	'attributes'=>array(
-		'tra_id',
+		'rut',
 		'nombre',
 		'paterno',
 		'materno',
 		'nacimiento',
+		'edad',
 		'fono',
 		'mail',
+		'gerencia',
+		'cargo',
+		'antiguedad',
+		'estado_civil',
+		'hijos',
 		'creacion',
 		'modificado',
 	),

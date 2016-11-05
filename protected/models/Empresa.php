@@ -1,95 +1,75 @@
 <?php
 
-/**
- * This is the model class for table "empresa".
- *
- * The followings are the available columns in table 'empresa':
- * @property integer $emp_id
- * @property string $nombre
- * @property string $rut
- * @property integer $com_id
- * @property string $razon_social
- * @property integer $giro
- * @property string $fono
- * @property string $mail
- * @property string $creado
- * @property string $activa
- */
+
 class Empresa extends CActiveRecord
 {
-	/**
-	 * @return string the associated database table name
-	 */
+
 	public function tableName()
 	{
 		return 'empresa';
 	}
 
-	/**
-	 * @return array validation rules for model attributes.
-	 */
 	public function rules()
 	{
-		// NOTE: you should only define rules for those attributes that
-		// will receive user inputs.
 		return array(
-			array('nombre, com_id, razon_social', 'required'),
+
+			array('rut', 'unique','message'=>'La empresa ya se encuentra registrada.'),
+			array('rut,nombre, com_id, razon_social', 'required'),
 			array('com_id, giro', 'numerical', 'integerOnly'=>true),
 			array('rut', 'length', 'max'=>12),
 			array('fono', 'length', 'max'=>50),
 			array('activa', 'length', 'max'=>2),
 			array('mail', 'safe'),
-			// The following rule is used by search().
-			// @todo Please remove those attributes that should not be searched.
 			array('emp_id, nombre, rut, com_id, razon_social, giro, fono, mail, creado, activa', 'safe', 'on'=>'search'),
 		);
 	}
 
-	/**
-	 * @return array relational rules.
-	 */
 	public function relations()
 	{
-		// NOTE: you may need to adjust the relation name and the related
-		// class name for the relations automatically generated below.
 		return array(
+			'usuarios' => array(self::HAS_MANY, 'EmpresaUsuario', 'emp_id'),
+			'dispositivos' => array(self::HAS_MANY, 'Dispositivo', 'emp_id'),
+			'licencias' => array(self::HAS_MANY, 'Licencia', 'emp_id'),
 		);
 	}
-
-	/**
-	 * @return array customized attribute labels (name=>label)
-	 */
+	public function getUsers(){
+		$u = array();
+		foreach($this->Usuarios as $rel)
+			$u[] = $rel->user0;
+		return $u;
+	}
+	public function getAsignaciones(){
+		$descr = "";
+		foreach($this->users as $u){
+			$u->getUserDescription(true); 
+			$descr .= $u->getCustomFieldValue('nombre').
+				" ".$u->getCustomFieldValue('paterno')." ".$u->getCustomFieldValue('materno').", ";
+		}
+		return trim($descr," ,");
+	}
 	public function attributeLabels()
 	{
 		return array(
-			'emp_id' => 'Empresa',
-			'nombre' => 'Nombre Corto',
-			'rut' => 'RUT',
-			'com_id' => 'Comuna',
-			'razon_social' => 'Razon Social',
-			'giro' => 'Giro',
-			'fono' => 'Fono',
-			'mail' => 'Mail',
-			'creado' => 'Creado',
-			'activa' => 'Activa',
+			'emp_id' => Yii::t('Navbar','Empresa'),
+			'nombre' => Yii::t('Navbar','Nombre Corto'),
+			'rut' => Yii::t('Navbar','RUT'),
+			'com_id' => Yii::t('Navbar','Comuna'),
+			'razon_social' => Yii::t('Navbar','Razon Social'),
+			'giro' => Yii::t('Navbar','Giro'),
+			'fono' => Yii::t('Navbar','Fono'),
+			'mail' => Yii::t('Navbar','Mail'),
+			'creado' =>Yii::t('Navbar','Creado'),
+			'activa' => Yii::t('Navbar','Activa'),
 		);
 	}
+	public function findByRUT($rut)
+	{
+		return Empresa::model()->find("rut='$rut'");
+	}
 
-	/**
-	 * Retrieves a list of models based on the current search/filter conditions.
-	 *
-	 * Typical usecase:
-	 * - Initialize the model fields with values from filter form.
-	 * - Execute this method to get CActiveDataProvider instance which will filter
-	 * models according to data in model fields.
-	 * - Pass data provider to CGridView, CListView or any similar widget.
-	 *
-	 * @return CActiveDataProvider the data provider that can return the models
-	 * based on the search/filter conditions.
-	 */
+
 	public function search()
 	{
-		// @todo Please modify the following code to remove attributes that should not be searched.
 
 		$criteria=new CDbCriteria;
 
@@ -108,13 +88,10 @@ class Empresa extends CActiveRecord
 			'criteria'=>$criteria,
 		));
 	}
-
-	/**
-	 * Returns the static model of the specified AR class.
-	 * Please note that you should have this exact method in all your CActiveRecord descendants!
-	 * @param string $className active record class name.
-	 * @return Empresa the static model class
-	 */
+	public function getEvaluaciones()
+	{
+		return RvEvaluacion::findAllByEmpresa($this->emp_id);
+	}
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);

@@ -46,12 +46,12 @@ p {
 <body>
 <div class="middlePage">
 <div class="page-header">
-  <h1 class="logo"><img src="<?=Yii::app()->baseUrl ?>/images/logo.png" alt="Smiley face" height="100">Qualitatcorp <small>Workshop</small></h1>
+  <h1 class="logo"><img src="<?=Yii::app()->baseUrl ?>/images/logo.png" alt="Smiley face" height="100">Gestor VR <small>Qualitatcorp</small></h1>
 </div>
 
 <div class="panel panel-info">
   <div class="panel-heading">
-    <h3 class="panel-title">Acceso a la plataforma <?= BsHtml::bold('Workshop');?></h3>
+    <h3 class="panel-title">Acceso a la plataforma <?= BsHtml::bold('Gestor VR');?></h3>
   </div>
   <div class="panel-body">
   

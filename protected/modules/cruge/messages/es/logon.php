@@ -6,6 +6,9 @@
  */
 
 return array(
+    'Access platform'=>'Acceso a la plataforma',
+    'User'=>'Usuario',
+    'Language'=>'Idioma',
     'Login' => 'Iniciar Sesión',
     'Logout' => 'Cerrar Sesión',
     'User not found' => 'el usuario no fue hallado',

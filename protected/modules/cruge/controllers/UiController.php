@@ -27,6 +27,15 @@ class UiController extends Controller
     {
         $this->registerScripts();
         $this->layout = CrugeUtil::config()->generalUserManagementLayout;
+
+        #Login
+        if(isset(Yii::app()->session['lang']))
+            Yii::app()->setLanguage(Yii::app()->session['lang']);
+        else{
+            Yii::app()->setLanguage('es');
+            Yii::app()->session['lang']='es';
+        }
+        parent::init();
     }
 
     public function registerScripts()
@@ -138,6 +147,7 @@ class UiController extends Controller
         if (isset($_POST[CrugeUtil::config()->postNameMappings['CrugeLogon']])) {
             $model->attributes = $_POST[CrugeUtil::config()->postNameMappings['CrugeLogon']];
             if ($model->validate()) {
+                Yii::app()->session['lang']=$_POST['CrugeLogon']['language'];
                 if ($model->login(false) == true) {
 
                     Yii::log(__CLASS__ . "\nCrugeLogon->login() returns true\n", "info");
