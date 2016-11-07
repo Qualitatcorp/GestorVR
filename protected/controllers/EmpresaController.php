@@ -30,6 +30,13 @@ class EmpresaController extends Controller
 	*/
 	public function actionView($id)
 	{
+		if(Yii::app()->user->checkAccess('Administrador')){
+		}else{
+			if(Yii::app()->user->checkAccess('Cliente')){
+				if(EmpresaUsuario::findByID()->emp->primaryKey!=$id)
+					$this->redirect(array('view','id'=>EmpresaUsuario::findByID()->emp->primaryKey));
+			}
+		}
 		$this->render('view',array(
 			'model'=>$this->loadModel($id),
 		));
@@ -77,8 +84,17 @@ class EmpresaController extends Controller
 	}
 	public function actionIndex()
 	{
-		if(EmpresaUsuario::findByUsuario());
-
+		if(Yii::app()->user->checkAccess('Administrador')){
+			$this->redirect(array('admin'));
+		}else{
+			if(Yii::app()->user->checkAccess('Cliente')){
+				$this->redirect(array('view','id'=>EmpresaUsuario::findByID()->emp->primaryKey));
+			}else{
+				if(Yii::app()->user->checkAccess('Supervisor')){
+					$this->redirect(array('usu','id'=>EmpresaUsuario::findByID()->primaryKey));
+				}
+			}
+		}
 	}
 	public function actionAdmin()
 	{
@@ -166,6 +182,20 @@ class EmpresaController extends Controller
 	}
 	public function actionUsu($id)
 	{
+		if(Yii::app()->user->checkAccess('Administrador')){
+		}else{
+			if(Yii::app()->user->checkAccess('Cliente')){
+				if(!EmpresaUsuario::ExistUsuarioEmpresa(EmpresaUsuario::findByID()->emp->primaryKey,$id)){
+					$this->redirect(array('view','id'=>EmpresaUsuario::findByID()->emp->primaryKey));
+				}
+			}else{
+				if(Yii::app()->user->checkAccess('Supervisor')){
+					if(EmpresaUsuario::findByID()->primaryKey!=$id){
+						$this->redirect(array('usu','id'=>EmpresaUsuario::findByID()->primaryKey));
+					}
+				}
+			}
+		}
         $model = EmpresaUsuario::model()->findByPk($id);
 		$this->render('usuario/view',array('model'=>$model));
 	}
