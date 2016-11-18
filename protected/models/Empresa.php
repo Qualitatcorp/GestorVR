@@ -27,6 +27,7 @@ class Empresa extends CActiveRecord
 	public function relations()
 	{
 		return array(
+			'comuna' => array(self::BELONGS_TO, 'Comuna', 'com_id'),
 			'usuarios' => array(self::HAS_MANY, 'EmpresaUsuario', 'emp_id'),
 			'dispositivos' => array(self::HAS_MANY, 'Dispositivo', 'emp_id'),
 			'licencias' => array(self::HAS_MANY, 'Licencia', 'emp_id'),
@@ -65,6 +66,29 @@ class Empresa extends CActiveRecord
 	public function findByRUT($rut)
 	{
 		return Empresa::model()->find("rut='$rut'");
+	}
+
+	public function findByMetodo($ID,$metodo)
+	{
+		switch ($metodo) {
+			case 'RUT_EMPRESA':
+				return Empresa::model()->find("rut='$ID'");
+				break;			
+			case 'ID_EMPRESA':
+				return Empresa::model()->findByPk($ID);
+				break;
+			case 'ID_DEVICE':
+				$disp=Dispositivo::model()->find("keycode='$ID'");
+				if(!empty($disp)){
+					return $disp->empresa;
+				}else{
+					die("El dispositivo no existe");
+				}
+				break;
+			default:
+				die("No existe metodo -> Empresa");
+				break;
+		}
 	}
 
 

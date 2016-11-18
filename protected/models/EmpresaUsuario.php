@@ -113,10 +113,20 @@ class EmpresaUsuario extends CActiveRecord
 	{
 		return RvEvaluacion::model()->findAll("EXISTS(SELECT * FROM `empresa_dispositivo` INNER JOIN `rv_ficha` ON (`empresa_dispositivo`.`dis_id` = `rv_ficha`.`disp_id`) WHERE `rv_ficha`.`eva_id` = `t`.`eva_id` AND `empresa_dispositivo`.`emd_id` = $this->emu_id)");
 	}
-	public function ExistUsuarioEmpresa($emp,$usu)
-	{
-		return EmpresaUsuario::model()->exists("t.emp_id=$emp AND t.emu_id=$usu");
-	}
+	// public function __get($name){
+	
+	// 	$field = Yii::app()->user->um->loadFieldByName($name);
+	// 	if($field != null)
+	// 		return Yii::app()->user->um->getFieldValue($this->usu,$field);
+	// 	return parent::__get($name);
+	// }
+	// public function __set($name,$val){
+	
+	// 	$field = Yii::app()->user->um->loadFieldByName($name);
+	// 	if($field != null)
+	// 		return;
+	// 	return parent::__set($name,$val);
+	// }
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);

@@ -52,8 +52,9 @@ Yii::app()->getClientScript()
 <div id="find" class="collapse <?php if($find->activo)echo "in" ?> col-md-12">
 	<?php $this->renderPartial('ficha/_advanced',array('model'=>$find)) ?>
 </div>
-<div class="col-md-12">
 <?php echo BsHtml::pageHeader('Ver Fichas de evaluación') ?>
+<div class="col-md-12">
+</div>
 <table class="table">
 	<thead>	
 		<tr>
@@ -79,12 +80,12 @@ Yii::app()->getClientScript()
 						array(
 							array(
 								'label' => 'VER',
-								'onClick'=>"window.open('".Yii::app()->createUrl('empresa/viewficha', array('id' => $ficha->fic_id))."')",
+								'onClick'=>"window.open('/empresa/viewficha/$ficha->fic_id')",
 								'color' => BsHtml::BUTTON_COLOR_INFO
 							),
 							array(
 								'label' => 'PDF',
-								'onClick'=>"window.open('".Yii::app()->createUrl('empresa/viewfichapdf', array('id' => $ficha->fic_id))."')",
+								'onClick'=>"window.open('/empresa/viewfichapdf/$ficha->fic_id')",
 								'color' => BsHtml::BUTTON_COLOR_DANGER
 							),
 						), 
@@ -95,5 +96,4 @@ Yii::app()->getClientScript()
 			<?php endforeach ?>
 	</tbody>
 </table>
-</div>
 </div>

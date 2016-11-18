@@ -99,6 +99,10 @@ class RvEvaluacion extends CActiveRecord
 			'criteria'=>$criteria,
 		));
 	}
+	public function getisInternational()
+	{
+		return $this->exists("EXISTS(SELECT *  FROM rv_pregunta JOIN rv_int_pregunta ON (rv_pregunta.`pre_id` = `rv_int_pregunta`.`pre_id`) WHERE rv_pregunta.eva_id=$this->eva_id)");
+	}
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);

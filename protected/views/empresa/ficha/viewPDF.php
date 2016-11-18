@@ -1,3 +1,4 @@
+<?php $language=(isset($_POST['language']))?$_POST['language']:null; ?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,12 +13,12 @@
 			<img src="<?=Yii::app()->request->baseUrl?>/images/ficha/logo.png" height="120px" width="120px">
 		</div>
 		<div class="col-xs-6">
-			<?=BsHtml::pageHeader("Ficha de evaluación","<br>".$model->dispositivo->empresa->nombre."<br>".$model->evaluacion->traduce()->nombre."<br>".$model->trabajador->rut."<br>".$model->trabajador->nombreCompleto,$htmlOptions=array('style'=>'position: relative;padding-top: 0px;'))?>
+			<?=BsHtml::pageHeader(Yii::t('Navbar',"Ficha de evaluación"),"<br>".$model->dispositivo->empresa->nombre."<br>".$model->evaluacion->traduce()->nombre."<br>".$model->trabajador->rut."<br>".$model->trabajador->nombreCompleto,$htmlOptions=array('style'=>'position: relative;padding-top: 0px;'))?>
 		</div>
 		<div style="width:15%">
 			<?php
 				$this->beginWidget('bootstrap.widgets.BsPanel', array(
-				    'title' => '<p align="center">NOTA</p>',
+				    'title' => '<p align="center">'.Yii::t('Navbar','NOTA').'</p>',
 				));
 			?>
 			<p align="center"><?= $model->Nota ?></p>
@@ -25,27 +26,29 @@
 		</div>
 	</div>
 	<div class="row">
-		<table class="table table-bordered">
-			<thead>
-				<tr>
-					<th style="width:20px">#</th><th style="width:100px">Imagen</th><th align="center">Descripción</th><th align="center">Respuesta</th><th align="center">Resultado</th>
-				</tr>
-			</thead>
-			<tbody>
-					<?php foreach ($model->respuestas as $key => $value): ?>
+		<div class="col-md-12">
+			<table class="table table-bordered">
+				<thead>
 					<tr>
-						<td><?=$key+1 ?></td>
-						<?php $pregunta=$value->alternativa->pregunta; ?>
-						<td><?=$pregunta->renderImagen ?></td>
-						<td align="center"><?=BsHtml::bold($pregunta->descripcion).'<br>'.BsHtml::italics($pregunta->comentario) ?></td>
-						<td><?=$value->alternativa->descripcion ?></td>
-						<td align="center"><?=$value->alternativa->renderCorrecto ?></td>
+						<th style="width:20px">#</th><th style="width:100px"><?=Yii::t('Navbar','Imagen')?></th><th align="center"><?=Yii::t('Navbar','Descripción')?></th><th align="center"><?=Yii::t('Navbar','Respuesta')?></th><th align="center"><?=Yii::t('Navbar','Resultado')?></th>
 					</tr>
-					<?php endforeach ?>
-			</tbody>
-		</table>
-	</div>
+				</thead>
+				<tbody>
+						<?php foreach ($model->respuestas as $key => $value): ?>
+						<tr>
+							<td><?=$key+1 ?></td>
+							<?php $pregunta=$value->alternativa->pregunta->traduce($language); ?>
+							<td><?=$pregunta->renderImagen ?></td>
+							<td align="center"><?=BsHtml::bold($pregunta->descripcion).'<br>'.BsHtml::italics($pregunta->comentario) ?></td>
+							<td align="center"><?=$value->alternativa->traduce($language)->descripcion ?></td>
+							<td align="center"><?=$value->alternativa->renderCorrecto ?></td>
+						</tr>
+						<?php endforeach ?>
+				</tbody>
+			</table>
+		</div>
 </div>
 <p align="right"><?=$model->creado ?></p>
+	</div>
 </body>
 </html>

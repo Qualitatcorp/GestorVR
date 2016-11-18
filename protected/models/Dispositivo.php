@@ -36,19 +36,24 @@ class Dispositivo extends CActiveRecord
 		);
 	}
 
-	public function findByKeycode($keycode,$empresa=null,$modelo=null,$activado='SI',$habilitado='NO')
+	public function findByKeycode($keycode,$empresa=null)
 	{
+
 		$model=$model=Dispositivo::model()->find("keycode='$keycode'");
-		if(($empresa=Empresa::model()->findByRUT($empresa))!==null){
+		if(!empty($empresa)){
 			$model=Dispositivo::model()->find("keycode='$keycode' AND emp_id=".$empresa->primaryKey);
 		}
-		if($model===null&&$empresa!==null&&$modelo!==null){
+		if(empty($model)&&!empty($empresa)){
 			$model=new Dispositivo;
 			$model->keycode=$keycode;
-			$model->activado=$activado;
-			$model->habilitado=$habilitado;
+			$model->activado='SI';
+			$model->habilitado='NO';
 			$model->emp_id=$empresa->primaryKey;
-			$model->dit_id=DispositivoTipo::model()->findByModelo($modelo)->primaryKey;
+			if(isset($_POST['modelo'])){
+				$model->dit_id=DispositivoTipo::model()->findByModelo($_POST['modelo'])->primaryKey;
+			}else{
+				$model->dit_id=DispositivoTipo::model()->findByModelo("-")->primaryKey;
+			}
 			$model->save();
 		}
 		return $model;

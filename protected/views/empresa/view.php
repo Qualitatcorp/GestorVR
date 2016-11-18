@@ -28,10 +28,7 @@ array_push($this->menu,
 		'razon_social',
 		'nombre',
 		'rut',
-		array(
-			'name'=>'com_id',
-			'value'=>Comuna::model()->findByPk($model->com_id)->com_nombre
-			),
+		'comuna.com_nombre',
 		'giro',
 		'fono',
 		'mail',

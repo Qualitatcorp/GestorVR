@@ -102,7 +102,12 @@ return array(
 
 	// application components
 	'components'=>array(
-
+	    'reCaptcha' => [
+	        'name' => 'reCaptcha',
+	        'class' => 'ext.recaptcha.ReCaptcha',
+	        'key' => '6Lf88QsUAAAAAF3BI3qnFSaWrqbWe2R73VCeFS2z',
+	        'secret' => '6Lf88QsUAAAAANS470sHgvrqWfFF4EMMkU8Cwsnl',
+	    ],
 		// 'user'=>array(
 		// 	// enable cookie-based authentication
 		// 	'allowAutoLogin'=>true,
@@ -136,7 +141,7 @@ return array(
 		// uncomment the following to enable URLs in path-format
 		
 		'urlManager'=>array(
-			'urlFormat'=>'path',			
+			'urlFormat'=>'path',
 			'showScriptName'=>false,
 			'caseSensitive'=>false, 
 			'rules'=>array(
@@ -214,7 +219,16 @@ return array(
 	// application-level parameters that can be accessed
 	// using Yii::app()->params['paramName']
 	'params'=>array(
-		'language'=>array('es'=>'Español','en'=>'English'),
+		'language'=>array(			
+			'es'=>'Español - Spanish',
+			'en'=>'English',
+			'fi'=>'Suomi - Finnish',
+			'fr'=>'Français - French',
+			'de'=>'Deutsch - German',
+			'pt'=>'Português - Portuguese',
+			'ru'=>'Русский - Russian',
+			'sv'=>'Svenska - Swedish',
+			'zh_cn'=>'中文 - Chinese simplified'),
 		'adminEmail'=>'webmaster@example.com',
 	),
 );

@@ -63,15 +63,13 @@ class RvAlternativa extends CActiveRecord
 			return BsHtml::imageCircle(Yii::app()->request->baseUrl.'/images/ficha/incorrecto.jpg','pregunta',array('height'=>'50x','width'=>'50px'));
 		}
 	}
-	public function traduce()
+	public function traduce($Language=null)
 	{
-		if(Yii::app()->language!='es'){
-			$model=RvIntAlternativa::findByLanguage($this->primaryKey,Yii::app()->language);
-			if(!empty($model)){
-				if(!empty($model->descripcion)){
-					$this->descripcion=$model->descripcion;
-				}				
-			}
+		$model=(empty($Language))?RvIntAlternativa::findByLanguage($this->primaryKey,Yii::app()->language):RvIntAlternativa::findByLanguage($this->primaryKey,$Language);
+		if(!empty($model)){
+			if(!empty($model->descripcion)){
+				$this->descripcion=$model->descripcion;
+			}				
 		}
 		return $this;
 	}

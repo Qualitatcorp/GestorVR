@@ -2,7 +2,7 @@
 
 class SiteController extends Controller
 {
-		function init(){
+	function init(){
 		if(isset(Yii::app()->session['lang']))
 			Yii::app()->setLanguage(Yii::app()->session['lang']);
 		else{
@@ -10,6 +10,31 @@ class SiteController extends Controller
 			Yii::app()->session['lang']='es';
 		}
 		parent::init();
+	}
+	public function actionFichaPublic($id=null)
+	{
+		$model=new RvFichaPublicForm;
+		$model->number=$id;
+		$model->language=Yii::app()->language;
+		if(isset($_POST['RvFichaPublicForm'])){
+			$model->attributes=$_POST['RvFichaPublicForm'];
+			if($model->validate()){
+				$pdf=$model->ficha;
+				$_POST['language']=$model->language;
+				if($model->type=="PDF"){
+					$mPDF1 = Yii::app()->ePdf->mpdf();
+					$mPDF1->autoScriptToLang = true;
+					$mPDF1->autoLangToFont = true;
+					$mPDF1->WriteHTML($this->renderPartial('/empresa/ficha/viewPDF',array('model'=>$pdf),true));
+					$mPDF1->Output("{$pdf->creado} {$pdf->trabajador->rut} f{$pdf->fic_id}.pdf",'I');
+	        		exit();
+				}else{
+					$this->render('/empresa/ficha/view',array('model'=>$pdf));
+					exit();
+				}
+			}
+		}
+		$this->render('ficha/public',array('model'=>$model));
 	}
 	/**
 	 * Declares class-based actions.
@@ -54,6 +79,7 @@ class SiteController extends Controller
 				$this->render('error', $error);
 		}
 	}
+
 
 	/**
 	 * Displays the contact page

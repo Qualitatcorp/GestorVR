@@ -50,10 +50,10 @@ class RvPregunta extends CActiveRecord
 		// return Yii::app()->request->baseUrl.'/images/rv/SIN IMAGEN.png';
 		return Yii::app()->request->baseUrl.'/images/rv/'.(($this->imagen=='')?"/SIN IMAGEN.png":"$this->pre_id-".str_replace(" ","%20",$this->imagen));
 	}
-	public function traduce()
+	public function traduce($Language=null)
 	{
-		if(Yii::app()->language!='es'){
-			$model=RvIntPregunta::findByLanguage($this->primaryKey,Yii::app()->language);
+		// if(Yii::app()->language!='es'){
+			$model=(empty($Language))?RvIntPregunta::findByLanguage($this->primaryKey,Yii::app()->language):RvIntPregunta::findByLanguage($this->primaryKey,$Language);
 			if(!empty($model)){
 				if(!empty($model->descripcion)){
 					$this->descripcion=$model->descripcion;
@@ -62,7 +62,7 @@ class RvPregunta extends CActiveRecord
 					$this->comentario=$model->comentario;
 				}
 			}
-		}
+		// }
 		return $this;
 	}
 	public function getRenderImagen()

@@ -72,7 +72,7 @@ if(Yii::app()->user->checkAccess('Cliente')&&!Yii::app()->user->isSuperAdmin&&!Y
 	$menu[]=array(
 			'label' => Yii::t('Navbar','Trabajador'),
 			'items' => array(
-				array('label' => Yii::t('Navbar','Crear'),'url' => array('//trabajador/create')),
+				// array('label' => Yii::t('Navbar','Crear'),'url' => array('//trabajador/create')),
 				array('label' => Yii::t('Navbar','Carga Masiva'),'url' => array('//trabajador/loadExcel')),
 			)
 		);	

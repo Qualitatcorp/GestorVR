@@ -41,7 +41,12 @@ class TrabajadorController extends Controller
 				$this->redirect(array('view','id'=>$model->tra_id));
 			else{
 				if(!empty($model->getError("rut"))){
-					if(!empty($tra=$model->findByRUT($model->rut))){
+					if(!empty($tra=$model->find("t.rut='".$model->rut."'"))&&!empty($model->rut)){
+						$this->redirect(array('update','id'=>$tra->tra_id));
+					}
+				}				
+				if(!empty($model->getError("mail"))){
+					if(!empty($tra=$model->find("t.mail='".$model->mail."'"))&&!empty($model->mail)){
 						$this->redirect(array('update','id'=>$tra->tra_id));
 					}
 				}

@@ -30,13 +30,6 @@ class EmpresaController extends Controller
 	*/
 	public function actionView($id)
 	{
-		if(Yii::app()->user->checkAccess('Administrador')){
-		}else{
-			if(Yii::app()->user->checkAccess('Cliente')){
-				if(EmpresaUsuario::findByID()->emp->primaryKey!=$id)
-					$this->redirect(array('view','id'=>EmpresaUsuario::findByID()->emp->primaryKey));
-			}
-		}
 		$this->render('view',array(
 			'model'=>$this->loadModel($id),
 		));
@@ -182,20 +175,6 @@ class EmpresaController extends Controller
 	}
 	public function actionUsu($id)
 	{
-		if(Yii::app()->user->checkAccess('Administrador')){
-		}else{
-			if(Yii::app()->user->checkAccess('Cliente')){
-				if(!EmpresaUsuario::ExistUsuarioEmpresa(EmpresaUsuario::findByID()->emp->primaryKey,$id)){
-					$this->redirect(array('view','id'=>EmpresaUsuario::findByID()->emp->primaryKey));
-				}
-			}else{
-				if(Yii::app()->user->checkAccess('Supervisor')){
-					if(EmpresaUsuario::findByID()->primaryKey!=$id){
-						$this->redirect(array('usu','id'=>EmpresaUsuario::findByID()->primaryKey));
-					}
-				}
-			}
-		}
         $model = EmpresaUsuario::model()->findByPk($id);
 		$this->render('usuario/view',array('model'=>$model));
 	}
@@ -372,16 +351,29 @@ class EmpresaController extends Controller
 	public function actionViewFichaPDF($id)
 	{
 		$model = RvFicha::model()->findByPk($id);
+		if($model->evaluacion->isInternational){
+			if(!isset($_POST['language'])){
+				$this->render("ficha/language");
+				exit;	
+			}
+		}
         $mPDF1 = Yii::app()->ePdf->mpdf();
+		$mPDF1->autoScriptToLang = true;
+		$mPDF1->autoLangToFont = true;
         $mPDF1->WriteHTML($this->renderPartial('ficha/viewPDF',array('model'=>$model),true));
         $mPDF1->Output("{$model->creado} {$model->trabajador->rut} f{$model->fic_id}.pdf",'I');
         exit();
-        $this->renderPartial('ficha/viewPDF',array('model'=>$model));
+        // $this->renderPartial('ficha/viewPDF',array('model'=>$model));
 	}
 	public function actionViewFicha($id)
 	{
-		
 		$model = RvFicha::model()->findByPk($id);
+		if($model->evaluacion->isInternational){
+			if(!isset($_POST['language'])){
+				$this->render("ficha/language");
+				exit;	
+			}
+		}
         $this->render('ficha/view',array('model'=>$model));
 	}
 	/*

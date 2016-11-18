@@ -27,17 +27,12 @@ $this->Widget('ext.highcharts.HighchartsWidget', array(
 			),
 		)
 	));
-
-// inicio grafica
-$data=$model->evaluaciones;
-if(!empty($data)){
-
 # Grafico de Cantidad de evaluaciones por usuario
 $query=array();
 $seriesName=array();
 $fechas=array();
-# Guarda fechas y nombres de las evaluaciones junto a sus fechas
-foreach ($data as $key => $value) {
+# Guarda fechas y nombres de las evaluacionesn junto a sus fechas
+foreach ($model->evaluaciones as $key => $value) {
 	$seriesName[]=$value->nombre;
 	$query[$key]=RvFicha::CountMonthByUsuario($model->primaryKey,$value->primaryKey);
 	$fechas=array_merge($fechas,array_column($query[$key],'CATEGORIES'));
@@ -90,8 +85,6 @@ $this->Widget('ext.highcharts.HighchartsWidget', array(
 		'series' => $series,
 		)
 	));
-}
-// fin grafico
 
 # Grafico de lineas - Grafico de acierto
 $query=RvFicha::AvgByUsuario($model->primaryKey);

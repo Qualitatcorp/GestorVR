@@ -8,47 +8,66 @@ class Trabajador extends CActiveRecord
 	public function rules()
 	{
 		return array(
-			array('rut', 'required'),
-			array('rut', 'unique','message'=>'El trabajador ya se encuentra registrado.'),
+			// array('rut', 'required'),
+			array('rut,mail', 'unique','message'=>'El {attribute} ya se encuentra registrado.'),
 			array('antiguedad,hijos','numerical',
-			    'integerOnly'=>true,
-			    'min'=>0,
-			    'max'=>70,),
+				'integerOnly'=>true,
+				'min'=>0,
+				'max'=>70,),
 			array('rut', 'length', 'max'=>12),
 			array('rut', 'valida_rut'),/* 'attributeName'=>'rut', 'className'=>'cliente','allowEmpty'=>'false'),*/
 			array('estado_civil,gerencia,cargo,nombre', 'length', 'max'=>150),
 			array('paterno, materno', 'length', 'max'=>100),
-			array('nacimiento', 'date', 'format'=>'yyyy-MM-dd','allowEmpty'=>true),
+			array('nacimiento', 'date', 'format'=>'yyyy-mm-dd','allowEmpty'=>true),
+			array('rut,nombre,paterno,materno,nacimiento,fono,mail,gerencia,cargo,antiguedad,estado_civil,hijos', 'default', 'setOnEmpty'=>true, 'value'=>null ),
 			array('fono', 'length', 'max'=>50),
 			array('nacimiento, mail, modificado', 'safe'),
 			array('tra_id, rut, nombre, paterno, materno, nacimiento, fono, mail, creacion, modificado', 'safe', 'on'=>'search'),
 		);
 	}
+	public function beforeSave(){
+		if(parent::beforeSave()){
+			if(empty($this->rut)&&empty($this->mail)&&empty($this->nombre)){
+				$this->addError('rut','Debe existir un rut o correo asignado.');
+				$this->addError('nombre','Debe existir un rut o correo asignado.');
+				$this->addError('mail','Debe existir un rut o correo asignado.');
+				return false;
+			}
+			return true;
 
+		}else{
+			return false;
+		}
+
+	}
 
 	public function valida_rut($attribute, $params){
+		if(empty($this->$attribute)){
+			return;
+		}
+		var_dump($this->$attribute,"Chupala");
 		$rut=$this->$attribute;
-	    if (!preg_match("/^[0-9.]+[-]?+[0-9kK]{1}/", $rut)) {
-	        $this->addError($attribute, 'Rut inválido.');
-	    }
-	    $rut = preg_replace('/[\.\-]/i', '', $rut);
-	    $dv = substr($rut, -1);
-	    $numero = substr($rut, 0, strlen($rut) - 1);
-	    $i = 2;
-	    $suma = 0;
-	    foreach (array_reverse(str_split($numero)) as $v) {
-	        if ($i == 8)
-	            $i = 2;
-	        $suma += $v * $i;
-	        ++$i;
-	    }
-	    $dvr = 11 - ($suma % 11);
-	    if ($dvr == 11)
-	        $dvr = 0;
-	    if ($dvr == 10)
-	        $dvr = 'K';
-	    if ($dvr != strtoupper($dv))
-	        $this->addError($attribute, 'Rut inválido.');
+		if (!preg_match("/^[0-9.]+[-]?+[0-9kK]{1}/", $rut)) {
+			$this->addError($attribute, 'Rut inválido.');
+		}
+		$rut = preg_replace('/[\.\-]/i', '', $rut);
+		$dv = substr($rut, -1);
+		$numero = substr($rut, 0, strlen($rut) - 1);
+		$i = 2;
+		$suma = 0;
+		foreach (array_reverse(str_split($numero)) as $v) {
+			if ($i == 8)
+				$i = 2;
+			$suma += $v * $i;
+			++$i;
+		}
+		$dvr = 11 - ($suma % 11);
+		if ($dvr == 11)
+			$dvr = 0;
+		if ($dvr == 10)
+			$dvr = 'K';
+		if ($dvr != strtoupper($dv))
+			$this->addError($attribute, 'Rut inválido.');
 	}
 
 	public function relations()
@@ -79,33 +98,33 @@ class Trabajador extends CActiveRecord
 	}
 	public static function checkRut($rut)
 	{
-	    if (!preg_match("/^[0-9.]+[-]?+[0-9kK]{1}/", $rut)) {
-	        return null;
-	    }
+		if (!preg_match("/^[0-9.]+[-]?+[0-9kK]{1}/", $rut)) {
+			return null;
+		}
 
-	    $rut = preg_replace('/[\.\-]/i', '', $rut);
-	    $dv = substr($rut, -1);
-	    $numero = substr($rut, 0, strlen($rut) - 1);
-	    $numero = intval($numero);
-	    $numero = strval($numero);
-	    $rut=number_format( substr ( $rut, 0 , -1 ) , 0, "", ".") . '-' . substr ( $rut, strlen($rut) -1 , 1 );	    $i = 2;
-	    $suma = 0;
-	    foreach (array_reverse(str_split($numero)) as $v) {
-	        if ($i == 8)
-	            $i = 2;
-	        $suma += $v * $i;
-	        ++$i;
-	    }
-	    $dvr = 11 - ($suma % 11);
+		$rut = preg_replace('/[\.\-]/i', '', $rut);
+		$dv = substr($rut, -1);
+		$numero = substr($rut, 0, strlen($rut) - 1);
+		$numero = intval($numero);
+		$numero = strval($numero);
+		$rut=number_format( substr ( $rut, 0 , -1 ) , 0, "", ".") . '-' . substr ( $rut, strlen($rut) -1 , 1 );	    $i = 2;
+		$suma = 0;
+		foreach (array_reverse(str_split($numero)) as $v) {
+			if ($i == 8)
+				$i = 2;
+			$suma += $v * $i;
+			++$i;
+		}
+		$dvr = 11 - ($suma % 11);
 
-	    if ($dvr == 11)
-	        $dvr = 0;
-	    if ($dvr == 10)
-	        $dvr = 'K';
-	    if ($dvr == strtoupper($dv))
-	        return $rut;
-	    else
-	        return null;
+		if ($dvr == 11)
+			$dvr = 0;
+		if ($dvr == 10)
+			$dvr = 'K';
+		if ($dvr == strtoupper($dv))
+			return $rut;
+		else
+			return null;
 	}
 	public function search()
 	{
@@ -150,13 +169,75 @@ class Trabajador extends CActiveRecord
 	}
 	public static function findByRUT($rut)
 	{
-		$model=Trabajador::model()->find("rut='$rut'");
+		$model=Trabajador::model()->find("t.rut='$rut'");
 		if($model===null){
 			$model=new Trabajador;
 			$model->rut=$rut;
 			$model->save();
 		}
 		return $model;
+	}	
+	public static function findByMail($mail)
+	{
+		$model=Trabajador::model()->find("t.mail='$mail'");
+		if($model===null){
+			$model=new Trabajador;
+			$model->mail=$mail;
+			$model->save();
+		}
+		return $model;
+	}
+	public function findByNombre($nombres)
+	{
+		$model;
+		if(strpos($nombres,',')){
+			$persona=explode(",", $nombres);
+			if(count($persona)==3){
+				$atTrab=array(
+					'nombre' => $persona[0],
+					'paterno' => $persona[1],
+					'materno' => $persona[2]);
+				$model=Trabajador::model()->findByAttributes($atTrab);
+				if(empty($model)){	
+					$model=new Trabajador;
+					$model->attributes=$atTrab;
+					$model->save();
+				}
+			}
+		}else{
+			$model=Trabajador::model()->findByAttributes(
+				array(
+					'nombre' => $nombres,
+					'paterno' => null,
+					'materno' => null
+				));
+			if(empty($model)){
+					$model=new Trabajador;
+					$model->nombre=$nombres;
+					$model->save();
+				}
+		}
+		return $model;
+	}
+	public function findByMetodo($ID,$metodo)
+	{
+		switch ($metodo) {
+			case 'RUT_TRABAJADOR':
+				return Trabajador::model()->findByRUT($ID);
+				break;
+			case 'MAIL_TRABAJADOR':
+				return Trabajador::model()->findByMail($ID);
+				break;
+			case 'ID_TRABAJADOR':
+				return Trabajador::model()->findByPk($ID);
+				break;
+			case 'NOMBRE_TRABAJADOR':
+				return Trabajador::model()->findByNombre($ID);
+				break;
+			default:
+				die("No existe metodo -> Empresa -> $metodo to $ID");
+				break;
+		}
 	}
 	public static function model($className=__CLASS__)
 	{
