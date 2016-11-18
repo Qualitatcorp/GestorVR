@@ -1,8 +1,8 @@
-<?php $this->breadcrumbs=array('Empresas','Ver','Fichas de evaluación');?>
+<?php $this->breadcrumbs=array(Yii::t('Navbar','Empresas'),Yii::t('Navbar','Ver'),Yii::t('Navbar','Fichas de evaluación'));?>
 <?php
-$this->menu[]=array('label'=>'Empresa');
+$this->menu[]=array('label'=>Yii::t('Navbar','Empresa'));
 if(!empty($urlReturn))
-$this->menu[]=array('label'=>'Volver','url'=>$urlReturn);
+$this->menu[]=array('label'=>Yii::t('Navbar','Volver'),'url'=>$urlReturn);
 $baseUrl=Yii::app()->baseUrl;
 Yii::app()->getClientScript()
 	->registerCssFile($baseUrl.'/css/dataTables.bootstrap.min.css')
@@ -25,10 +25,10 @@ Yii::app()->getClientScript()
 				\"sInfoThousands\":  \",\",
 				\"sLoadingRecords\": \"Cargando...\",
 				\"oPaginate\": {
-					\"sFirst\":    \"Primero\",
-					\"sLast\":     \"Último\",
-					\"sNext\":     \"Siguiente\",
-					\"sPrevious\": \"Anterior\"
+					\"sFirst\":    \"".Yii::t('Navbar','Primero')."\",
+					\"sLast\":     \"".Yii::t('Navbar','Último')."\",
+					\"sNext\":     \"".Yii::t('Navbar','Siguiente')."\",
+					\"sPrevious\": \"".Yii::t('Navbar','Anterior')."\"
 				},
 				\"oAria\": {
 					\"sSortAscending\":  \": Activar para ordenar la columna de manera ascendente\",
@@ -40,7 +40,7 @@ Yii::app()->getClientScript()
 ?>
 <div class="row">
 <div class="col-md-12">
-<?=BsHtml::button('Busqueda Avanzada', array(
+<?=BsHtml::button(Yii::t('Navbar','Busqueda Avanzada'), array(
 'data-toggle'=>'collapse',
 'data-target'=>'#find',
     // 'color' => BsHtml::BUTTON_COLOR_PRIMARY,
@@ -52,19 +52,19 @@ Yii::app()->getClientScript()
 <div id="find" class="collapse <?php if($find->activo)echo "in" ?> col-md-12">
 	<?php $this->renderPartial('ficha/_advanced',array('model'=>$find)) ?>
 </div>
-<?php echo BsHtml::pageHeader('Ver Fichas de evaluación') ?>
+<?php echo BsHtml::pageHeader(Yii::t('Welcome','Ver Fichas de evaluación')) ?>
 <div class="col-md-12">
 </div>
 <table class="table">
 	<thead>	
 		<tr>
 			<th style="width:20px">Ficha</th>
-			<th>Trabajador</th>
-			<th width=85>RUT</th>
-			<th>Evaluacion</th>
-			<th>Nota</th>
-			<th>Fecha</th>
-			<th style="width:50px">Opciones</th>
+			<th>Yii::t('Navbar','Trabajador')</th>
+			<th width=85>Yii::t('Navbar','RUT')</th>
+			<th>Yii::t('Navbar','Evaluacion')</th>
+			<th>Yii::t('Navbar','Nota')</th>
+			<th>Yii::t('Navbar','Fecha')</th>
+			<th style="width:50px">Yii::t('Navbar','Opciones')</th>
 		</tr>
 	</thead>
 	<tbody>
