@@ -13,7 +13,7 @@ if(!isset($_GET['id']))
 ?>
 <?php
 if($model->international)
-	echo $form->dropDownListControlGroup($model,'language',Yii::app()->params['language']/*,array('empty' => 'Select...')*/);
+	echo $form->dropDownListControlGroup($model,'language',Yii::app()->params['language'],array('onchange'=>'this.form.submit()')/*,array('empty' => 'Select...')*/);
 ?>
 <?= $form->dropDownListControlGroup($model,'type',array('HTML'=>Yii::t('app','WEB'),'PDF'=>'PDF')/*,array('empty' => 'Select...')*/);?>
 <?php $this->widget('ext.recaptcha.ReCaptcha', array(

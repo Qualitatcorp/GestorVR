@@ -1,4 +1,4 @@
-<?php $this->breadcrumbs=array('Empresas','Ver','Fichas de evaluación');?>
+<?php $this->breadcrumbs=array(Yii::t('Navbar','Empresas'),Yii::t('Navbar','Ver'),Yii::t('Navbar','Fichas de evaluación'));?>
 <?php
 $this->menu[]=array('label'=>'Empresa');
 if(!empty($urlReturn))
@@ -40,7 +40,7 @@ Yii::app()->getClientScript()
 ?>
 <div class="row">
 <div class="col-md-12">
-<?=BsHtml::button('Busqueda Avanzada', array(
+<?=BsHtml::button(Yii::t('Navbar','Busqueda Avanzada'), array(
 'data-toggle'=>'collapse',
 'data-target'=>'#find',
     // 'color' => BsHtml::BUTTON_COLOR_PRIMARY,
@@ -54,17 +54,16 @@ Yii::app()->getClientScript()
 </div>
 <?php echo BsHtml::pageHeader('Ver Fichas de evaluación') ?>
 <div class="col-md-12">
-</div>
 <table class="table">
 	<thead>	
 		<tr>
 			<th style="width:20px">Ficha</th>
-			<th>Trabajador</th>
-			<th width=85>RUT</th>
-			<th>Evaluacion</th>
-			<th>Nota</th>
-			<th>Fecha</th>
-			<th style="width:50px">Opciones</th>
+			<th><?=Yii::t('Navbar','Trabajador')?></th>
+			<th width=85><?=Yii::t('Navbar','RUT')?></th>
+			<th><?=Yii::t('Navbar','Evaluacion')?></th>
+			<th><?=Yii::t('Navbar','Nota')?></th>
+			<th><?=Yii::t('Navbar','Fecha')?></th>
+			<th style="width:50px"><?=Yii::t('Navbar','Opciones')?></th>
 		</tr>
 	</thead>
 	<tbody>

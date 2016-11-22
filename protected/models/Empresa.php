@@ -14,12 +14,13 @@ class Empresa extends CActiveRecord
 		return array(
 
 			array('rut', 'unique','message'=>'La empresa ya se encuentra registrada.'),
-			array('rut,nombre, com_id, razon_social', 'required'),
-			array('com_id, giro', 'numerical', 'integerOnly'=>true),
+			array('rut,nombre, razon_social', 'required'),
+			array('com_id, giro', 'numerical', 'integerOnly'=>true,'allowEmpty'=>true),
 			array('rut', 'length', 'max'=>12),
-			array('fono', 'length', 'max'=>50),
+			array('fono', 'length', 'max'=>50,'allowEmpty'=>true),
 			array('activa', 'length', 'max'=>2),
-			array('mail', 'safe'),
+			array('mail', 'email','allowEmpty'=>true),
+			array('clasificacion','in','range'=>array('Sobre 100','Sobre 20','Sobre 10','Sobre 7','Sobre 6','Sobre 5','Letras'),'allowEmpty'=>false),
 			array('emp_id, nombre, rut, com_id, razon_social, giro, fono, mail, creado, activa', 'safe', 'on'=>'search'),
 		);
 	}
@@ -43,8 +44,7 @@ class Empresa extends CActiveRecord
 		$descr = "";
 		foreach($this->users as $u){
 			$u->getUserDescription(true); 
-			$descr .= $u->getCustomFieldValue('nombre').
-				" ".$u->getCustomFieldValue('paterno')." ".$u->getCustomFieldValue('materno').", ";
+			$descr .= $u->getCustomFieldValue('nombre')." ".$u->getCustomFieldValue('paterno')." ".$u->getCustomFieldValue('materno').", ";
 		}
 		return trim($descr," ,");
 	}
@@ -61,6 +61,7 @@ class Empresa extends CActiveRecord
 			'mail' => Yii::t('Navbar','Mail'),
 			'creado' =>Yii::t('Navbar','Creado'),
 			'activa' => Yii::t('Navbar','Activa'),
+			'clasificacion'=>Yii::t('Navbar','Calificación'),
 		);
 	}
 	public function findByRUT($rut)

@@ -55,7 +55,7 @@ if(Yii::app()->user->checkAccess('Cliente')&&!Yii::app()->user->isSuperAdmin&&!Y
 			)
 		);
 	$menu[]=array(
-			'label' => Yii::t('Navbar','Ficha de Evaluación'),
+			'label' => Yii::t('Navbar','Ficha de evaluación'),
 			'items' => array(
 				array('label' => Yii::t('Navbar','Resumen'),'url' => array('//empresa/evaluacion/'.$emp_id)),	
 				array('label' => Yii::t('Navbar','Buscar'),'url' => array('//empresa/adminFicha/'.$emp_id)),	
@@ -77,7 +77,7 @@ if(Yii::app()->user->checkAccess('Cliente')&&!Yii::app()->user->isSuperAdmin&&!Y
 			)
 		);	
 	$menu[]=array(
-			'label' => Yii::t('Navbar','Ficha de Evaluación'),
+			'label' => Yii::t('Navbar','Ficha de evaluación'),
 			'items' => array(
 				array('label' => Yii::t('Navbar','Buscar'),'url' => array('//empresa/adminFichaUsu/'.$emu_id)),	
 			)

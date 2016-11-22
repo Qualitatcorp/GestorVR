@@ -2,12 +2,16 @@
 
 class SiteController extends Controller
 {
-	function init(){
+	function init(){			
+		if(isset($_POST['RvFichaPublicForm']['language'])){
+				Yii::app()->setLanguage($_POST['RvFichaPublicForm']['language']);
+				Yii::app()->session['lang']=$_POST['RvFichaPublicForm']['language'];	
+		}
 		if(isset(Yii::app()->session['lang']))
 			Yii::app()->setLanguage(Yii::app()->session['lang']);
 		else{
-			Yii::app()->setLanguage('es');
-			Yii::app()->session['lang']='es';
+			Yii::app()->setLanguage('en');
+			Yii::app()->session['lang']='en';
 		}
 		parent::init();
 	}
@@ -18,6 +22,7 @@ class SiteController extends Controller
 		$model->language=Yii::app()->language;
 		if(isset($_POST['RvFichaPublicForm'])){
 			$model->attributes=$_POST['RvFichaPublicForm'];
+
 			if($model->validate()){
 				$pdf=$model->ficha;
 				$_POST['language']=$model->language;
